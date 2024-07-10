@@ -1,37 +1,24 @@
 package com.genspark.cart_service.model;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Document(collection = "saveForLater")
 public class SaveForLater {
-    private Long cartOrderId;
-    private long userId;
-    private long productId;
-    public SaveForLater(Long cartOrderId, long userId, long productId) {
-        this.cartOrderId = cartOrderId;
-        this.userId = userId;
-        this.productId = productId;
-    }
-    public Long getCartOrderId() {
-        return cartOrderId;
-    }
-
-    public void setCartOrderId(Long cartOrderId) {
-        this.cartOrderId = cartOrderId;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(long productId) {
-        this.productId = productId;
-    }
+    @Id
+    private String id;
+    private String cartId;
+    private String userId;
+    private String productId;
 
 
 }

@@ -1,0 +1,20 @@
+package com.genspark.cart_service.services;
+
+import com.genspark.cart_service.model.CartOrder;
+
+import java.util.List;
+
+public interface CartOrderService {
+
+    List<CartOrder> getAllCartOrder();
+
+    List<CartOrder> getAllCartOrderByCartId(String cartId);
+
+    CartOrder getById(String id);
+
+    CartOrder addCartOrder(CartOrder cartOrder);
+
+    String deleteCartOrder(String cartOrderId);
+
+    CartOrder updateCartOrder(CartOrder cartOrder);
+}
