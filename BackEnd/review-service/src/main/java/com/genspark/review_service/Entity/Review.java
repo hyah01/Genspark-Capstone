@@ -1,4 +1,4 @@
-package com.genspark.review_service.Entity;
+package com.genspark.review_service.entity;
 
 import java.util.Date;
 
