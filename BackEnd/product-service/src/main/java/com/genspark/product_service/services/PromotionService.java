@@ -10,5 +10,5 @@ public interface PromotionService {
     Promotion updatePromotion(Promotion promotion);
     List<Promotion> getAllPromotions();
     Optional<Promotion> getPromotionByID(String id);
-    void deletePromotion(String id);
+    Promotion deletePromotion(String id);
 }

@@ -10,6 +10,6 @@ public interface ProductService {
     Product updateProduct(Product product);
     List<Product> getAllProducts();
     Optional<Product> getProductByID(String id);
-    void deleteProduct(String id);
+    Product deleteProduct(String id);
 
 }
