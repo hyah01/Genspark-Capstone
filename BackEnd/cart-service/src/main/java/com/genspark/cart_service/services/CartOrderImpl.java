@@ -3,12 +3,16 @@ package com.genspark.cart_service.services;
 import com.genspark.cart_service.model.Cart;
 import com.genspark.cart_service.model.CartOrder;
 import com.genspark.cart_service.repository.CartOrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CartOrderImpl implements CartOrderService{
 
+    @Autowired
     private CartOrderRepository repository;
     @Override
     public List<CartOrder> getAllCartOrder() {

@@ -1,8 +1,10 @@
 package com.genspark.cart_service.services;
 
 import com.genspark.cart_service.model.CartOrder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 public interface CartOrderService {
 
