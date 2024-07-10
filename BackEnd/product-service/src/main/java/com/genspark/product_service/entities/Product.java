@@ -17,15 +17,15 @@ import java.util.List;
 @Document(collection = "products")
 public class Product {
     @Id
-    private ObjectId id;
-    private ObjectId sellerId;
+    private String id;
+    private String sellerId;
     private String name;
     private String description;
     private List<String> category;
     private int quantity;
     private double price;
     private List<String> image;
-    private List<ObjectId> reviewIds;
-    private ObjectId promotionId;
+    private List<String> reviewIds;
+    private String promotionId;
 
 }
