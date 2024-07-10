@@ -17,9 +17,9 @@ import java.util.Date;
 @Document(collection = "promotions")
 public class Promotion {
     @Id
-    private ObjectId id;
+    private String id;
 
-    private ObjectId sellerId;
+    private String sellerId;
     private String code;
     private double discount;
     private Date validFrom;
