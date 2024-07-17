@@ -34,8 +34,12 @@ public class SaveForLaterImpl implements SaveForLaterService{
 
     @Override
     public String deleteFromSFLList(String id) {
-        repository.deleteById(id);
-        return "SaveForLater item with ID " + id + " has been deleted.";
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return "SaveForLater item with ID " + id + " has been deleted.";
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -45,7 +49,11 @@ public class SaveForLaterImpl implements SaveForLaterService{
 
     @Override
     public String deleteAllByCartId(String cartId) {
-        repository.deleteAllByCartId(cartId);
-        return "Deleted all SaveForLater items with Cart ID " + cartId;
+        if (repository.existsById(cartId)) {
+            repository.deleteAllByCartId(cartId);
+            return "Deleted all SaveForLater items with Cart ID " + cartId;
+        } else {
+            return null;
+        }
     }
 }

@@ -1,8 +1,11 @@
 package com.genspark.cart_service.controller;
 
 import com.genspark.cart_service.model.SaveForLater;
+import com.genspark.cart_service.model.WishList;
 import com.genspark.cart_service.services.SaveForLaterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +28,13 @@ public class SaveForLaterController {
     }
 
     @DeleteMapping("/byId/{id}") // delete item in SFL database using ID
-    public String delete(@PathVariable String id) {
-        return service.deleteFromSFLList(id);
+    public ResponseEntity<String> delete(@PathVariable String id) {
+        String string = service.deleteFromSFLList(id);
+        if (string == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(string);
+        }
     }
 
     @GetMapping // get all item in SFL database
@@ -40,12 +48,28 @@ public class SaveForLaterController {
     }
 
     @GetMapping("/byId/{id}")
-    public SaveForLater getById(@PathVariable String id) {
-        return service.getById(id);
+    public ResponseEntity<SaveForLater> getById(@PathVariable String id) {
+        SaveForLater wishList = service.getById(id);
+        if (wishList == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(wishList);
+        }
     }
 
     @DeleteMapping("/{cartId}") // delete all item in SFL database using CartId, call when deleting user
-    public String deleteAllByCartId(@PathVariable String cartId) {
-        return service.deleteAllByCartId(cartId);
+    public ResponseEntity<String> deleteAllByCartId(@PathVariable String cartId) {
+        String string = service.deleteAllByCartId(cartId);
+        if (string == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(string);
+        }
+    }
+
+    // Exception handling for this controller
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + ex.getMessage());
     }
 }
