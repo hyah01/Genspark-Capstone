@@ -12,4 +12,7 @@ public interface CartOrderRepository extends MongoRepository<CartOrder, String> 
 
     @Query("{ 'cartId' : ?0 }")
     List<CartOrder> getAllCartOrderByCartId(String cartId);
+
+    @Query(value = "{ 'cartId' : ?0 }", delete = true)
+    void deleteAllByCartId(String cartId);
 }

@@ -19,4 +19,6 @@ public interface CartOrderService {
     String deleteCartOrder(String cartOrderId);
 
     CartOrder updateCartOrder(CartOrder cartOrder);
+
+    String deleteAllByCartId(String cartId);
 }

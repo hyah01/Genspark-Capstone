@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class WishList {
     @Id
     private String id;
-    private String cartOrderId;
+    private String cartId;
     private String userID;
     private String productId;
 
