@@ -36,8 +36,12 @@ public class WishListImpl implements WishListService{
 
     @Override
     public String deleteFromWishList(String id) {
-        repository.deleteById(id);
-        return "Wishlist item with ID " + id + " has been deleted.";
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return "Wishlist item with ID " + id + " has been deleted.";
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -47,7 +51,11 @@ public class WishListImpl implements WishListService{
 
     @Override
     public String deleteAllByCartId(String cartId) {
-        repository.deleteAllByCartId(cartId);
-        return "Deleted All Wishlist Item with Cart ID " + cartId;
+        if (repository.existsById(cartId)) {
+            repository.deleteAllByCartId(cartId);
+            return "Deleted All Wishlist Item with Cart ID " + cartId;
+        } else {
+            return null;
+        }
     }
 }

@@ -16,7 +16,7 @@ public class WishList {
     @Id
     private String id;
     private String cartId; // To know which User this cartOrder belong to
-    private String userID;
+    private String userId;
     private String productId;
 
 }
