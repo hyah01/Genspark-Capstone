@@ -25,7 +25,7 @@ public class CartOrderImpl implements CartOrderService{
     }
 
     @Override
-    public CartOrder getById(String id) {
+    public CartOrder getCartOrderById(String id) {
         return repository.findById(id).orElse(null); // Return Null if item of id cannot be found
     }
 
@@ -36,8 +36,12 @@ public class CartOrderImpl implements CartOrderService{
 
     @Override
     public String deleteCartOrder(String cartOrderId) {
-        repository.deleteById(cartOrderId);
-        return "CartOrder Deleted";
+        if (repository.existsById(cartOrderId)) {
+            repository.deleteById(cartOrderId);
+            return "CartOrder Deleted";
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -47,7 +51,11 @@ public class CartOrderImpl implements CartOrderService{
 
     @Override
     public String deleteAllByCartId(String cartId){
-        repository.deleteAllByCartId(cartId);
-        return "All order from cart " + cartId + " has been deleted";
+        if (repository.existsById(cartId)) {
+            repository.deleteAllByCartId(cartId);
+            return "All order from cart " + cartId + " has been deleted";
+        } else {
+            return null;
+        }
     }
 }

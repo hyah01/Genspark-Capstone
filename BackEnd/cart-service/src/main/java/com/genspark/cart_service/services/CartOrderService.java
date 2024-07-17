@@ -12,7 +12,7 @@ public interface CartOrderService {
 
     List<CartOrder> getAllCartOrderByCartId(String cartId);
 
-    CartOrder getById(String id);
+    CartOrder getCartOrderById(String id);
 
     CartOrder addCartOrder(CartOrder cartOrder);
 
