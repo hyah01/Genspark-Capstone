@@ -26,7 +26,7 @@ public class CartOrderController {
         return service.updateCartOrder(updated);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/byId/{id}")
     public String delete(@PathVariable String id){
         return service.deleteCartOrder(id);
     }
@@ -44,6 +44,11 @@ public class CartOrderController {
     @GetMapping("/byId/{id}")
     public CartOrder getById(String id){
         return service.getById(id);
+    }
+
+    @DeleteMapping("/{cartId}")
+    public String deleteAllByCartId(@PathVariable String cartId) {
+        return service.deleteAllByCartId(cartId);
     }
 
 }
