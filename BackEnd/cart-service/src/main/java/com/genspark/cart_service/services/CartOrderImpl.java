@@ -26,7 +26,7 @@ public class CartOrderImpl implements CartOrderService{
 
     @Override
     public CartOrder getById(String id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).orElse(null); // Return Null if item of id cannot be found
     }
 
     @Override

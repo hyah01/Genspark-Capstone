@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface WishListRepository extends MongoRepository<WishList, String> {
 
-    @Query("{ 'cartId' : ?0 }")
+    @Query("{ 'cartId' : ?0 }") // Get all data with matching cartId
     List<WishList> getWishListByCartId(String cartId);
 
-    @Query(value = "{ 'cartId' : ?0 }", delete = true)
+    @Query(value = "{ 'cartId' : ?0 }", delete = true) // Delete all data with matching cartId
     void deleteAllByCartId(String cartId);
 }

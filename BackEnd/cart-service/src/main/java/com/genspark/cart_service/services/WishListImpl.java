@@ -26,7 +26,7 @@ public class WishListImpl implements WishListService{
 
     @Override
     public WishList getById(String id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).orElse(null); // Return Null if item of id cannot be found
     }
 
     @Override

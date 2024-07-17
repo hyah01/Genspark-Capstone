@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class SaveForLater {
     @Id
     private String id;
-    private String cartId;
+    private String cartId; // To know which User this cartOrder belong to
     private String userId;
     private String productId;
 

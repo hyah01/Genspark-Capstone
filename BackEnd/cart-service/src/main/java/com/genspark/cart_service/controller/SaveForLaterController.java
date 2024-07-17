@@ -1,9 +1,7 @@
 package com.genspark.cart_service.controller;
 
 import com.genspark.cart_service.model.SaveForLater;
-import com.genspark.cart_service.model.WishList;
 import com.genspark.cart_service.services.SaveForLaterService;
-import com.genspark.cart_service.services.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,28 +13,28 @@ public class SaveForLaterController {
     @Autowired
     private SaveForLaterService service;
 
-    @PostMapping
+    @PostMapping // Add item to SFL database
     public SaveForLater add(@RequestBody SaveForLater sfl) {
         return service.addSFLList(sfl);
     }
 
-    @PutMapping
+    @PutMapping // Update the item in SFL database
     public SaveForLater update(@RequestBody SaveForLater sfl) {
         SaveForLater updated = service.getById(sfl.getId());
         return service.updateSFLList(updated);
     }
 
-    @DeleteMapping("/byId/{id}")
+    @DeleteMapping("/byId/{id}") // delete item in SFL database using ID
     public String delete(@PathVariable String id) {
         return service.deleteFromSFLList(id);
     }
 
-    @GetMapping
+    @GetMapping // get all item in SFL database
     public List<SaveForLater> findAll() {
         return service.getSaveForLaterItems();
     }
 
-    @GetMapping("/{cartId}")
+    @GetMapping("/{cartId}") // get all item in SFL database using CartId
     public List<SaveForLater> getByCartId(@PathVariable String cartId) {
         return service.getSFLByCartId(cartId);
     }
@@ -46,7 +44,7 @@ public class SaveForLaterController {
         return service.getById(id);
     }
 
-    @DeleteMapping("/{cartId}")
+    @DeleteMapping("/{cartId}") // delete all item in SFL database using CartId, call when deleting user
     public String deleteAllByCartId(@PathVariable String cartId) {
         return service.deleteAllByCartId(cartId);
     }

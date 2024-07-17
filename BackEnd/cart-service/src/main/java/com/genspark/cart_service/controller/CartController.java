@@ -16,17 +16,16 @@ public class CartController {
     @Autowired
     private CartService service;
 
-    @PostMapping
-    public Cart add(@RequestBody Cart cart){
-        return service.addCart(cart);
-    }
 
-    @GetMapping("/{id}")
+    @PostMapping // add to the database when account created
+    public Cart add(@RequestBody Cart cart){ return service.addCart(cart);}
+
+    @GetMapping("/{id}") // Get the cart by id
     public Cart findById(@PathVariable String id){
         return service.getCartByCartId(id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // delete cart when account deleted
     public String deleteById(@PathVariable String id){
         return service.deleteCart(id);
     }
