@@ -34,8 +34,12 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public String deleteCart(String cartId) {
-        repository.deleteById(cartId);
-        return "Deleted Cart";
+        if (repository.existsById(cartId)) {
+            repository.deleteById(cartId);
+            return "Deleted Cart";
+        } else {
+            return null;
+        }
     }
 
 

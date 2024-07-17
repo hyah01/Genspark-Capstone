@@ -19,11 +19,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static reactor.core.publisher.Mono.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 public class CartControllerTest {
@@ -127,6 +124,71 @@ public class CartControllerTest {
                 .andExpect(status().isOk());
 
         verify(service, times(1)).addCart(any(Cart.class));
+    }
+
+    @Test
+    void deleteCartById() throws Exception {
+        // Define the ID to be deleted
+        String cartIdToDelete = "1";
+
+        // Mock the service method to return a success message or code
+        Mockito.when(service.deleteCart(anyString())).thenReturn("Deleted cart with ID " + cartIdToDelete);
+
+        // Perform the DELETE request and verify the status
+        mockMvc.perform(delete("/cart/{id}", cartIdToDelete))
+                .andExpect(status().isOk()); // Expecting HTTP 200 OK status
+
+        // Verify that the service method was called once with the correct ID
+        verify(service, times(1)).deleteCart(cartIdToDelete);
+    }
+
+    @Test
+    void deleteCartById_Success() throws Exception {
+        // Define the ID to be deleted
+        String cartIdToDelete = "1";
+
+        // Mock the service method to return a success message or code
+        Mockito.when(service.deleteCart(anyString())).thenReturn("Deleted cart with ID " + cartIdToDelete);
+
+        // Perform the DELETE request and verify the status and content
+        mockMvc.perform(delete("/cart/{id}", cartIdToDelete))
+                .andExpect(status().isOk()) // Expecting HTTP 200 OK status
+                .andExpect(content().string("Deleted cart with ID " + cartIdToDelete)); // Expecting specific response content
+
+        // Verify that the service method was called once with the correct ID
+        verify(service, times(1)).deleteCart(cartIdToDelete);
+    }
+
+    @Test
+    void deleteCartById_NotFound() throws Exception {
+        // Define a non-existent ID
+        String nonExistentCartId = "999";
+
+        // Mock the service method to return null, simulating not found scenario
+        Mockito.when(service.deleteCart(anyString())).thenReturn(null);
+
+        // Perform the DELETE request and verify the status
+        mockMvc.perform(delete("/cart/{id}", nonExistentCartId))
+                .andExpect(status().isNotFound()); // Expecting HTTP 404 Not Found status
+
+        // Verify that the service method was called once with the correct ID
+        verify(service, times(1)).deleteCart(nonExistentCartId);
+    }
+
+    @Test
+    void deleteCartById_InternalServerError() throws Exception {
+        // Define an ID that might cause an internal server error (e.g., invalid format)
+        String invalidCartId = "abc";
+
+        // Mock the service method to throw an exception or return an error message
+        Mockito.when(service.deleteCart(anyString())).thenThrow(new RuntimeException("Internal Server Error"));
+
+        // Perform the DELETE request and verify the status
+        mockMvc.perform(delete("/cart/{id}", invalidCartId))
+                .andExpect(status().isInternalServerError()); // Expecting HTTP 500 Internal Server Error status
+
+        // Verify that the service method was called once with the correct ID
+        verify(service, times(1)).deleteCart(invalidCartId);
     }
 
 }

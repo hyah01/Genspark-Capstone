@@ -32,8 +32,13 @@ public class CartController {
     }
 
     @DeleteMapping("/{id}") // delete cart when account deleted
-    public String deleteById(@PathVariable String id){
-        return service.deleteCart(id);
+    public ResponseEntity<String> deleteById(@PathVariable String id){
+        String string = service.deleteCart(id);
+        if (string == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(string);
+        }
     }
 
     // Exception handling for this controller
