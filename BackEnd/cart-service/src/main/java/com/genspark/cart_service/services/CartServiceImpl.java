@@ -16,9 +16,15 @@ public class CartServiceImpl implements CartService{
     @Autowired
     private CartOrderService service;
 
-    @Override
+    @Override // Return Null if item of id cannot be found
     public Cart getCartByCartId(String cartId) {
-        return repository.findById(cartId).orElse(null); // Return Null if item of id cannot be found
+        Optional<Cart> c = repository.findById(cartId);
+        Cart cart = null;
+        if (c.isPresent()){
+            cart = c.get();
+            cart.setCartOrder(service.getAllCartOrderByCartId(cartId)); // setCartOrder into cart when called on
+        }
+        return cart;
     }
 
     @Override
