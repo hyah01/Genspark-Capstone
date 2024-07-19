@@ -8,12 +8,16 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { HomepageComponent } from './homepage/homepage.component';
+import { SearchBarComponent } from './search-bar/search-bar.component';
+import { ProductsComponent } from './products/products.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    HomepageComponent
+    HomepageComponent,
+    SearchBarComponent,
+    ProductsComponent
   ],
   imports: [
     BrowserModule,
