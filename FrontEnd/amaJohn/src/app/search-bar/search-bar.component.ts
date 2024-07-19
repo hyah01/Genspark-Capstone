@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, Renderer2, RendererFactory2 } from '@angular/core';
 import { Router } from '@angular/router';
+import { ProductServiceService } from '../services/product-service.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -9,17 +10,25 @@ import { Router } from '@angular/router';
 })
 export class SearchBarComponent implements OnDestroy {
   query: string = '';
-  items: string[] = ['Item 1', 'Item 2', 'Item 3', 'Item 4']; 
+  items: string[] = []; 
   filteredItems: string[] = [];
   isDropdownOpen: boolean = false;
 
   private renderer: Renderer2;
   private documentClickListener: () => void;
 
-  constructor(private elementRef: ElementRef, rendererFactory: RendererFactory2, private router: Router) {
+  constructor(private elementRef: ElementRef, rendererFactory: RendererFactory2, private router: Router, private productService: ProductServiceService) {
     this.renderer = rendererFactory.createRenderer(null, null);
     // Listen for clicks outside the component
     this.documentClickListener = this.renderer.listen('document', 'click', this.onDocumentClick.bind(this));
+  }
+
+  ngOnInit(){
+    this.productService.getProducts().subscribe(data => {
+      console.log(data);
+      this.items = data.map(product => product.productName);
+      console.log(this.items)
+    })
   }
 
   ngOnDestroy() {
@@ -47,6 +56,7 @@ export class SearchBarComponent implements OnDestroy {
     this.filteredItems = [];
     this.isDropdownOpen = false;
     this.router.navigate(['/products'], { queryParams: { search: this.query } });
+    this.query = '';
   }
 
   closeDropdown() {
@@ -68,5 +78,7 @@ export class SearchBarComponent implements OnDestroy {
   }
   onSearchButtonClick() {
     this.router.navigate(['/products'], { queryParams: { search: this.query } });
+    this.query = '';
+    this.filteredItems = [];
   }
 }

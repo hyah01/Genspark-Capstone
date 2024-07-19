@@ -19,7 +19,7 @@ import { SignupComponent } from './signup/signup.component';
     NavbarComponent,
     HomepageComponent,
     SearchBarComponent,
-    ProductsComponent
+    ProductsComponent,
     LoginComponent,
     SignupComponent
   ],
