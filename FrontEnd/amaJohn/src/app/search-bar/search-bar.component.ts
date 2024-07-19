@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, Renderer2, RendererFactory2 } from '@angular/core';
 import { Router } from '@angular/router';
 
