@@ -1,8 +1,5 @@
 package com.genspark.product_service.entities;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +13,6 @@ import java.util.Date;
 @NoArgsConstructor
 @Document(collection = "promotions")
 public class Promotion {
-    @Id
     private String id;
 
     private String sellerId;
