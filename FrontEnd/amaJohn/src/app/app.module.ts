@@ -10,6 +10,8 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { HomepageComponent } from './homepage/homepage.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { ProductsComponent } from './products/products.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { ProductsComponent } from './products/products.component';
     HomepageComponent,
     SearchBarComponent,
     ProductsComponent
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
