@@ -8,12 +8,16 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { HomepageComponent } from './homepage/homepage.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    HomepageComponent
+    HomepageComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
