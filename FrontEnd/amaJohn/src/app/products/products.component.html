@@ -7,12 +7,20 @@
         <p>{{filteredProducts.length}} results for <span class="text-[#5ac4e7]">"{{searchQuery}}"</span></p>
     </div>
     <div class="result">
-        <div *ngFor="let item of filteredProducts">
+        <div *ngFor="let item of filteredProducts" class="product-container flex gap-3 mb-1" >
             <div class="product-img">
-                <img src="{{item.image}}" alt="">
+                <img src="{{item.image}}" alt="" class="image-size hover:cursor-pointer">
             </div>
             <div class="product-desc">
-                <span>{{item.productName}}</span>
+                <span class="title text-[25px] hover:text-[#5ac4e7] hover:cursor-pointer">{{item.productName}}</span>
+                <!-- TO DO -->
+                <div *ngIf="item.review"></div>
+                <div class="price-sale flex gap-3">
+                    <span>${{ formatPrice(item.price.amount) }}</span>
+                    <span class="line-through text-gray-500" *ngIf="item.price.saving.amount != 0"> Was: ${{ formatPrice(item.price.amount + item.price.saving.amount) }}</span>
+                </div>
+                
+
             </div>
         </div>
     </div>

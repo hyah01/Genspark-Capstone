@@ -31,6 +31,10 @@ export class ProductsComponent {
 
   }
 
+  formatPrice(price: number): string {
+    return price.toFixed(2);
+  }
+
 
 
 
