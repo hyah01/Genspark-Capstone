@@ -24,20 +24,38 @@ spring:
           predicates:
             - Path=/users/**
 
-        - id: cart-service
+#        API gateway for cart microservice
+        - id: cart-service-cart
           uri: lb://cart-service
           predicates:
             - Path=/cart/**
+        - id: cart-service-cartorder
+          uri: lb://cart-service
+          predicates:
+            - Path=/cartorder/**
+        - id: cart-service-saveforlater
+          uri: lb://cart-service
+          predicates:
+            - Path=/saveforlater/**
+        - id: cart-service-wishlist
+          uri: lb://cart-service
+          predicates:
+            - Path=/wishlist/**
 
         - id: order-service
           uri: lb://order-service
           predicates:
             - Path=/orders/**
 
-        - id: product-service
+#        API gateway for product microservice
+        - id: product-service-product
           uri: lb://product-service
           predicates:
-            - Path=/products/**
+            - Path=/product/**
+        - id: product-service-promotion
+          uri: lb://product-service
+          predicates:
+            - Path=/promotion/**
 
         - id: review-service
           uri: lb://review-service

@@ -10,8 +10,8 @@ import { ProductServiceService } from '../services/product-service.service';
 })
 export class SearchBarComponent implements OnDestroy {
   query: string = '';
-  items: string[] = []; 
-  filteredItems: string[] = [];
+  items: string[][] = []; 
+  filteredItems: string[][] = [];
   isDropdownOpen: boolean = false;
 
   private renderer: Renderer2;
@@ -25,9 +25,7 @@ export class SearchBarComponent implements OnDestroy {
 
   ngOnInit(){
     this.productService.getProducts().subscribe(data => {
-      console.log(data);
-      this.items = data.map(product => product.productName);
-      console.log(this.items)
+      this.items = data.map(product => [product.productName, product.image[0]]);
     })
   }
 
@@ -45,7 +43,7 @@ export class SearchBarComponent implements OnDestroy {
     } else {
       // else filter items and return
       this.filteredItems = this.items.filter(item => 
-        item.toLowerCase().includes(this.query.toLowerCase())
+        item[0].toLowerCase().includes(this.query.toLowerCase())
       );
     }
     this.isDropdownOpen = this.filteredItems.length > 0
