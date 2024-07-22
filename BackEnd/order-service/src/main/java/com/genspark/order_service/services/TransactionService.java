@@ -11,6 +11,5 @@ public interface TransactionService {
     Optional<Transaction> getTransactionById(String id);
     void deleteTransactionById(String id);
     Transaction updateTransaction(Transaction transaction);
-    List<Transaction> getTransactionsByIds(List<String> ids);
 
 }

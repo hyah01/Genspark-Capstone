@@ -25,11 +25,6 @@ public class TransactionServiceImp implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getTransactionsByIds(List<String> ids) {
-        return this.transactionRepo.findAllByIdIn(ids);
-    }
-
-    @Override
     public Optional<Transaction> getTransactionById(String id) {
         return this.transactionRepo.findById(id);
     }

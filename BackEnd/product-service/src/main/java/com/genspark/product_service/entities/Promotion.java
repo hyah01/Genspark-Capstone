@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Document(collection = "promotions")
 public class Promotion {
+    @Id
     private String id;
 
     private String sellerId;
