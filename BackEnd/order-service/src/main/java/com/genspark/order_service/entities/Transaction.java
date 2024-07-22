@@ -13,9 +13,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "transactions")
 public class Transaction {
     @Id
-    private ObjectId id;
-    private ObjectId userId;
-    private ObjectId productId;
+    private String id;
+    private String userId;
+    private String productId;
     private int quantity;
     private boolean refunded;
 }

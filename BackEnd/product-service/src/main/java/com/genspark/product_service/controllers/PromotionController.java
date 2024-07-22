@@ -4,6 +4,8 @@ import com.genspark.product_service.entities.Product;
 import com.genspark.product_service.entities.Promotion;
 import com.genspark.product_service.services.PromotionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,29 +18,53 @@ public class PromotionController {
     @Autowired
     private PromotionService promotionServ;
 
+    // Retrieves all promotions.
     @GetMapping("/all")
-    public List<Promotion> getAllPromotions() {
-        return this.promotionServ.getAllPromotions();
+    public ResponseEntity<List<Promotion>> getAllPromotions() {
+        List<Promotion> promotions = promotionServ.getAllPromotions();
+        return new ResponseEntity<>(promotions, HttpStatus.OK);
     }
 
+    // Retrieves a single promotion by ID.
     @GetMapping("/one/{id}")
-    public Optional<Promotion> getOnePromotion(@PathVariable String id) {
-        return this.promotionServ.getPromotionByID(id);
+    public ResponseEntity<Optional<Promotion>> getOnePromotion(@PathVariable String id) {
+        Optional<Promotion> promotion = promotionServ.getPromotionByID(id);
+        if (promotion.isPresent()) {
+            return new ResponseEntity<>(promotion, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
+
+    // Adds a new promotion.
     @PostMapping("/add")
-    public Promotion addPromotion(@RequestBody Promotion promotion) {
-        return this.promotionServ.addPromotion(promotion);
+    public ResponseEntity<Promotion> addPromotion(@RequestBody Promotion promotion) {
+        Promotion addedPromotion = promotionServ.addPromotion(promotion);
+        return new ResponseEntity<>(addedPromotion, HttpStatus.CREATED);
     }
 
+
+    // Updates an existing promotion.
     @PutMapping("/update")
-    public Promotion updatePromotion(@RequestBody Promotion promotion) {
-        return this.promotionServ.updatePromotion(promotion);
+    public ResponseEntity<Promotion> updatePromotion(@RequestBody Promotion promotion) {
+        Promotion updatedPromotion = promotionServ.updatePromotion(promotion);
+        if (updatedPromotion != null) {
+            return new ResponseEntity<>(updatedPromotion, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
+    // Deletes a promotion by ID.
     @DeleteMapping("/delete/{id}")
-    public Promotion deletePromotion(@PathVariable String id) {
-        return this.promotionServ.deletePromotion(id);
+    public ResponseEntity<Void> deletePromotion(@PathVariable String id) {
+        boolean isDeleted = promotionServ.deletePromotion(id);
+        if (isDeleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
