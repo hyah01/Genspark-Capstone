@@ -25,18 +25,18 @@ public class TransactionServiceImp implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getTransactionsByIds(List<String> ids) {
-        return this.transactionRepo.findAllByIdIn(ids);
-    }
-
-    @Override
     public Optional<Transaction> getTransactionById(String id) {
         return this.transactionRepo.findById(id);
     }
 
     @Override
-    public void deleteTransactionById(String id) {
-        this.transactionRepo.deleteById(id);
+    public boolean deleteTransactionById(String id) {
+        if (transactionRepo.existsById(id)) {
+            transactionRepo.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

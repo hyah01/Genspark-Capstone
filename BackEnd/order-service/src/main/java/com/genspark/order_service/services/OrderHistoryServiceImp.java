@@ -1,13 +1,9 @@
 package com.genspark.order_service.services;
 
 import com.genspark.order_service.entities.OrderHistory;
-import com.genspark.order_service.entities.Transaction;
 import com.genspark.order_service.repositories.OrderHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderHistoryServiceImp implements OrderHistoryService {
@@ -29,8 +25,12 @@ public class OrderHistoryServiceImp implements OrderHistoryService {
 
 
     @Override
-    public void deleteOrderHistory(String id) {
-        this.orderHistoryRepo.deleteById(id);
-
+    public boolean deleteOrderHistory(String id) {
+        if (orderHistoryRepo.existsById(id)) {
+            orderHistoryRepo.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

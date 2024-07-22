@@ -1,12 +1,10 @@
 package com.genspark.order_service.entities;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
@@ -15,9 +13,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "transactions")
 public class Transaction {
     @Id
-    private ObjectId id;
-    private ObjectId userId;
-    private ObjectId productId;
+    private String id;
+    private String userId;
+    private String productId;
     private int quantity;
     private boolean refunded;
 }

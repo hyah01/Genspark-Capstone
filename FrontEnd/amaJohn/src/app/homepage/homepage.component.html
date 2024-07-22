@@ -1,2 +1,19 @@
 <app-navbar />
-<p>homepage works!</p>
+<div>
+    <div class="banner">
+        <img class="cropped-banner" src="/banner-backtoschool.jpg" alt="">
+    </div>
+    <div class="products flex gap-[1rem] flex-wrap content-between">
+        <div class="item-container content-end hover:cursor-pointer" *ngFor="let item of items"(click)="selectItem(item.id)">
+            <div class="product-img">
+                <img src="{{item.image[0]}}" alt="" (click)="selectItem(item.id)">
+            </div>
+            <div class="product-text">
+                <span>{{item.productName}}</span>
+            </div>
+        </div>
+    </div>
+    <div>
+        <app-footer />
+    </div>
+</div>

@@ -9,8 +9,7 @@ import java.util.Optional;
 public interface TransactionService {
     Transaction saveTransaction(Transaction transaction);
     Optional<Transaction> getTransactionById(String id);
-    void deleteTransactionById(String id);
+    boolean deleteTransactionById(String id);
     Transaction updateTransaction(Transaction transaction);
-    List<Transaction> getTransactionsByIds(List<String> ids);
 
 }
