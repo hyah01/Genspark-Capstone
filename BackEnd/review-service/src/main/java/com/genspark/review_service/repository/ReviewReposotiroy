@@ -1,0 +1,4 @@
+public interface BookRepository extends MongoRepository<Review, String> {
+    @Query("{id: '?0'}")
+    Review findReviewById(String id);
+}
