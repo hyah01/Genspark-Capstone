@@ -30,8 +30,13 @@ public class TransactionServiceImp implements TransactionService {
     }
 
     @Override
-    public void deleteTransactionById(String id) {
-        this.transactionRepo.deleteById(id);
+    public boolean deleteTransactionById(String id) {
+        if (transactionRepo.existsById(id)) {
+            transactionRepo.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -34,8 +34,12 @@ public class PromotionServiceImp implements PromotionService{
     }
 
     @Override
-    public Promotion deletePromotion(String id) {
-        this.promotionRepo.deleteById(id);
-        return null;
+    public boolean deletePromotion(String id) {
+        if (promotionRepo.existsById(id)) {
+            promotionRepo.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -16,11 +16,11 @@ import java.util.List;
 @Document(collection = "order_history")
 public class OrderHistory {
     @Id
-    private ObjectId id;
+    private String id;
 
-    private ObjectId userId;
-    private List<ObjectId> transactionIds;
-    private List<ObjectId> refundIds;
+    private String userId;
+    private List<String> transactionIds;
+    private List<String> refundIds;
     private Date orderDate;
     private Date estimatedDate;
 
