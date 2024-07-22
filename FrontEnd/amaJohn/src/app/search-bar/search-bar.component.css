@@ -5,6 +5,14 @@
     z-index: 10;
   }
 
+  .dropdown-item {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: flex;
+    gap: 10px;
+  }
+
   .search-button {
   position: absolute;
   top: 50%;

@@ -11,9 +11,10 @@
     </button> 
     
     <div *ngIf="filteredItems.length > 0" class="dropdown mt-2 rounded-lg bg-white shadow-lg">
-        <div *ngFor="let item of filteredItems" class="p-2 hover:bg-gray-200 cursor-pointer"
-        (click)="selectItem(item)">
-        {{item}}
+        <div *ngFor="let item of filteredItems" class="dropdown-item p-2 hover:bg-gray-200 cursor-pointer "
+        (click)="selectItem(item[0])">
+            <img src="{{item[1]}}" alt="" height="30px" width="30px">
+            <span>{{item[0]}}</span>
         </div>
     </div>
 </div>
