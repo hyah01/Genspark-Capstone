@@ -1,0 +1,19 @@
+<div class="search-bar relative w-full min-w-[300px] flex items-center" (click)="onSearchBarClick($event)">
+    <input type="text" 
+        [(ngModel)]="query" 
+        (input)="onSearch()" 
+        (keydown.enter)="onSearchButtonClick()"
+        class="form-input w-full border-2 border-gray-300 p-2 rounded-lg" 
+        placeholder="Search AmaJohn" />
+    <button (click) = onSearchButtonClick()
+        class="btn-search p-2 bg-[#7EC6A8] text-white rounded-r-[6px] hover:bg-[#67a189] focus:outline-none search-button">
+        Search
+    </button> 
+    
+    <div *ngIf="filteredItems.length > 0" class="dropdown mt-2 rounded-lg bg-white shadow-lg">
+        <div *ngFor="let item of filteredItems" class="p-2 hover:bg-gray-200 cursor-pointer"
+        (click)="selectItem(item)">
+        {{item}}
+        </div>
+    </div>
+</div>

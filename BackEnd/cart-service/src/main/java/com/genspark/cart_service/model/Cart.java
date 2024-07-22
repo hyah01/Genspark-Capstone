@@ -1,44 +1,22 @@
+package com.genspark.cart_service.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Document(collection = "cart")
 public class Cart {
-    private Long cartId;
-    private Long userId;
-    private List<Long> cartOrder;
-
-    public Long getCartId() {
-        return cartId;
-    }
-
-    public void setCartId(Long cartId) {
-        this.cartId = cartId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public List<Long> getCartOrder() {
-        return cartOrder;
-    }
-
-    public void setCartOrder(List<Long> cartOrder) {
-        this.cartOrder = cartOrder;
-    }
-
-    public Cart(Long cartId, Long userId, Long cartOrder) {
-        this.cartId = cartId;
-        this.userId = userId;
-        this.cartOrder = cartOrder;
-
-
-
-    }
-
-
-
+    @Id
+    private String id;
+    private String userId; // To know which user the cart belong to
+    private List<CartOrder> cartOrder; // Contain all items user added to their cart
 }

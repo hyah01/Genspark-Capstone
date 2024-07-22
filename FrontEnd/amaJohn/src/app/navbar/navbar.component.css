@@ -1,0 +1,9 @@
+.logo {
+    text-decoration: none;
+    color: black;
+    
+}
+
+.logo:hover {
+    color: rgb(99, 98, 98);
+}
