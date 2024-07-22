@@ -4,17 +4,17 @@
         <h2 class="font-bold text-4xl ">Sign Up</h2>
         <p class="text-xs mt-4 ">If you don't have an account, sign up: </p>
   
-        <form action="" class="flex flex-col gap-4">
+        <form (ngSubmit)="signup()" class="flex flex-col gap-4">
           <div class="flex gap-3 justify-between">
-            <input class="p-2 mt-4  rounded-xl border w-[47%] "  type="text" name="firstname" placeholder="First Name">
-            <input class="p-2 mt-4  rounded-xl border w-[47%]"  type="text" name="lastname" placeholder="Last Name">
+            <input class="p-2 mt-4  rounded-xl border w-[47%]" [(ngModel)]="firstname"  type="text" name="firstname" placeholder="First Name">
+            <input class="p-2 mt-4  rounded-xl border w-[47%]" [(ngModel)]="lastname"  type="text" name="lastname" placeholder="Last Name">
           </div>
           <div class="relative">
-            <input class="p-2 rounded-xl border w-full" type="email" name="email" placeholder="Email">
+            <input class="p-2 rounded-xl border w-full" [(ngModel)]="email"  type="email" name="email" placeholder="Email">
           </div>
           
           <div class="relative">
-            <input class="p-2 rounded-xl border w-full" type="password" name="password" placeholder="Password">
+            <input class="p-2 rounded-xl border w-full" [(ngModel)]="password"  type="password" name="password" placeholder="Password">
           </div>
           <button class="bg-blue-500 rounded-xl text-white py-2 hover:scale-105 duration-300">Register</button>
         </form>
