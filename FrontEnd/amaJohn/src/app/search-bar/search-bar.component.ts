@@ -25,7 +25,7 @@ export class SearchBarComponent implements OnDestroy {
 
   ngOnInit(){
     this.productService.getProducts().subscribe(data => {
-      this.items = data.slice(0,10).map(product => [product.productName, product.image[0]]);
+      this.items = data.map(product => [product.productName, product.image[0]]);
     })
   }
 

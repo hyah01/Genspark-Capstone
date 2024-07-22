@@ -1,3 +1,8 @@
 .navBackToTop {
     align-items: center;
 }
+
+.navBackToTop:hover {
+    background-image: linear-gradient(rgb(255 255 255/10%) 0 0 );
+
+}

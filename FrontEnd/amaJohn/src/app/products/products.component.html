@@ -1,2 +1,20 @@
 <app-navbar />
-<p>{{searchQuery}}</p>
+<div class="product">
+    <div class="filter flex content-evenly pt-5 ">
+        <h1 class="text-[50px]">Result</h1>
+    </div>
+    <div class="filter-result">
+        <p>{{filteredProducts.length}} results for <span class="text-[#5ac4e7]">"{{searchQuery}}"</span></p>
+    </div>
+    <div class="result">
+        <div *ngFor="let item of filteredProducts">
+            <div class="product-img">
+                <img src="{{item.image}}" alt="">
+            </div>
+            <div class="product-desc">
+                <span>{{item.productName}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer />
