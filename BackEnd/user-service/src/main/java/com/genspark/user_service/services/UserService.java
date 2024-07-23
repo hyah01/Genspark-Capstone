@@ -10,6 +10,6 @@ public interface UserService {
     List<User> getAllUsers();
     User updateUser(String id, User user);
     boolean deleteUser(String id);
-
+    UserInfoDetails loadUserByUsername(String email);
 
 }
