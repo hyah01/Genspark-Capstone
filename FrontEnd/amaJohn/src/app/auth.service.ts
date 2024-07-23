@@ -12,7 +12,6 @@ export class AuthService {
   constructor(private http: HttpClient, private route: Router) {}
 
   signup(user:any) {
-    
     return this.http.post(`${this.baseUrl}/signup`, user, {withCredentials: true});
   }
 }
