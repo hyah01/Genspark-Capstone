@@ -7,11 +7,12 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   
-  baseUrl = "http://localhost:8060/users"
+  baseUrl = "http://localhost:8060/auth"
 
-  constructor(private http: HttpClient, private route: Router) { }
+  constructor(private http: HttpClient, private route: Router) {}
 
   signup(user:any) {
-    return this.http.post(`${this.baseUrl}/add`, user, {withCredentials: true});
+    
+    return this.http.post(`${this.baseUrl}/signup`, user, {withCredentials: true});
   }
 }
