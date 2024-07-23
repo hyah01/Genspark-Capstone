@@ -5,9 +5,13 @@
       <p class="font-inter font-inter relative translate-x-2 font-light md:translate-y-5">x items</p>
     </div>
   </div>
-  <div class="flex pt-2">
-    <div class="grid-col-1 w-128 grid gap-4">
-      <div class="relative left-0 top-10 flex h-40 w-1/2 w-64 grid-cols-1 flex-row gap-4 rounded-2xl bg-cardbackground outline outline-gray-200">
+      <div class="relative grid w-48 ml-14 grid-cols-1 gap-4 rounded-lg pl-20 outline overflow-auto float-right -translate-x-32 translate-y-24">
+      <h3 class="font-bold ">Order summary</h3>
+    </div>
+    <div class="flex-none w-10 "></div>
+  <div class="flex-1 pt-2 w-1/2 overflow-hidden justify-start ">
+    <div class="grid-col-1  grid gap-4">
+      <div class="relative left-0 top-10 flex h-40 w-1/2 w-auto grid-cols-1 flex-row gap-4 rounded-2xl bg-cardbackground outline outline-gray-200">
         <div class="image h-full w-28">an image</div>
         <div class="grid grid-cols-2 grid-rows-3">
           <div class="font-iter font-lg font-semibold leading-tight">Name</div>
@@ -15,10 +19,25 @@
           <div class="font-inter left-11 top-4 h-2 w-6 font-semibold not-italic leading-5 text-tertiary">Price per pound</div>
           <div></div>
           <input class="box-border w-32 h-5 l-11 b-1 bg-white border border-solid border-gray-800 border-2 rounded-sm outline-2">amount to buy</input>
+            <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Price</label>
+  <div class="relative mt-2 rounded-md shadow-sm">
+    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+      <span class="text-gray-500 sm:text-sm">$</span>
+    </div>
+    <input type="text" name="price" id="price" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="0.00">
+    <div class="absolute inset-y-0 right-0 flex items-center">
+      <label for="currency" class="sr-only">Currency</label>
+      <select id="currency" name="currency" class="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
+        <option>USD</option>
+        <option>CAD</option>
+        <option>EUR</option>
+      </select>
+    </div>
+  </div>
           <div class="w-4 h-3 r-2 bottom-2 bg-tertiary rounded-3xl">save for later</div>
         </div>
       </div>
-      <div class="relative grid w-64 grid-cols-1 gap-4 rounded-lg outline">
+      <!-- <div class="relative grid w-64 grid-cols-1 gap-4 rounded-lg outline">
         <div class="image w-28"></div>
         <div class="grid grid-cols-2 grid-rows-3">
           <div>Name</div>
@@ -28,12 +47,10 @@
           <div>amount to buy</div>
           <div>save for later</div>
         </div>
-      </div>
+      </div> -->
     </div>
-    <!-- The quick brown fox ...
-    <p class="font-sans "></p>
-    <p class="font-serif ">The quick brown fox ...</p>
-    <p class="font-mono ">The quick brown fox ...</p> -->
-    <div class="relative grid w-64 grid-cols-1 gap-4 rounded-lg pl-20 outline">pricing</div>
+
+
   </div>
+    <div class="flex-none w-48 "></div>
 </div>
