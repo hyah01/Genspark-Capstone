@@ -18,6 +18,8 @@ export class SignupComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
+  
+
   signup() {
     const user = {
       firstName: this.firstname,
@@ -25,13 +27,15 @@ export class SignupComponent {
       email: this.email,
       password: this.password
     };
-
-    this.authService.signup(user).subscribe(()=>{
-      this.router.navigate(['/login'])
-    },
-    error=> {
-      console.error('Sign up unsuccessful!', error)
-    }
-    )
+  
+    this.authService.signup(user).subscribe(
+      response => {
+        console.log('Sign up successful!', response);
+        this.router.navigate(['/login']);
+      },
+      error => {
+        console.error('Sign up unsuccessful!', error);
+      }
+    );
   }
 }

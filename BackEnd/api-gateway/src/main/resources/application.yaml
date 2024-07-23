@@ -19,12 +19,17 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: user-service
+        - id: user-service-user
           uri: lb://user-service
           predicates:
             - Path=/users/**
+        - id: user-service-auth
+          uri: lb://user-service
+          predicates:
+            - Path=/auth/**
 
-#        API gateway for cart microservice
+
+        #        API gateway for cart microservice
         - id: cart-service-cart
           uri: lb://cart-service
           predicates:
