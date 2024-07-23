@@ -8,11 +8,11 @@ import { SignupComponent } from './signup/signup.component';
 import { ProductsComponent } from './products/products.component';
 
 const routes: Routes = [
-  {path:"", component: HomepageComponent},
-  {path:"login", component: LoginComponent},
-  {path:"register", component: SignupComponent},
-  {path: "products", component: ProductsComponent},
-  {path: 'shopping-cart', component: ShoppingCartComponent},
+  { path: "", component: HomepageComponent },
+  { path: "login", component: LoginComponent },
+  { path: "register", component: SignupComponent },
+  { path: "products", component: ProductsComponent },
+  { path: 'shopping-cart', component: ShoppingCartComponent },
 ];
 
 
