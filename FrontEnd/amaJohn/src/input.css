@@ -10,9 +10,9 @@
  html {
   .cart-item {
     /* relative grid grid-cols-1 gap-4 outline rounded-lg */
-    position: theme('relative');
+    /* position: theme('relative');
     grid: theme('grid');
-    outline: theme('outline');
+    outline: theme('outline'); */
   }
  }
 }

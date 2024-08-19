@@ -75,8 +75,11 @@ export class SearchBarComponent implements OnDestroy {
     }
   }
   onSearchButtonClick() {
-    this.router.navigate(['/products'], { queryParams: { search: this.query } });
-    this.query = '';
-    this.filteredItems = [];
+    if (!(this.query == '')){
+      this.router.navigate(['/products'], { queryParams: { search: this.query } });
+      this.query = '';
+      this.filteredItems = [];
+    }
+
   }
 }

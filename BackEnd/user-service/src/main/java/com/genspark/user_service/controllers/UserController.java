@@ -1,6 +1,8 @@
 package com.genspark.user_service.controllers;
 
 import com.genspark.user_service.entities.User;
+import com.genspark.user_service.services.UserInfoDetails;
+import com.genspark.user_service.services.UserInfoService;
 import com.genspark.user_service.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,10 +12,13 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserInfoService userInfoService;
 
 //  Create a new user.
     @PostMapping("/add")
@@ -40,6 +45,11 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping("/email")
+    public ResponseEntity<Boolean> getEmail(@RequestBody String email) {
+        return ResponseEntity.ok(userService.getUserEmail(email));
+    }
+
 //  Updates an existing user.
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
@@ -61,4 +71,5 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 }

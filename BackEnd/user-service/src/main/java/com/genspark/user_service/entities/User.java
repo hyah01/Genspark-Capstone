@@ -23,5 +23,4 @@ public class User {
     private Integer reward_points;
     private List<String> orderHistory_ids;
 
-
 }
