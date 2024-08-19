@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImp implements UserService{
@@ -43,6 +44,11 @@ public class UserServiceImp implements UserService{
             return userRepository.save(user);
         }
         return null;
+    }
+
+    public boolean getUserEmail(String email){
+        Optional<User> userDetail = userRepository.findByEmail(email);
+        return userDetail.isPresent();
     }
 
     public boolean deleteUser(String id) {

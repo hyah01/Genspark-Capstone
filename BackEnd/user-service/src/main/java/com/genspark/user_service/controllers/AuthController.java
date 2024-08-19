@@ -29,10 +29,13 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+
+
     @PostMapping("/signup")
-    public User signup(@RequestBody User user) {
-        return userService.saveUser(user);
+    public ResponseEntity<User> signup(@RequestBody User user) {
+        return ResponseEntity.ok(userService.saveUser(user));
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest, HttpServletResponse response) throws AuthenticationException {

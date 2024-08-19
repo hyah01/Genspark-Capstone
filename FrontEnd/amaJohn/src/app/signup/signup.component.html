@@ -4,13 +4,13 @@
         <h2 class="font-bold text-4xl ">Sign Up</h2>
         <p class="text-xs mt-4 ">If you don't have an account, sign up: </p>
   
-        <form (ngSubmit)="signup()" class="flex flex-col gap-4">
+        <form #signupForm="ngForm" (ngSubmit)="signup(signupForm)" class="flex flex-col gap-4">
           <div class="flex gap-3 justify-between">
-            <input class="p-2 mt-4  rounded-xl border w-[47%]" [(ngModel)]="firstname"  type="text" name="firstname" placeholder="First Name">
-            <input class="p-2 mt-4  rounded-xl border w-[47%]" [(ngModel)]="lastname"  type="text" name="lastname" placeholder="Last Name">
+            <input class="p-2 mt-4  rounded-xl border w-[47%]" [(ngModel)]="firstname"  type="text" name="firstname" placeholder="First Name" required>
+            <input class="p-2 mt-4  rounded-xl border w-[47%]" [(ngModel)]="lastname"  type="text" name="lastname" placeholder="Last Name" required>
           </div>
           <div class="relative">
-            <input class="p-2 rounded-xl border w-full" [(ngModel)]="email"  type="email" name="email" placeholder="Email">
+            <input class="p-2 rounded-xl border w-full" [(ngModel)]="email"  type="email" name="email" placeholder="Email" required email> 
           </div>
           
           <div class="relative">
