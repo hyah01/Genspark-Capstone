@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductServiceService } from '../services/product-service.service';
 import { combineLatest, map } from 'rxjs';
 
@@ -14,7 +14,7 @@ export class ProductsComponent {
   filteredProducts: any[] = [];
 
   
-  constructor(private route: ActivatedRoute, private productService: ProductServiceService) {}
+  constructor(private route: ActivatedRoute, private productService: ProductServiceService, private router: Router) {}
 
   ngOnInit(): void {
     combineLatest([
@@ -33,6 +33,12 @@ export class ProductsComponent {
 
   formatPrice(price: number): string {
     return price.toFixed(2);
+  }
+
+  selectItem(productId: string){
+    this.router.navigateByUrl(`/products/${productId}`).then(() => {
+      window.location.reload();
+    });
   }
 
 

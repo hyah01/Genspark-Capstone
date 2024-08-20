@@ -1,0 +1,49 @@
+<app-navbar />
+<div class="detail-page">
+    <div *ngIf="product" class="container">
+        <button class="goback" (click)="goBack()">Return</button>
+        <div class="row">
+            <div class="col-5">
+                <div class="title">
+                    <h2>{{product.productName}}</h2>
+                </div>
+                <div class="gallery-container">
+                    <div class="carousel">
+                        <img *ngFor="let img of product.image" 
+                            [src]="img" 
+                            alt="Product Image" 
+                            (mouseover)="selectImage(img)"
+                            [class.selected]="img === selectedImage"/>
+                    </div>
+                    <div>
+                        <img [src]="selectedImage" class="main-image" alt="Main Product Image">
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <h1>a</h1>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="error">
+        <h1>test</h1>
+        <div class="error-container">
+          <div class="error-message">
+            <h1>{{ error }}</h1>
+          </div>
+          <div class="background-animation">
+            <img
+              class="planet"
+              src="https://tsparticles.github.io/404-templates/space/images/planet.svg"
+              height="450"
+            />
+            <img
+              class="astronaut"
+              src="https://tsparticles.github.io/404-templates/space/images/astronaut.svg"
+              height="40"
+            />
+          </div>
+        </div>
+      </div>
+</div>

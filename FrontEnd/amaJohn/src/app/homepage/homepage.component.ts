@@ -20,7 +20,7 @@ export class HomepageComponent {
   }
 
   selectItem(productId: string){
-    this.router.navigateByUrl(`/db/${productId}`).then(() => {
+    this.router.navigateByUrl(`/products/${productId}`).then(() => {
       window.location.reload();
     });
   }
