@@ -15,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { FooterComponent } from './footer/footer.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
     AppRoutingModule,
     FormsModule,
     CommonModule,
+    FontAwesomeModule,
   ],
   providers: [
     provideClientHydration(),

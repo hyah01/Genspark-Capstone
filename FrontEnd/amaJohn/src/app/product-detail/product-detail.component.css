@@ -25,6 +25,21 @@
     height: 400px;
     object-fit: contain;
 }
+.review-stars {
+    display: flex;
+}
 
+.ng-fa-icon {
+    color: #ccc; /* Default color for unfilled stars */
+    margin-right: 5px;
+}
+
+.ng-fa-icon.filled {
+    color: #FFD700; /* Color for filled stars (gold) */
+}
+
+.price {
+    font: 50px;
+}
 
 

@@ -4,9 +4,6 @@
         <button class="goback" (click)="goBack()">Return</button>
         <div class="row">
             <div class="col-5">
-                <div class="title">
-                    <h2>{{product.productName}}</h2>
-                </div>
                 <div class="gallery-container">
                     <div class="carousel">
                         <img *ngFor="let img of product.image" 
@@ -20,8 +17,31 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <h1>a</h1>
+            <div class="col border-l-2">
+                <div class="title">
+                    <h2>{{product.productName}}</h2>
+                </div>
+                <div>
+                    <p>SELLER NAME HERE</p>
+                    <p>{{product.seller}}</p>
+                </div>
+                <div class="review-stars border-b-2">
+                    <fa-icon [icon]="faStar" *ngFor="let star of stars" [class.filled]="star <= rating"></fa-icon>
+                </div>
+                <div class="price-sale flex gap-3">
+                    <span>$<span class="text-[30px] font-bold">{{ formatPrice(product.price.amount) }}</span></span>
+                    <span class="text-[30px] text-red-500" *ngIf="product.price.saving.amount != 0">-{{product.price.saving.percentage}}%</span>
+                </div>
+                <div class="price-pre-sale">
+                    <span class="line-through text-gray-500" *ngIf="product.price.saving.amount != 0"> ${{ formatPrice(product.price.amount + product.price.saving.amount) }}</span>
+                </div>
+                <div class="buy border-b-2">
+                    <!-- TO DO  -->
+                     <button>Add To Cart</button>
+                </div>
+                <div class="description">
+                    <p *ngFor="let detail of product.productDescription">{{detail}}</p>
+                </div>
             </div>
         </div>
     </div>
