@@ -32,26 +32,23 @@ export class SignupComponent {
         orderHistory_ids: []
       };
 
-      if (!this.authService.checkEmail(this.email)){
-        this.authService.signup(user).subscribe(
-          response => {
-            console.log('Sign up successful!', response);
-            this.router.navigate(['/login']);
-          },
-          error => {
-            console.error('Sign up unsuccessful!', error);
-          }
-        );
-      } else {
-        console.log('Email is exist');
-      }
-      
-      
+      this.authService.checkEmail(this.email).subscribe(emailExists => {
+        if (!emailExists) {
+          this.authService.signup(user).subscribe(
+            response => {
+              console.log('Sign up successful!', response);
+              this.router.navigate(['/login']);
+            },
+            error => {
+              console.error('Sign up unsuccessful!', error);
+            }
+          );
+        } else {
+          console.log('Email already exists');
+        }
+      });
     } else {
       console.log('Form is invalid');
     }
-    
-  
-    
   }
 }
