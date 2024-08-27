@@ -44,11 +44,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.disable())
+
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/signup", "/auth/login", "/auth/logout").permitAll() // Allow public access to these endpoints
-                        .requestMatchers("/users/**").authenticated() // Require authentication for user endpoints
-                        .requestMatchers("/auth/admin/**").hasRole("ADMIN") // Require ADMIN role for admin endpoints
+                        .requestMatchers("/auth/signup", "/auth/login", "/auth/logout", "/auth/users", "/users/email/**", "/auth/**").permitAll() // Public endpoints
+                        .requestMatchers("/auth/admin/**").hasRole("ADMIN") // Admin-only endpoint
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class) // Add JWT filter
@@ -80,13 +80,10 @@ public class SecurityConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:4200")
-                        .allowedMethods(HttpMethod.GET.name(),
-                                HttpMethod.POST.name(),
-                                HttpMethod.DELETE.name())
-                        .allowedHeaders(HttpHeaders.CONTENT_TYPE,
-                                HttpHeaders.AUTHORIZATION);
+                        .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS")
+                        .allowedHeaders(HttpHeaders.CONTENT_TYPE, HttpHeaders.AUTHORIZATION)
+                        .allowCredentials(true);
             }
         };
-
     }
 }
