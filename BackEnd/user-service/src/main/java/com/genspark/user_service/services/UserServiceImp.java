@@ -55,6 +55,10 @@ public class UserServiceImp implements UserService{
         return userRepository.findByEmail(email).isPresent();
     }
 
+    public User getUserByEmail(String email){
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
     public boolean deleteUser(String id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);

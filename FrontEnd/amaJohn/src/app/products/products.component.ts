@@ -35,10 +35,9 @@ export class ProductsComponent {
     return price.toFixed(2);
   }
 
-  selectItem(productId: string){
-    this.router.navigateByUrl(`/products/${productId}`).then(() => {
-      window.location.reload();
-    });
+  selectItem(event: Event, productId: string){
+    event.preventDefault();
+    this.router.navigate([`/products/${productId}`]);
   }
 
 

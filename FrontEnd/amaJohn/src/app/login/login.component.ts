@@ -22,8 +22,10 @@ export class LoginComponent {
 
     this.authService.login(user).subscribe(
       (response) => {
-        console.log('Login successful!', response);
-        this.router.navigate(['/']); // Redirect to the dashboard or another route after successful login
+        console.log('Login successful!');
+        this.router.navigateByUrl(`/`).then(() => {
+          window.location.reload();
+        });
       },
       (error) => {
         console.error('Login failed!', error);
