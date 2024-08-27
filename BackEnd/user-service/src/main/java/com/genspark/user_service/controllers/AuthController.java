@@ -109,12 +109,31 @@ public class AuthController {
             if (username != null){
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
+
                 if (jwtUtil.validateToken(token, userDetails)){
-                    return ResponseEntity.ok("Token is valid");
+
+                    User user = userService.getUserByEmail(username);
+
+                    Map<String, Object> response = new HashMap<>();
+                    response.put("firstName", user.getFirst_name());
+                    response.put("lastName", user.getLast_name());
+                    response.put("email", user.getEmail());
+                    response.put("role", user.getRole());
+                    response.put("rewardPoints", user.getReward_points());
+                    response.put("orderHistory", user.getOrderHistory_ids());
+                    response.put("status", "Token is valid");
+
+                    return ResponseEntity.ok(response);
                 }
             }
         }
         // Token is invalid or not present
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("status", "error");
+        errorResponse.put("message", "Token is invalid or expired");
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
+
+
 }
