@@ -1,11 +1,13 @@
 package com.genspark.user_service.controllers;
 
 
+import brave.Response;
 import com.genspark.user_service.entities.AuthRequest;
 import com.genspark.user_service.entities.User;
 import com.genspark.user_service.services.UserService;
 import com.genspark.user_service.util.JwtUtil;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -32,6 +36,9 @@ public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
 
 
@@ -80,5 +87,34 @@ public class AuthController {
         response.addCookie(cookie);
 
         return ResponseEntity.ok("Logout successful");
+    }
+
+    @GetMapping("/verify-token")
+    public ResponseEntity<?> verifyToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String token = null;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies ){
+                if ("JWT".equals(cookie.getName())){
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        if (token != null) {
+            // Extract username from token if any
+            String username = jwtUtil.extractUsername(token);
+            if (username != null){
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+                if (jwtUtil.validateToken(token, userDetails)){
+                    return ResponseEntity.ok("Token is valid");
+                }
+            }
+        }
+        // Token is invalid or not present
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
     }
 }

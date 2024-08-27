@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,13 @@ export class AuthService {
     let jwt = localStorage.getItem('jwt');
     let headers = new HttpHeaders();
     return headers.set('Authorization', 'Bearer' + jwt)
+  }
+
+  verifyToken(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/auth/verify-token`, {
+      withCredentials: true, // ensure cookies are sent with request
+      observe: 'response'
+    })
   }
 
 }
