@@ -46,8 +46,9 @@ public class UserController {
     }
 
     @GetMapping("/email")
-    public ResponseEntity<Boolean> getEmail(@RequestBody String email) {
-        return ResponseEntity.ok(userService.getUserEmail(email));
+    public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
+        boolean exists = userService.emailExists(email);
+        return ResponseEntity.ok(exists);
     }
 
 //  Updates an existing user.

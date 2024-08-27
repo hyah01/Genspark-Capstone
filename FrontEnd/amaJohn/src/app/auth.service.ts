@@ -23,6 +23,17 @@ export class AuthService {
     });
   }
 
+  login(user: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post(`${this.baseUrl}/auth/login`, user, {
+      headers: headers,
+      withCredentials: true,
+    });
+  }
+
   checkEmail(email: string) {
     return this.http.get(`${this.baseUrl}/users`, {
       params: { email: email}
