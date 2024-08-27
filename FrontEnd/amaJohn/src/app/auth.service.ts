@@ -31,11 +31,12 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/auth/login`, user, {
       headers: headers,
       withCredentials: true,
+      observe: 'response', // Observe response to get more detailed info
     });
   }
 
   checkEmail(email: string) {
-    return this.http.get(`${this.baseUrl}/users`, {
+    return this.http.get(`${this.baseUrl}/users/email`, {
       params: { email: email}
     });
   }

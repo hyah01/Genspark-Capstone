@@ -12,5 +12,6 @@ public interface UserService {
     boolean deleteUser(String id);
     boolean getUserEmail(String email);
     UserInfoDetails loadUserByUsername(String email);
+    boolean emailExists(String email);
 
 }

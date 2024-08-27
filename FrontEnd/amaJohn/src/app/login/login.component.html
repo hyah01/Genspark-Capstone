@@ -4,7 +4,7 @@
         <h2 class="font-bold text-4xl ">Login</h2>
         <p class="text-xs mt-4 ">If you are already have an account, log in: </p>
   
-        <form action="" class="flex flex-col gap-4">
+        <form (ngSubmit)="login()" #loginForm="ngForm" class="flex flex-col gap-4">
           <input class="p-2 mt-4 rounded-xl border" type="email" name="email" placeholder="Email">
           <div class="relative">
             <input class="p-2 rounded-xl border w-full" type="password" name="password" placeholder="Password">
