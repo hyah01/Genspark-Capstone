@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Price {
-    private double amount;
+    private Double amount;
     private String currency;
     private Saving saving;
 }

@@ -24,7 +24,8 @@ public class Product {
     @Field("product_description")
     private List<String> productDescription;
     private List<String> category;
-    private int quantity;
+    private Integer quantity;
+    @Field("price")
     private Price price;
     private List<String> image;
     @Field("review_ids")
