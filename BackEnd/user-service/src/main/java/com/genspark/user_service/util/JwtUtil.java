@@ -8,7 +8,11 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +20,39 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
+
+    private SecretKey Key;
+    private static final long EXPIRATION_TIME = 86400000; // 24 hours
+
+
+    public JwtUtil() {
+        String secretString = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
+        byte [] keyBytes = Base64.getDecoder().decode(secretString.getBytes(StandardCharsets.UTF_8));
+        this.Key = new SecretKeySpec(keyBytes, "HmacSHA256");
+    }
+
+//    public String generateToken(UserDetails userDetails){
+//        return Jwts.builder()
+//                .setSubject(userDetails.getUsername())
+//                .setIssuedAt(new Date(System.currentTimeMillis()))
+//                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+//                .signWith(Key)
+//                .compact();
+//    }
+//
+//    public String generateRefreshToken(HashMap<String, Object> claims, UserDetails userDetails){
+//        return Jwts.builder()
+//                .setClaims(claims)
+//                .setSubject(userDetails.getUsername())
+//                .setIssuedAt(new Date(System.currentTimeMillis()))
+//                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+//                .signWith(Key)
+//                .compact();
+//    }
+
+
+
+
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
     public String generateToken(String userName) {
         Map<String, Object> claims = new HashMap<>();
@@ -27,9 +64,10 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(userName)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
+
 
     private Key getSignKey() {
         byte[] keyBytes= Decoders.BASE64.decode(SECRET);
