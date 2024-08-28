@@ -9,12 +9,13 @@ import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 
 const routes: Routes = [
-  {path:"", component: HomepageComponent},
   {path:"login", component: LoginComponent},
   {path:"register", component: SignupComponent},
   {path: "products", component: ProductsComponent},
   {path: 'shopping-cart', component: ShoppingCartComponent},
   {path: 'products/:id', component: ProductDetailComponent},
+  {path:"", component: HomepageComponent},
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
 ];
 
 

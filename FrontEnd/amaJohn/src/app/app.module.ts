@@ -7,7 +7,7 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withFetch } from '@angular/common/http';
 import { HomepageComponent } from './homepage/homepage.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { ProductsComponent } from './products/products.component';
@@ -16,6 +16,7 @@ import { SignupComponent } from './signup/signup.component';
 import { FooterComponent } from './footer/footer.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { JwtService } from './interceptors/jwt.service';
 
 @NgModule({
   declarations: [
