@@ -35,8 +35,7 @@ export class ProductsComponent {
     return price.toFixed(2);
   }
 
-  selectItem(event: Event, productId: string){
-    event.preventDefault();
+  selectItem(productId: string){
     this.router.navigate([`/products/${productId}`]);
   }
 

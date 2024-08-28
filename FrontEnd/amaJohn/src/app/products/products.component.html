@@ -11,7 +11,7 @@
                 <img src="{{item.image}}" alt="" class="image-size hover:cursor-pointer">
             </div>
             <div class="product-desc">
-                <span class="title text-[25px] hover:text-[#5ac4e7] hover:cursor-pointer" (click)="selectItem($event, item.id)">{{item.productName}}</span>
+                <span class="title text-[25px] hover:text-[#5ac4e7] hover:cursor-pointer" (click)="selectItem(item.id)">{{item.productName}}</span>
                 <!-- TO DO -->
                 <div *ngIf="item.review"></div>
                 <div class="price-sale flex gap-3">
