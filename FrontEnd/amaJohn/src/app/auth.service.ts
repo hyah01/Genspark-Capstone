@@ -9,9 +9,8 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 export class AuthService {
 
   
-  private BASE_URL = "http://localhost:8082"
-  private loggedIn = new BehaviorSubject<boolean>(false);
-  private userDetails = new BehaviorSubject<any>(null);
+  private BASE_URL = "http://localhost:8082";
+  private BASE_URL_CART = "http://localhost:8083"
 
   constructor(private http: HttpClient, private route: Router) {}
 
@@ -33,11 +32,25 @@ export class AuthService {
           'Content-Type': 'application/json',
         });
     try {
-      const response = this.http.post<any>(url, userData, {headers} ).toPromise()
+      const response = this.http.post<any>(url, userData, {headers} ).toPromise()  
       return response;
     } catch (error) {
       throw error;
     }
+  }
+
+  async addCart(userId: string): Promise<any>{
+    const url = `${this.BASE_URL_CART}/cart`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    try {
+      const response = this.http.post<any>(url, userId, {headers} ).toPromise();
+      return  response;
+    }catch (error) {
+      throw error;
+    }
+    
   }
 
   async getAllUsers(token:string): Promise<any>{

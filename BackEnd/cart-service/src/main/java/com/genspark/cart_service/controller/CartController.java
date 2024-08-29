@@ -1,8 +1,10 @@
 package com.genspark.cart_service.controller;
 
 
+import com.genspark.cart_service.dto.CartReqRes;
 import com.genspark.cart_service.model.Cart;
 import com.genspark.cart_service.services.CartService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,27 @@ public class CartController {
 
 
     @PostMapping // add to the database when account created
-    public Cart add(@RequestBody Cart cart){ return service.addCart(cart);}
+    public ResponseEntity<CartReqRes> add(@RequestBody CartReqRes reg){
+        CartReqRes reqRes = new CartReqRes();
+        try {
+            Cart cart = new Cart();
+            cart.setUserId(reg.getUserId());
+            cart.setCartOrder(reg.getCartOrder());
+            Cart result = service.addCart(cart);
+            if (result.getId() != null && !result.getId().isEmpty()){
+                reqRes.setCart(cart);
+                reqRes.setMessage("Successfully Created Cart");
+                reqRes.setStatusCode(200);
+            } else {
+                reqRes.setStatusCode(500);
+                reqRes.setMessage("Unsuccessfully Created Cart");
+            }
+        } catch (Exception e) {
+            reqRes.setStatusCode(500);
+            reqRes.setMessage("Error: " + e);
+        }
+        return ResponseEntity.ok(reqRes);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Cart> getCartByID(@PathVariable String id) {

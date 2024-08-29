@@ -38,7 +38,14 @@ export class SignupComponent {
           try {
             const response = await this.authService.signup(user);
             if (response.statusCode === 200){
-              this.router.navigate(["/login"]);
+              try{
+                const cartResponse = await this.authService.addCart(response.user.id);
+                if (cartResponse.statusCode === 200){
+                  return response;
+                }
+              } catch (error: any){
+                this.showError("Problem Creating User Cart")
+              }
             } else {
               this.showError(response.message);
             }

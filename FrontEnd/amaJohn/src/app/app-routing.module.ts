@@ -7,12 +7,13 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { userGuard } from './auth.guard';
 
 const routes: Routes = [
   {path:"login", component: LoginComponent},
   {path:"register", component: SignupComponent},
   {path: "products", component: ProductsComponent},
-  {path: 'shopping-cart', component: ShoppingCartComponent},
+  {path: 'cart', component: ShoppingCartComponent, canActivate: [userGuard]},
   {path: 'products/:id', component: ProductDetailComponent},
   {path:"", component: HomepageComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},
