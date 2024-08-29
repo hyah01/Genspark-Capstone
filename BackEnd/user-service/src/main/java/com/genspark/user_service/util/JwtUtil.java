@@ -31,26 +31,6 @@ public class JwtUtil {
         this.Key = new SecretKeySpec(keyBytes, "HmacSHA256");
     }
 
-//    public String generateToken(UserDetails userDetails){
-//        return Jwts.builder()
-//                .setSubject(userDetails.getUsername())
-//                .setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-//                .signWith(Key)
-//                .compact();
-//    }
-//
-//    public String generateRefreshToken(HashMap<String, Object> claims, UserDetails userDetails){
-//        return Jwts.builder()
-//                .setClaims(claims)
-//                .setSubject(userDetails.getUsername())
-//                .setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-//                .signWith(Key)
-//                .compact();
-//    }
-
-
 
 
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";

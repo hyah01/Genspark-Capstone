@@ -49,27 +49,4 @@ export class LoginComponent {
     }, 3000)
   }
 
-
-
-  // login() {
-  //   const user = {
-  //     email: this.email,
-  //     password: this.password,
-  //   };
-
-  //   this.authService.login(user).subscribe(
-  //     (response) => {
-  //       console.log('Login successful!');
-  //       this.router.navigateByUrl(`/`).then(() => {
-  //         window.location.reload();
-  //       });
-  //     },
-  //     (error) => {
-  //       console.error('Login failed!', error);
-       
-  //     }
-  //   );
-  // }
-
-
 }

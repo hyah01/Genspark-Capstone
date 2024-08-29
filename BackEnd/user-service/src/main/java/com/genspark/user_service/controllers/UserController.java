@@ -51,5 +51,7 @@ public class UserController {
         return ResponseEntity.ok(userManagementService.deleteUser(userId));
     }
 
+    // TO DO ADD DELETE USER BY USER
+
 
 }
