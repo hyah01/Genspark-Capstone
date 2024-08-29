@@ -6,22 +6,16 @@
         <app-search-bar></app-search-bar>
     </div>
     <div>
-        <ng-container *ngIf="loggedIn; else signIn">
-          <a href=""><h3>My Profile</h3></a>
-        </ng-container>
-        <ng-template #signIn>
-          <a href="/login"><h3>Sign In</h3></a>
-        </ng-template>
+        <h3 *ngIf = "isAuthenticated"><a routerLink = "/profile">My Profile</a></h3>
+        <h3 *ngIf = "!isAuthenticated"><a routerLink = "/login">SignIn</a></h3>
       </div>
     <div>
-        <h3>My Orders</h3>
+        <h3 *ngIf = "isAuthenticated"><a routerLink = "/profile">My Orders</a></h3>
     </div>
     <div>
-        <h2>Cart</h2>
+        <h3 *ngIf = "isAuthenticated"><a routerLink = "/profile">My Cart</a></h3>
     </div>
     <div>
-        <ng-container *ngIf="loggedIn">
-            <a (click)="logout()" href=""><h3>Signout</h3></a>
-        </ng-container>
+        <h3 *ngIf = "isAuthenticated"><a routerLink = "" (click)="logout()">SignOut</a></h3>
     </div>
 </div>

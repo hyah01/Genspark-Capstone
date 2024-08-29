@@ -17,10 +17,11 @@ export class SignupComponent {
   lastname: string = '';
   email: string = '';
   password: string = '';
+  errorMessage: string = '';
 
   constructor(private authService: AuthService, private router: Router, private http: HttpClient) {}
 
-  signup(form: NgForm) {
+  async signup(form: NgForm) {
     if (form.valid) {
       const user = {
         first_name: this.firstname,
@@ -32,23 +33,39 @@ export class SignupComponent {
         orderHistory_ids: []
       };
 
-      this.authService.checkEmail(this.email).subscribe(emailExists => {
+      this.authService.checkEmail(this.email).subscribe(async emailExists => {
         if (!emailExists) {
-          this.authService.signup(user).subscribe(
-            response => {
-              console.log('Sign up successful!', response);
-              this.router.navigate(['/login']);
-            },
-            error => {
-              console.error('Sign up unsuccessful!', error);
+          try {
+            const response = await this.authService.signup(user);
+            if (response.statusCode === 200){
+              this.router.navigate(["/login"]);
+            } else {
+              this.showError(response.message);
             }
-          );
+
+          } catch (error: any){
+            this.showError(error.message);
+          }
         } else {
-          console.log('Email already exists');
+          this.showError('Email already exists');
+          return
         }
       });
     } else {
-      console.log('Form is invalid');
+      if (form.controls['email'].invalid) {
+        this.showError('Please enter a valid email address');
+      } else {
+        this.showError('Please fill in all fields');
+      }
+      
+      return
     }
+  }
+
+  showError(message: string) {
+    this.errorMessage = message;
+    setTimeout(() => {
+      this.errorMessage = ''
+    }, 3000)
   }
 }

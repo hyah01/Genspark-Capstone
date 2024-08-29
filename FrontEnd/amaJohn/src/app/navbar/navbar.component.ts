@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -8,24 +8,23 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  loggedIn: boolean = false;
+  isAuthenticated: boolean = false;
+  isAdmin:boolean = false;
+  isUser:boolean = false;
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.authService.isLoggedIn().subscribe(
-      (status: boolean) => {
-        this.loggedIn = status;
-      }
-    );
-
-    //this.authService.verifyToken().subscribe();
+  ngOnInit(): void{ 
+    this.isAuthenticated = this.authService.isAuthenicated();
+    this.isAdmin = this.authService.isAdmin();
+    this.isUser = this.authService.isUser();
   }
 
-  logout(): void {
-    this.authService.logout().subscribe(() => {
-      console.log('User logged out');
-      // Optionally redirect to login page or perform other actions
-    });
+  logout():void {
+    this.authService.logOut();
+    this.isAuthenticated = false;
+    this.isAdmin = false;
+    this.isUser = false;
   }
+
 }
