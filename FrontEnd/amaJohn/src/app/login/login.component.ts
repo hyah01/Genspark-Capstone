@@ -27,9 +27,14 @@ export class LoginComponent {
     try {
       const response = await this.authService.login(this.email, this.password);
       if (response.statusCode === 200){
+        localStorage.setItem('token', response.token)
+        localStorage.setItem('role', response.role)
+        this.router.navigateByUrl("/").then(() => 
+          window.location.reload()
+        )
 
       } else {
-        this.email
+        this.showError(response.message)
       }
 
     } catch (error: any){

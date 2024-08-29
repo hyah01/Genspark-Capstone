@@ -27,11 +27,11 @@ export class AuthService {
     }
   }
 
-  async signup(userData: any, token:string): Promise<any>{
+  async signup(userData: any): Promise<any>{
     const url = `${this.BASE_URL}/auth/signup`;
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    })
+          'Content-Type': 'application/json',
+        });
     try {
       const response = this.http.post<any>(url, userData, {headers} ).toPromise()
       return response;
@@ -137,7 +137,7 @@ export class AuthService {
   }
 
   checkEmail(email: string) {
-      return this.http.get(`${this.BASE_URL}/users/email`, {
+      return this.http.get(`${this.BASE_URL}/auth/email`, {
         params: { email: email}
       });
     }

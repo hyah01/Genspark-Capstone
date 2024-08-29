@@ -2,9 +2,9 @@
     <div class=" flex rounded-2xl shadow-lg max-w-3xl p-5 items-center border-2 ">
       <div class="md:w-1/2 px-2 md:px-16">
         <h2 class="font-bold text-4xl ">Login</h2>
-        <p class="text-xs mt-4 ">If you are already have an account, log in: </p>
+        <p *ngIf="errorMessage" class="text-red-600  ">{{errorMessage}}</p>
   
-        <form (ngSubmit)="login()" #loginForm="ngForm" class="flex flex-col gap-4">
+        <form (ngSubmit)="handleSubmit()" #loginForm="ngForm" class="flex flex-col gap-4">
           <input class="p-2 mt-4 rounded-xl border" [(ngModel)]="email" type="email" name="email" placeholder="Email">
           <div class="relative">
             <input class="p-2 rounded-xl border w-full" [(ngModel)]="password" type="password" name="password" placeholder="Password">
