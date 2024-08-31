@@ -41,11 +41,10 @@ export class SignupComponent {
               try{
                 const cartResponse = await this.authService.addCart(response.user.id);
                 if (cartResponse.statusCode === 200){
-                  return response;
+                  return response.then(this.router.navigate(["/login"]));
                 }
               } catch (error: any){
                 this.showError("Problem Creating User Cart: " + error.message)
-                console.log(error)
               }
             } else {
               this.showError(response.message);
@@ -55,7 +54,7 @@ export class SignupComponent {
             if (error.error instanceof ErrorEvent) {
                 this.showError(error.error.message);
             } else {
-                // Handle non-JSON response
+                // Handle non-JSON response 
                 try {
                     const errorText = await error.text();
                     this.showError(errorText);
