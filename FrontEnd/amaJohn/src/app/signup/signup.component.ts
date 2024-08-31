@@ -38,14 +38,31 @@ export class SignupComponent {
           try {
             const response = await this.authService.signup(user);
             if (response.statusCode === 200){
-              this.router.navigate(["/login"]);
+              try{
+                const cartResponse = await this.authService.addCart(response.user.id);
+                if (cartResponse.statusCode === 200){
+                  return response.then(this.router.navigate(["/login"]));
+                }
+              } catch (error: any){
+                this.showError("Problem Creating User Cart: " + error.message)
+              }
             } else {
               this.showError(response.message);
             }
 
-          } catch (error: any){
-            this.showError(error.message);
-          }
+          } catch (error: any) {
+            if (error.error instanceof ErrorEvent) {
+                this.showError(error.error.message);
+            } else {
+                // Handle non-JSON response 
+                try {
+                    const errorText = await error.text();
+                    this.showError(errorText);
+                } catch (e) {
+                    this.showError('Unknown error occurred');
+                }
+            }
+        }
         } else {
           this.showError('Email already exists');
           return

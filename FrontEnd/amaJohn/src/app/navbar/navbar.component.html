@@ -6,16 +6,16 @@
         <app-search-bar></app-search-bar>
     </div>
     <div>
-        <h3 *ngIf = "isAuthenticated"><a routerLink = "/profile">My Profile</a></h3>
-        <h3 *ngIf = "!isAuthenticated"><a routerLink = "/login">SignIn</a></h3>
+        <a *ngIf = "isAuthenticated" routerLink = "/profile" class="navLink ">My Profile</a>
+       <a *ngIf = "!isAuthenticated" routerLink = "/login" class="navLink">SignIn</a>
       </div>
     <div>
-        <h3 *ngIf = "isAuthenticated"><a routerLink = "/profile">My Orders</a></h3>
+        <a *ngIf = "isAuthenticated" routerLink = "/profile" class="navLink">My Orders</a>
     </div>
     <div>
-        <h3 *ngIf = "isAuthenticated"><a routerLink = "/profile">My Cart</a></h3>
+        <a *ngIf = "isAuthenticated" routerLink = "/cart" class="navLink">My Cart</a>
     </div>
     <div>
-        <h3 *ngIf = "isAuthenticated"><a routerLink = "" (click)="logout()">SignOut</a></h3>
+        <a *ngIf = "isAuthenticated" routerLink = "" (click)="logout()" class="navLink">SignOut</a>
     </div>
 </div>

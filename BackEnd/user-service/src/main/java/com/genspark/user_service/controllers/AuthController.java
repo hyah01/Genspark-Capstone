@@ -5,6 +5,7 @@ import brave.Response;
 import com.genspark.user_service.dto.ReqRes;
 import com.genspark.user_service.entities.AuthRequest;
 import com.genspark.user_service.entities.User;
+import com.genspark.user_service.repositories.UserRepository;
 import com.genspark.user_service.services.UserManagementService;
 import com.genspark.user_service.services.UserService;
 import com.genspark.user_service.util.JwtUtil;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -39,13 +41,10 @@ public class AuthController {
     private UserService userService;
 
     @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    UserRepository userRepository;
 
 
 
@@ -65,6 +64,10 @@ public class AuthController {
         return ResponseEntity.ok(exists);
     }
 
+    @GetMapping("/user/{username}")
+    public Optional<User> loadUser(@PathVariable String username){
+        return userRepository.findByEmail(username);
+    }
 
 
 
