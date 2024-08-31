@@ -44,15 +44,26 @@ export class SignupComponent {
                   return response;
                 }
               } catch (error: any){
-                this.showError("Problem Creating User Cart")
+                this.showError("Problem Creating User Cart: " + error.message)
+                console.log(error)
               }
             } else {
               this.showError(response.message);
             }
 
-          } catch (error: any){
-            this.showError(error.message);
-          }
+          } catch (error: any) {
+            if (error.error instanceof ErrorEvent) {
+                this.showError(error.error.message);
+            } else {
+                // Handle non-JSON response
+                try {
+                    const errorText = await error.text();
+                    this.showError(errorText);
+                } catch (e) {
+                    this.showError('Unknown error occurred');
+                }
+            }
+        }
         } else {
           this.showError('Email already exists');
           return

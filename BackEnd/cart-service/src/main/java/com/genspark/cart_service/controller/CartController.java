@@ -40,7 +40,7 @@ public class CartController {
             reqRes.setStatusCode(500);
             reqRes.setMessage("Error: " + e);
         }
-        return ResponseEntity.ok(reqRes);
+        return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
     }
 
     @GetMapping("/{id}")

@@ -44,8 +44,12 @@ export class AuthService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
+    const body = {
+      userId: userId,
+      cartOrder: []
+    }
     try {
-      const response = this.http.post<any>(url, userId, {headers} ).toPromise();
+      const response = this.http.post<any>(url, body, {headers} ).toPromise();
       return  response;
     }catch (error) {
       throw error;
