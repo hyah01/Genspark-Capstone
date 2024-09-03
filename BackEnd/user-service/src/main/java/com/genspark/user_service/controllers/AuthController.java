@@ -56,12 +56,19 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<ReqRes> login(@RequestBody ReqRes reg) {
+        System.out.println(1);
         return ResponseEntity.ok(userManagementService.login(reg));
     }
     @GetMapping("/email")
     public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
         boolean exists = userService.emailExists(email);
         return ResponseEntity.ok(exists);
+    }
+
+    @GetMapping("/validate")
+    public String validateToken(@RequestParam("token") String token){
+        userManagementService.validateToken(token);
+        return "valid";
     }
 
     @GetMapping("/user/{username}")

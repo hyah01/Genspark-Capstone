@@ -48,16 +48,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        http.csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/users/email/**").permitAll() // Public endpoints
+                        .requestMatchers("/auth/**").permitAll() // Public endpoints
                         .requestMatchers("/admin/**").hasAnyAuthority("ADMIN") // Admin-only endpoint
                         .requestMatchers("/user/**").hasAnyAuthority("USER")
-                        .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER")
-                        .anyRequest().authenticated())
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
+                        .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER"))
+//                        .anyRequest().authenticated())
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Stateless sessions
+//                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
 

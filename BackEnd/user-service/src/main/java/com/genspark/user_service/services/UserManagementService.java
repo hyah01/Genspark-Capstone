@@ -5,6 +5,8 @@ import com.genspark.user_service.entities.User;
 import com.genspark.user_service.repositories.UserRepository;
 import com.genspark.user_service.util.JwtUtil;
 import com.netflix.discovery.converters.Auto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class UserManagementService {
@@ -28,6 +31,8 @@ public class UserManagementService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserManagementService.class);
 
     public ReqRes register(ReqRes registrationRequest){
         ReqRes resp = new ReqRes();
@@ -56,6 +61,7 @@ public class UserManagementService {
     }
 
     public ReqRes login(ReqRes logginRequest){
+        logger.info("Getting into login");
         ReqRes response = new ReqRes();
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logginRequest.getEmail(), logginRequest.getPassword()));
@@ -206,6 +212,10 @@ public class UserManagementService {
         }
         return reqRes;
 
+    }
+
+    public void validateToken(String token){
+        jwtUtil.tokenValidate(token);
     }
 
 

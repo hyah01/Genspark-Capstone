@@ -28,7 +28,6 @@ spring:
           predicates:
             - Path=/auth/**
 
-
         #        API gateway for cart microservice
         - id: cart-service-cart
           uri: lb://cart-service

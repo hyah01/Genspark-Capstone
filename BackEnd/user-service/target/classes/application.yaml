@@ -8,3 +8,12 @@ spring:
       host: localhost
       port: 27017
       database: userDB
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+  file:
+    name: app.log
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} - %msg%n'
