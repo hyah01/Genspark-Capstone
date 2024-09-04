@@ -23,16 +23,22 @@ spring:
           uri: lb://user-service
           predicates:
             - Path=/users/**
+          filters:
+            - JWTFilter
         - id: user-service-auth
           uri: lb://user-service
           predicates:
             - Path=/auth/**
+          filters:
+            - JWTFilter
 
         #        API gateway for cart microservice
         - id: cart-service-cart
           uri: lb://cart-service
           predicates:
             - Path=/cart/**
+          filters:
+            - JWTFilter
         - id: cart-service-cartorder
           uri: lb://cart-service
           predicates:

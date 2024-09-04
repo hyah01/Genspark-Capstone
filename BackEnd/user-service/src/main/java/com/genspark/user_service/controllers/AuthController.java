@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/auth")
 public class AuthController {
 
@@ -71,10 +71,6 @@ public class AuthController {
         return "valid";
     }
 
-    @GetMapping("/user/{username}")
-    public Optional<User> loadUser(@PathVariable String username){
-        return userRepository.findByEmail(username);
-    }
 
 
 

@@ -12,10 +12,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Component
@@ -34,8 +31,9 @@ public class JwtUtil {
 
 
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
-    public String generateToken(String userName) {
+    public String generateToken(String userName, List<String> roles) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("roles", roles);  // Set the roles in the claims
         return createToken(claims, userName);
     }
 

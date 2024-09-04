@@ -17,6 +17,6 @@ import java.util.List;
 public class Cart {
     @Id
     private String id;
-    private String userId; // To know which user the cart belong to
+    private String email; // To know which user the cart belong to
     private List<CartOrder> cartOrder; // Contain all items user added to their cart
 }

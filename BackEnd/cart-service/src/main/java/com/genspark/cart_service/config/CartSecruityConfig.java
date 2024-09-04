@@ -27,9 +27,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class CartSecruityConfig {
 
     @Autowired
-    private CartJwtAutFilter authFilter;
-
-    @Autowired
     UserClient repository;
 
     @Bean
@@ -39,21 +36,17 @@ public class CartSecruityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
+        http
+                .csrf(csrf -> csrf.disable()) // Disable CSRF since we are stateless
+                .cors(Customizer.withDefaults()) // Enable CORS with default settings
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/cart/**", "/cart").permitAll() // Public endpoints
-                        .requestMatchers("/auth/user/**").permitAll()
-//                        .requestMatchers("/admin/**").hasAnyAuthority("ADMIN") // Admin-only endpoint
-//                        .requestMatchers("/user/**").hasAnyAuthority("USER")
-//                        .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER")
-//                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // No session creation
+                );
 
         return http.build();
-
     }
 
     @Bean

@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,8 +67,8 @@ public class UserManagementService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logginRequest.getEmail(), logginRequest.getPassword()));
             var user = userRepository.findByEmail(logginRequest.getEmail()).orElseThrow();
-            var jwt = jwtUtil.generateToken(user.getEmail());
-            var refreshToken = jwtUtil.generateToken(user.getEmail());
+            var jwt = jwtUtil.generateToken(user.getEmail(), Arrays.asList(user.getRole()));
+            var refreshToken = jwtUtil.generateToken(user.getEmail(),Arrays.asList(user.getRole()));
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setRole(user.getRole());
@@ -88,7 +89,7 @@ public class UserManagementService {
             String email = jwtUtil.extractUsername(refreshTokenRequest.getToken());
             User user = userRepository.findByEmail(email).orElseThrow();
             if (jwtUtil.validateToken(refreshTokenRequest.getToken(), user)) {
-                var jwt = jwtUtil.generateToken(user.getEmail());
+                var jwt = jwtUtil.generateToken(user.getEmail(),Arrays.asList(user.getRole()));
                 response.setStatusCode(200);
                 response.setToken(jwt);
                 response.setRefreshToken(refreshTokenRequest.getToken());

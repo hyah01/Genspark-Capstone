@@ -52,12 +52,12 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll() // Public endpoints
-                        .requestMatchers("/admin/**").hasAnyAuthority("ADMIN") // Admin-only endpoint
-                        .requestMatchers("/user/**").hasAnyAuthority("USER")
-                        .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER"))
-//                        .anyRequest().authenticated())
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Stateless sessions
-//                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
+                        .requestMatchers("/users/admin/**").hasAnyAuthority("ADMIN") // Admin-only endpoint
+                        .requestMatchers("/users/user/**").hasAnyAuthority("USER")
+                        .requestMatchers("/users/adminuser/**").hasAnyAuthority("ADMIN", "USER")
+                        .anyRequest().authenticated())
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
 
