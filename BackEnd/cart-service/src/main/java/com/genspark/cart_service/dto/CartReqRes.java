@@ -14,7 +14,7 @@ import java.util.List;
 public class CartReqRes {
     private int statusCode;
     private String message;
-    private String userId;
+    private String email;
     private List<CartOrder> cartOrder;
     private Cart cart;
 }

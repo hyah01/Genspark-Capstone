@@ -9,6 +9,10 @@ public interface CartService {
 
     Cart addCart(Cart cart);
 
+    Cart getCartByEmail(String email);
+
+    Boolean hasCart(String email);
+
     String deleteCart(String cartId);
 
 

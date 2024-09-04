@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/auth")
 public class AuthController {
 
@@ -56,6 +56,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<ReqRes> login(@RequestBody ReqRes reg) {
+        System.out.println(1);
         return ResponseEntity.ok(userManagementService.login(reg));
     }
     @GetMapping("/email")
@@ -64,10 +65,12 @@ public class AuthController {
         return ResponseEntity.ok(exists);
     }
 
-    @GetMapping("/user/{username}")
-    public Optional<User> loadUser(@PathVariable String username){
-        return userRepository.findByEmail(username);
+    @GetMapping("/validate")
+    public String validateToken(@RequestParam("token") String token){
+        userManagementService.validateToken(token);
+        return "valid";
     }
+
 
 
 

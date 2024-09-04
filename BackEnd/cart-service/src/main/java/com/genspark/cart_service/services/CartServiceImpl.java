@@ -42,5 +42,13 @@ public class CartServiceImpl implements CartService{
         }
     }
 
+    @Override
+    public Cart getCartByEmail(String email) {
+        return repository.findByEmail(email).orElse(null);
+    }
 
+    @Override
+    public Boolean hasCart(String email){
+        return repository.findByEmail(email).isPresent();
+    }
 }

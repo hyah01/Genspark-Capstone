@@ -29,9 +29,27 @@ export class LoginComponent {
       if (response.statusCode === 200){
         localStorage.setItem('token', response.token)
         localStorage.setItem('role', response.role)
-        this.router.navigateByUrl("/").then(() => 
-          window.location.reload()
-        )
+        console.log(response)
+        const cartResponse = await this.authService.hasCart(this.email, response.token);
+          if (cartResponse.message == 'false'){
+          
+            try{
+            const cartResponse = await this.authService.addCart(this.email, response.token);
+            if (cartResponse.statusCode === 200){
+              this.router.navigateByUrl("/").then(() => 
+                window.location.reload()
+              )
+            }
+          } catch (error: any){
+            this.showError("Problem Creating User Cart: " + error.message)
+          }
+          } else {
+            this.router.navigateByUrl("/").then(() => 
+              window.location.reload()
+          )
+          }
+          
+
 
       } else {
         this.showError(response.message)

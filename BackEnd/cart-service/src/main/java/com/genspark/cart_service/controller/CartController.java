@@ -4,10 +4,19 @@ package com.genspark.cart_service.controller;
 import com.genspark.cart_service.dto.CartReqRes;
 import com.genspark.cart_service.model.Cart;
 import com.genspark.cart_service.services.CartService;
+import com.genspark.cart_service.services.CartUserInfoService;
+import com.genspark.cart_service.util.CartJwtUtil;
+import com.genspark.user_service.util.JwtUtil;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.apache.catalina.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +25,17 @@ import java.util.List;
 @RequestMapping("/cart")
 public class CartController {
 
+    private static final Logger logger = LoggerFactory.getLogger(CartController.class);
+
+
     @Autowired
     private CartService service;
+
+    @Autowired
+    private CartJwtUtil jwtUtil;
+
+    @Autowired
+    private CartUserInfoService cartUserInfoService;
 
 
     @PostMapping // add to the database when account created
@@ -25,7 +43,7 @@ public class CartController {
         CartReqRes reqRes = new CartReqRes();
         try {
             Cart cart = new Cart();
-            cart.setUserId(reg.getUserId());
+            cart.setEmail(reg.getEmail());
             cart.setCartOrder(reg.getCartOrder());
             Cart result = service.addCart(cart);
             if (result.getId() != null && !result.getId().isEmpty()){
@@ -52,6 +70,41 @@ public class CartController {
             return ResponseEntity.ok(cart);
         }
     }
+
+    @GetMapping("has-cart/{email}")
+    public ResponseEntity<CartReqRes> hasCart(@PathVariable String email){
+        CartReqRes reqRes = new CartReqRes();
+        reqRes.setMessage(service.hasCart(email).toString());
+        reqRes.setStatusCode(200);
+
+        return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
+    }
+
+    @GetMapping("/get-my-cart")
+    public ResponseEntity<Cart> getMyCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        try {
+            // Validate the token
+            String username = jwtUtil.extractUsername(token);
+            System.out.println(username);
+            if (username == null || jwtUtil.tokenValidate(token)) {
+                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+            }
+
+            // Fetch the cart
+            Cart cart = service.getCartByEmail(username); // Ensure this method is correctly implemented
+            return ResponseEntity.ok(cart);
+        } catch (Exception e) {
+            e.printStackTrace(); // Print stack trace for debugging
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
 
     @DeleteMapping("/{id}") // delete cart when account deleted
     public ResponseEntity<String> deleteById(@PathVariable String id){

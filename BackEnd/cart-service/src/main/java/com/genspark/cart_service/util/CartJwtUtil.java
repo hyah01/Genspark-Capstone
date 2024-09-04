@@ -13,6 +13,7 @@ import java.util.function.Function;
 
 @Component
 public class CartJwtUtil {
+
     private final String SECRET_KEY = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
     private Key getSignKey() {
@@ -49,5 +50,9 @@ public class CartJwtUtil {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    public Boolean tokenValidate(final String token){
+        return isTokenExpired(token);
     }
 }
