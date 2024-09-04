@@ -1,11 +1,19 @@
-<div class="relative left-10 translate-x-10 translate-y-10 divide-y divide-gray-400">
-  <div class="left-align relative flex flex-col pb-2 md:flex-row">
-    <p class="w-6/8 relative ml-1  divide-black text-nowrap pr-4 font-['Newsreader'] text-5xl">Shopping Cart </p>
+<div class="cart-page">
+  <div class="flex flex-col pb-1 md:flex-row pl-[80px] pt-[50px]">
+    <p class="w-6/8 relative ml-1 text-nowrap pr-4 font-['Newsreader'] text-5xl shopping-cart-title">
+      Shopping Cart
+    </p>
     <div class="w-64">
-      <p class="font-inter font-inter relative translate-x-2 font-light md:translate-y-5">x items</p>
+      <p class="font-inter font-light relative translate-x-2 md:translate-y-5">{{userCart.length}} items</p>
     </div>
   </div>
-  <div>
-    
+  <hr class="shopping-cart-separator"> <!-- Added separator line -->
+  <div class="cart grid row pb-[50px]">
+    <div class="cart-item">
+      Item details go here
+    </div>
+    <div class="cart-checkout col">
+      Checkout button goes here
+    </div>
   </div>
 </div>

@@ -59,7 +59,20 @@ export class AuthService {
 
 
   async hasCart(email: string, token: string):Promise<any>{
-    const url = `${this.BASE_URL}/cart/has-cart/email?email=` + email;
+    const url = `${this.BASE_URL}/cart/has-cart/` + email;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    try {
+      const response = this.http.get<any>(url, {headers} ).toPromise()
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getUserCart(token: string):Promise<any>{
+    const url = `${this.BASE_URL}/cart/get-my-cart`;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     })
