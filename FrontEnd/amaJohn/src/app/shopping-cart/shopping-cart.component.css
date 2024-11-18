@@ -1,0 +1,27 @@
+.cart {
+    display: grid;
+    grid-template-columns: 5% 70% 20% 5%;
+    gap: 10px; /* Optional: Adjusts space between the columns */
+}
+
+.cart-item {
+    grid-column: 2 / 3; /* Place in the second column (70%) */
+    background-color: #f8f8f8; /* Optional: Just for visual clarity */
+    min-height: 500px;
+}
+
+.cart-checkout {
+    grid-column: 3 / 4; /* Place in the third column (20%) */
+    display: flex;
+    align-items: center; /* Vertically centers content */
+    justify-content: center; /* Horizontally centers content */
+    background-color: #ccc; /* Optional: Just for visual clarity */
+}
+
+.shopping-cart-separator {
+    width: 90%;
+    margin-left: 80px;
+    border: 0;
+    border-bottom: 2px solid black;
+    margin-bottom: 20px;
+}
