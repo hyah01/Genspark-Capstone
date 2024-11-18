@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrl: './shopping-cart.component.css'
 })
 export class ShoppingCartComponent {
-  userInfo: any;
+  userCart: any;
   cart: any;
 
   constructor(private readonly auth: AuthService, private router: Router){}
@@ -20,13 +20,14 @@ export class ShoppingCartComponent {
         throw new Error('No Token Found')
       }
 
-      this.auth.getUserProfile(token).then(response => {
-        this.userInfo = response.user;
-      });
-      //console.log(this.userInfo);
+      this.getCart(token);
     } catch (error: any) {
       throw new Error(error)
     }
+  }
+
+  async getCart(token: string){
+    this.userCart = (await this.auth.getUserCart(token)).cartOrder;
   }
 
 }
