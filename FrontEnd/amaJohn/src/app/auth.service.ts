@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, lastValueFrom, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class AuthService {
   async login(email: string, password:string): Promise<any>{
     const url = `${this.BASE_URL}/auth/login`
     try {
-      const response = this.http.post<any>(url, {email, password} ).toPromise()
+      const response = await lastValueFrom(this.http.post<any>(url, {email, password} ));
       return response;
     } catch (error) {
       throw error;
@@ -31,7 +31,7 @@ export class AuthService {
           'Content-Type': 'application/json',
         });
     try {
-      const response = this.http.post<any>(url, userData, {headers} ).toPromise()  
+      const response = await lastValueFrom(this.http.post<any>(url, userData, {headers} ));
       return response;
     } catch (error) {
       throw error;
@@ -49,7 +49,7 @@ export class AuthService {
       cartOrder: []
     }
     try {
-      const response = this.http.post<any>(url, body, {headers} ).toPromise();
+      const response = await lastValueFrom(this.http.post<any>(url, body, {headers} ));
       return  response;
     }catch (error) {
       throw error;
@@ -64,7 +64,7 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     })
     try {
-      const response = this.http.get<any>(url, {headers} ).toPromise()
+      const response = await lastValueFrom(this.http.get<any>(url, {headers} ));
       return response;
     } catch (error) {
       throw error;
@@ -77,7 +77,7 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     })
     try {
-      const response = this.http.get<any>(url, {headers} ).toPromise()
+      const response = await lastValueFrom(this.http.get<any>(url, {headers} ));
       return response;
     } catch (error) {
       throw error;
@@ -90,7 +90,7 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     })
     try {
-      const response = this.http.get<any>(url, {headers} ).toPromise()
+      const response = await lastValueFrom(this.http.get<any>(url, {headers} ));
       return response;
     } catch (error) {
       throw error;
@@ -103,7 +103,7 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     })
     try {
-      const response = this.http.get<any>(url, {headers} ).toPromise()
+      const response = await lastValueFrom(this.http.get<any>(url, {headers} ));
       return response;
     } catch (error) {
       throw error;
@@ -116,7 +116,7 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     })
     try {
-      const response = this.http.get<any>(url, {headers} ).toPromise()
+      const response = await lastValueFrom(this.http.get<any>(url, {headers} ));
       return response;
     } catch (error) {
       throw error;
@@ -129,7 +129,7 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     })
     try {
-      const response = this.http.delete<any>(url, {headers} ).toPromise()
+      const response = await lastValueFrom(this.http.delete<any>(url, {headers} ));
       return response;
     } catch (error) {
       throw error;
@@ -142,7 +142,7 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     })
     try {
-      const response = this.http.put<any>(url, userData, {headers} ).toPromise()
+      const response = await lastValueFrom(this.http.put<any>(url, userData, {headers} ));
       return response;
     } catch (error) {
       throw error;
