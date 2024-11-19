@@ -9,6 +9,8 @@ public interface CartService {
 
     Cart addCart(Cart cart);
 
+    Cart updateCart(Cart cart);
+
     Cart getCartByEmail(String email);
 
     Boolean hasCart(String email);

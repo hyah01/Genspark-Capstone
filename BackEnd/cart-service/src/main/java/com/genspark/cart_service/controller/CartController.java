@@ -3,6 +3,7 @@ package com.genspark.cart_service.controller;
 
 import com.genspark.cart_service.dto.CartReqRes;
 import com.genspark.cart_service.model.Cart;
+import com.genspark.cart_service.model.CartOrder;
 import com.genspark.cart_service.services.CartService;
 import com.genspark.cart_service.services.CartUserInfoService;
 import com.genspark.cart_service.util.CartJwtUtil;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -97,7 +99,7 @@ public class CartController {
             }
 
             // Fetch the cart
-            Cart cart = service.getCartByEmail(username); // Ensure this method is correctly implemented
+            Cart cart = service.getCartByEmail(username);
             return ResponseEntity.ok(cart);
         } catch (Exception e) {
             e.printStackTrace(); // Print stack trace for debugging
@@ -113,6 +115,49 @@ public class CartController {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok(string);
+        }
+    }
+
+    @PutMapping("/add-item") // Add a single order to the databased
+    public ResponseEntity<CartOrder> add(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartOrder cartOrder){
+        // TO DO: Make this more module by making token validation and getting user name to be a method
+        // Move all the logic to the services
+
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        try {
+            // Validate the token
+            String username = jwtUtil.extractUsername(token);
+            System.out.println(username);
+            if (username == null || jwtUtil.tokenValidate(token)) {
+                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+            }
+
+            // Fetch the cart
+            Cart cart = service.getCartByEmail(username);
+            boolean flag = true;
+            // check if product inside
+            for (CartOrder order: cart.getCartOrder()){
+                System.out.println(cartOrder.getProductId());
+                if (order.getProductId().equals(cartOrder.getProductId())){
+                    flag = false;
+                    order.setQuantity(order.getQuantity() + cartOrder.getQuantity());
+                    break;
+                }
+            }
+            if (flag){
+                cart.getCartOrder().add(cartOrder);
+            }
+            service.updateCart(cart);
+
+            return ResponseEntity.ok(cartOrder);
+        } catch (Exception e) {
+            e.printStackTrace(); // Print stack trace for debugging
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 

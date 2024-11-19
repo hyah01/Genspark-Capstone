@@ -12,11 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "cartOrder")
 public class CartOrder {
-    @Id
-    private String id;
-    private String cartId; // To know which User this cartOrder belong to
     private String productId;
     private Integer quantity;
 }

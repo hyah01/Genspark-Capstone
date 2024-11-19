@@ -84,6 +84,25 @@ export class AuthService {
     }
   }
 
+  async addToUserCart(token: string, id: string, quanitty: number):Promise<any>{
+    const url = `${this.BASE_URL}/cart/add-item`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    })
+    const cart = (await this.getUserCart(token)).id;
+    const body = {
+      productId: id,
+      quantity: quanitty,
+    }
+    try {
+      const response = await lastValueFrom(this.http.put<any>(url,body, {headers} ));
+      return response;
+    }catch (error) {
+      throw error;
+    }
+  }
+
   async getAllUsers(token:string): Promise<any>{
     const url = `${this.BASE_URL}/admin/get-all-users`;
     const headers = new HttpHeaders({

@@ -3,6 +3,7 @@ import { Product } from '../models/product.model';
 import { ActivatedRoute } from '@angular/router';
 import { ProductServiceService } from '../services/product-service.service';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -16,8 +17,10 @@ export class ProductDetailComponent {
   faStar = faStar;
   stars = [1, 2, 3, 4, 5];
   rating = 0;
+  selectedQuantity: number = 1; // Default selected quantity
+  quantities: number[] = Array.from({ length: 15 }, (_, i) => i + 1); // Array of quantities [1, 2, ..., 15]
 
-  constructor(private route: ActivatedRoute, private service: ProductServiceService ){}
+  constructor(private route: ActivatedRoute, private service: ProductServiceService, private auth: AuthService ){}
   
 
   ngOnInit(): void {
@@ -29,6 +32,19 @@ export class ProductDetailComponent {
         this.selectedImage = this.product ? this.product.image[0] : "";
         this.rating = 0 // TO DO 
       });
+    }
+  }
+
+  addToCart(quanity: number){
+    try{
+      const token = localStorage.getItem('token');
+      if (!token){
+        throw new Error('No Token Found')
+      }
+      this.auth.addToUserCart(token,this.product.id, quanity);
+    } 
+    catch (error: any) {
+      throw new Error(error)
     }
   }
 

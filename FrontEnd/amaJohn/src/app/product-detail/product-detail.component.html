@@ -36,7 +36,16 @@
                 </div>
                 <div class="buy border-b-2">
                     <!-- TO DO  -->
-                     <button>Add To Cart</button>
+                     <div>
+                        <button class="add-bt" (click)="addToCart(selectedQuantity)">Add To Cart</button>
+                     </div>
+                     <div>
+                        <label for="quanity">Quanity:</label>
+                        <select name="quanity" id="quanity" [(ngModel)]="selectedQuantity">
+                            <option *ngFor="let qty of quantities" [value]="qty">{{qty}}</option>
+                        </select>
+                     </div>
+                     
                 </div>
                 <div class="description">
                     <p *ngFor="let detail of product.productDescription">{{detail}}</p>
