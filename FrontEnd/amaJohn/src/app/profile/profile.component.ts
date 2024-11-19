@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ProductServiceService } from '../services/product-service.service';
 
 @Component({
   selector: 'app-profile',
@@ -6,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent {
-
+    constructor(private route: ActivatedRoute, private service: ProductServiceService ){}
 }
