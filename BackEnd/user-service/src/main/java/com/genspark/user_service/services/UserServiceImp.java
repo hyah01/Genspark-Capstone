@@ -1,8 +1,12 @@
 package com.genspark.user_service.services;
 
+import com.genspark.user_service.dto.ReqRes;
+import com.genspark.user_service.entities.AuthRequest;
 import com.genspark.user_service.entities.User;
 import com.genspark.user_service.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -76,4 +80,8 @@ public class UserServiceImp implements UserService{
         return new UserInfoDetails(user);
     }
 
+    public String convertToken(String token){
+        return "stuf";
+    }
 }
+

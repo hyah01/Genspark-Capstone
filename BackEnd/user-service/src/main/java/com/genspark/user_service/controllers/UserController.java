@@ -6,7 +6,9 @@ import com.genspark.user_service.services.UserInfoDetails;
 import com.genspark.user_service.services.UserInfoService;
 import com.genspark.user_service.services.UserManagementService;
 import com.genspark.user_service.services.UserService;
+import com.genspark.user_service.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,8 @@ public class UserController {
     private UserManagementService userManagementService;
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @GetMapping("/admin/get-all-users")
     public ResponseEntity<ReqRes> getAllUsers(){
@@ -52,6 +56,27 @@ public class UserController {
         return ResponseEntity.ok(userManagementService.deleteUser(userId));
     }
 
+    @GetMapping("/get-User")
+    public ResponseEntity<ReqRes> getUser(@RequestHeader(HttpHeaders.AUTHORIZATION)String token){
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        try {
+            // Validate the token
+            String email = jwtUtil.extractUsername(token);
+            System.out.println(email);
+            if (email == null || jwtUtil.token(token)) {
+                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+            }
+            return ResponseEntity.ok(userManagementService.getMyInfo(email));
+        }catch(Exception e){
+            e.printStackTrace(); // Print stack trace for debugging
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
     // TO DO ADD DELETE USER BY USER
 
 
