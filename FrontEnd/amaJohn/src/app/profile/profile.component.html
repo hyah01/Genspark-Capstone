@@ -1,1 +1,26 @@
-<p>profile works!</p>
+<div style="padding-top: 50px;"></div>
+<div class="order-history" style="display: grid; grid-template-columns: 5% 20% 70% 5%; gap: 10px;">
+    <div style="grid-column: 2/3; justify-content: center; background-color: #f8f8f8;">
+        <h1>{{ user.user.first_name }} {{ user.user.last_name }}</h1>
+        <p>Reward Points: {{ user.user.reward_points }}</p>
+        
+        <!-- Corrected image path -->
+        <img src="../Images/download.png" alt="My Image">
+
+        <!-- Form for file upload (not functional without backend) -->
+        <form action="" method="post" enctype="multipart/form-data">
+            <label for="imageUpload">Upload an image:</label>
+            <input type="file" id="imageUpload" name="image" accept="image/*">
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <div style="grid-column: 3/4; background-color: #f8f8f8; min-height: 500px;">
+        <p>Order History</p>
+        
+        <!-- Loop through orderHistory_ids and display each order -->
+        <div *ngFor="let order of user.user.orderHistory_ids">
+            <p>{{ order }}</p>
+        </div>
+    </div>
+</div>

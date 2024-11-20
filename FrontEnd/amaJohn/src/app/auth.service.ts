@@ -109,6 +109,19 @@ export class AuthService {
       throw error;
     }
   }
+  
+  async getUser(token:string){
+    const url = `${this.BASE_URL}/users/get-User`;
+    const headers = new HttpHeaders({
+      'Authorization':`Bearer ${token}`
+    })
+    try {
+      const response = this.http.get<any>(url, {headers} ).toPromise()
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   async getUserById(userId: string, token:string): Promise<any>{
     const url = `${this.BASE_URL}/admin/get-user/${userId}`;
