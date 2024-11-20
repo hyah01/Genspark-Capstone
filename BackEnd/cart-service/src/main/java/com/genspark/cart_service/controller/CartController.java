@@ -42,124 +42,100 @@ public class CartController {
 
     @PostMapping // add to the database when account created
     public ResponseEntity<CartReqRes> add(@RequestBody CartReqRes reg){
-        CartReqRes reqRes = new CartReqRes();
-        try {
-            Cart cart = new Cart();
-            cart.setEmail(reg.getEmail());
-            cart.setCartOrder(reg.getCartOrder());
-            Cart result = service.addCart(cart);
-            if (result.getId() != null && !result.getId().isEmpty()){
-                reqRes.setCart(cart);
-                reqRes.setMessage("Successfully Created Cart");
-                reqRes.setStatusCode(200);
-            } else {
-                reqRes.setStatusCode(500);
-                reqRes.setMessage("Unsuccessfully Created Cart");
-            }
-        } catch (Exception e) {
-            reqRes.setStatusCode(500);
-            reqRes.setMessage("Error: " + e);
-        }
+        CartReqRes reqRes = service.addCart(reg);
         return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cart> getCartByID(@PathVariable String id) {
-        Cart cart = service.getCartByCartId(id);
-        if (cart == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(cart);
-        }
+    public ResponseEntity<CartReqRes> getCartByID(@PathVariable String id) {
+        return ResponseEntity.ok(service.getCartByCartId(id));
     }
 
     @GetMapping("has-cart/{email}")
     public ResponseEntity<CartReqRes> hasCart(@PathVariable String email){
-        CartReqRes reqRes = new CartReqRes();
-        reqRes.setMessage(service.hasCart(email).toString());
-        reqRes.setStatusCode(200);
-
+        CartReqRes reqRes = service.hasCart(email);
         return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
     }
 
     @GetMapping("/get-my-cart")
-    public ResponseEntity<Cart> getMyCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
+    public ResponseEntity<CartReqRes> getMyCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         try {
-            // Validate the token
-            String username = jwtUtil.extractUsername(token);
-            System.out.println(username);
-            if (username == null || jwtUtil.tokenValidate(token)) {
-                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
-            }
+            // Validate the token and extract the username
+            String username = service.validateAndExtractUsername(token);
 
-            // Fetch the cart
-            Cart cart = service.getCartByEmail(username);
-            return ResponseEntity.ok(cart);
-        } catch (Exception e) {
-            e.printStackTrace(); // Print stack trace for debugging
+            // Fetch the cart using the username
+            CartReqRes reqRes = service.getCartByEmail(username);
+            return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
 
     @DeleteMapping("/{id}") // delete cart when account deleted
-    public ResponseEntity<String> deleteById(@PathVariable String id){
-        String string = service.deleteCart(id);
-        if (string == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(string);
-        }
+    public ResponseEntity<CartReqRes> deleteById(@PathVariable String id){
+        CartReqRes ReqRes = service.deleteCart(id);
+        return ResponseEntity.status(ReqRes.getStatusCode()).body(ReqRes);
     }
 
     @PutMapping("/add-item") // Add a single order to the databased
-    public ResponseEntity<CartOrder> add(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartOrder cartOrder){
-        // TO DO: Make this more module by making token validation and getting user name to be a method
-        // Move all the logic to the services
-
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
+    public ResponseEntity<CartReqRes> addItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartOrder cartOrder){
         try {
-            // Validate the token
-            String username = jwtUtil.extractUsername(token);
-            System.out.println(username);
-            if (username == null || jwtUtil.tokenValidate(token)) {
-                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
-            }
-
-            // Fetch the cart
-            Cart cart = service.getCartByEmail(username);
-            boolean flag = true;
-            // check if product inside
-            for (CartOrder order: cart.getCartOrder()){
-                System.out.println(cartOrder.getProductId());
-                if (order.getProductId().equals(cartOrder.getProductId())){
-                    flag = false;
-                    order.setQuantity(order.getQuantity() + cartOrder.getQuantity());
-                    break;
-                }
-            }
-            if (flag){
-                cart.getCartOrder().add(cartOrder);
-            }
-            service.updateCart(cart);
-
-            return ResponseEntity.ok(cartOrder);
-        } catch (Exception e) {
-            e.printStackTrace(); // Print stack trace for debugging
+            // Validate the token and extract the username
+            String username = service.validateAndExtractUsername(token);
+            // Fetch the cart using the username
+            CartReqRes reqRes = service.addItem(username, cartOrder);
+            return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @PutMapping("/update-item") // Add a single order to the databased
+    public ResponseEntity<CartReqRes> updateItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartOrder cartOrder){
+        try {
+            // Validate the token and extract the username
+            String username = service.validateAndExtractUsername(token);
+            // Fetch the cart using the username
+            CartReqRes reqRes = service.updateItem(username, cartOrder);
+            return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @PutMapping("/delete-all-items") // Add a single order to the databased
+    public ResponseEntity<CartReqRes> deleteAllItems(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartOrder cartOrder){
+        try {
+            // Validate the token and extract the username
+            String username = service.validateAndExtractUsername(token);
+            // Fetch the cart using the username
+            CartReqRes reqRes = service.deleteAllItem(username, cartOrder);
+            return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
     // Exception handling for this controller
     @ExceptionHandler(Exception.class)

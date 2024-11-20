@@ -25,3 +25,26 @@
     border-bottom: 2px solid black;
     margin-bottom: 20px;
 }
+
+.cart-item{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.item {
+    display: flex;
+    gap: 15px; /* Add space between the image and text */
+
+}
+.cart-item img {
+    width: 250px; 
+    height: 250px; 
+    object-fit: contain; 
+    background-color: white; 
+    margin-bottom: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+

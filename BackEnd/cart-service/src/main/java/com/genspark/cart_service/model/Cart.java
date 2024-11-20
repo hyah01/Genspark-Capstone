@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Getter
@@ -18,5 +19,5 @@ public class Cart {
     @Id
     private String id;
     private String email; // To know which user the cart belong to
-    private List<CartOrder> cartOrder; // Contain all items user added to their cart
+    private HashMap<String,Integer> cartOrder; // Contain all items user added to their cart
 }

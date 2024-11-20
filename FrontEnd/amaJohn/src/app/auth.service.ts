@@ -90,7 +90,6 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     })
-    const cart = (await this.getUserCart(token)).id;
     const body = {
       productId: id,
       quantity: quanitty,

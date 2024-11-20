@@ -4,13 +4,18 @@
       Shopping Cart
     </p>
     <div class="w-64">
-      <p class="font-inter font-light relative translate-x-2 md:translate-y-5">{{userCart.length}} items</p>
+      <p class="font-inter font-light relative translate-x-2 md:translate-y-5">{{rawProduct.length}} items</p>
     </div>
   </div>
   <hr class="shopping-cart-separator"> <!-- Added separator line -->
   <div class="cart grid row pb-[50px]">
     <div class="cart-item">
-      Item details go here
+      <div class="item" *ngFor="let product of productsList">
+        <img src="{{product.image[0]}}" alt="">
+        <div class="details">
+          <p>{{product.productName}}</p>
+        </div>
+      </div>
     </div>
     <div class="cart-checkout col">
       Checkout button goes here

@@ -53,6 +53,6 @@ public class CartJwtUtil {
     }
 
     public Boolean tokenValidate(final String token){
-        return isTokenExpired(token);
+        return !isTokenExpired(token);
     }
 }
