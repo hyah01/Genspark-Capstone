@@ -12,7 +12,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +52,7 @@ public class UserManagementService {
             user.setRole(registrationRequest.getRole());
             user.setReward_points(registrationRequest.getReward_points());
             user.setOrderHistory_ids(registrationRequest.getOrderHistory_ids());
+            user.setImage(registrationRequest.getImage());
             User userResult = userRepository.save(user);
             if (userResult.getId() != null) {
                 resp.setUser(userResult);
@@ -218,6 +225,13 @@ public class UserManagementService {
     public void validateToken(String token){
         jwtUtil.tokenValidate(token);
     }
+    public void uploadProfileImage(MultipartFile image) throws IOException {
+        // Create a file path
+        String fileName = image.getOriginalFilename();
+        Path path = Paths.get("../public/" + fileName);
 
+        // Save the file to the upload directory
+        Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+    }
 
 }

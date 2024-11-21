@@ -5,14 +5,22 @@
         <p>Reward Points: {{ user.user.reward_points }}</p>
         
         <!-- Corrected image path -->
-        <img src="../Images/download.png" alt="My Image">
+        <img src="{{imageName}}" alt="Couldnt load photo" style="max-width: 100%; height: auto; justify-content: center;">
+
+
 
         <!-- Form for file upload (not functional without backend) -->
-        <form action="" method="post" enctype="multipart/form-data">
+        <form (ngSubmit)="onUpload()" enctype="multipart/form-data">
             <label for="imageUpload">Upload an image:</label>
-            <input type="file" id="imageUpload" name="image" accept="image/*">
+            <input
+              type="file"
+              id="imageUpload"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+            />
             <button type="submit">Upload</button>
-        </form>
+          </form>
+          
     </div>
 
     <div style="grid-column: 3/4; background-color: #f8f8f8; min-height: 500px;">

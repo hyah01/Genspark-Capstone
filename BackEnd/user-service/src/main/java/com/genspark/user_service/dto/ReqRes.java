@@ -28,7 +28,7 @@ public class ReqRes {
     private String role;
     private Integer reward_points;
     private List<String> orderHistory_ids;
+    private String image;
     private User user;
     private List<User> userList;
-
 }

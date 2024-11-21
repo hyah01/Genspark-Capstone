@@ -9,6 +9,8 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 export class AuthService {
 
   
+
+  
   private BASE_URL = "http://localhost:8060";
 
   constructor(private http: HttpClient, private route: Router) {}
@@ -27,6 +29,7 @@ export class AuthService {
 
   async signup(userData: any): Promise<any>{
     const url = `${this.BASE_URL}/auth/signup`;
+    console.log(userData)
     const headers = new HttpHeaders({
           'Content-Type': 'application/json',
         });
@@ -109,7 +112,21 @@ export class AuthService {
       throw error;
     }
   }
-  
+
+  async uploadProfileImage(formData: FormData,token:string) {
+    const url = `${this.BASE_URL}/users/adminuser/uploadProfileImage`;
+    console.log(formData)
+    const headers = new HttpHeaders({
+      'Authorization':`Bearer ${token}`
+    })
+    try {
+      const response = this.http.post<any>(url, {headers} ).toPromise()
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getUser(token:string){
     const url = `${this.BASE_URL}/users/get-User`;
     const headers = new HttpHeaders({

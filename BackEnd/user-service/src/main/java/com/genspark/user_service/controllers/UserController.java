@@ -14,7 +14,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @RestController
@@ -75,6 +81,28 @@ public class UserController {
         }catch(Exception e){
             e.printStackTrace(); // Print stack trace for debugging
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    @PutMapping("/adminuser/uploadProfileImage")
+    public ResponseEntity<String> uploadProfileImage(@RequestParam("image")MultipartFile image, @RequestHeader(HttpHeaders.AUTHORIZATION)String token){
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            jwtUtil.tokenValidate(token);
+        }else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        try {
+
+            // Check if the file is empty
+            if (image.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No file uploaded");
+            }
+
+            userManagementService.uploadProfileImage(image);
+
+            return ResponseEntity.status(HttpStatus.OK).body("File uploaded successfully: " + image.getOriginalFilename());
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
         }
     }
     // TO DO ADD DELETE USER BY USER
