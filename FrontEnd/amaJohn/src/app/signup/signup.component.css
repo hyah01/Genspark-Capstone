@@ -1,0 +1,26 @@
+.text-green-500 {
+    color: green;
+  }
+  
+  .text-red-500 {
+    color: red;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li::before {
+    content: '✔ ';
+    color: green;
+    display: inline-block;
+    width: 20px;
+  }
+  
+  .text-red-500::before {
+    content: '✘ ';
+    color: red;
+  }
+
+  
