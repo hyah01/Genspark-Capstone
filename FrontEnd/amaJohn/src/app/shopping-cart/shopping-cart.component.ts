@@ -43,4 +43,8 @@ export class ShoppingCartComponent {
     }
   }
 
+  selectItem(productId: string){
+    this.router.navigate([`/products/${productId}`]);
+  }
+
 }

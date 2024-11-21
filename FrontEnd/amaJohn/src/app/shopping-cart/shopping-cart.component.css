@@ -1,12 +1,11 @@
 .cart {
     display: grid;
-    grid-template-columns: 5% 70% 20% 5%;
-    gap: 10px; /* Optional: Adjusts space between the columns */
+    grid-template-columns: .5fr 5fr 2fr .5fr;  /* Adjust column proportions */
+    gap: 10px;
 }
 
 .cart-item {
     grid-column: 2 / 3; /* Place in the second column (70%) */
-    background-color: #f8f8f8; /* Optional: Just for visual clarity */
     min-height: 500px;
 }
 
@@ -32,19 +31,61 @@
     gap: 10px;
 }
 
+
+
+.details {
+    max-width: 60%;
+    min-height: 60%;
+    
+} 
+
+.price {
+    max-width: 22%;
+    min-width: 22%;
+    text-align: right;
+    padding-right: 20px;
+}
+
 .item {
     display: flex;
-    gap: 15px; /* Add space between the image and text */
-
+    gap: 15px;
+    border-radius: 15px;
+    width: 100%;  /* Ensure the item takes the full available width */
 }
+
 .cart-item img {
-    width: 250px; 
+    min-width: 250px; 
     height: 250px; 
     object-fit: contain; 
     background-color: white; 
     margin-bottom: 10px;
+    margin-top: 10px;
     cursor: pointer;
     border: 2px solid transparent;
+}
+.cart-item img {
+    width: 250px;  /* Fix the image width to 250px */
+    height: 250px;  /* Ensure the image height is always 250px */
+    object-fit: contain; /* Ensures the image fits within its container without distorting */
+    background-color: white; 
+    margin-bottom: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.details {
+    flex-grow: 1;  /* Ensures the details section takes the remaining space */
+    min-height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures content within details is spaced appropriately */
+}
+
+.price {
+    width: 200px;  /* Set the price width to 200px */
+    text-align: right;
+    padding-right: 20px;
 }
 
 

@@ -46,7 +46,7 @@ export class AuthService {
     });
     const body = {
       email: email,
-      cartOrder: []
+      cartOrder: {}
     }
     try {
       const response = await lastValueFrom(this.http.post<any>(url, body, {headers} ));

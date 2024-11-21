@@ -10,10 +10,13 @@
   <hr class="shopping-cart-separator"> <!-- Added separator line -->
   <div class="cart grid row pb-[50px]">
     <div class="cart-item">
-      <div class="item" *ngFor="let product of productsList">
-        <img src="{{product.image[0]}}" alt="">
+      <div class="item border" *ngFor="let product of productsList">
+        <img src="{{product.image[0]}}" alt="{{product.productName}}" (click)="selectItem(product.id)">
         <div class="details">
-          <p>{{product.productName}}</p>
+          <p class="cursor-pointer font-normal text-[23px]" (click)="selectItem(product.id)" >{{product.productName}}</p>
+        </div>
+        <div class="price">
+          <P>{{product.price.amount}}</P>
         </div>
       </div>
     </div>
