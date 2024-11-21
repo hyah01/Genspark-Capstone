@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Optional;
 
 @Service
@@ -73,12 +74,16 @@ public class CartServiceImpl implements CartService{
             // If cart not
             if (cart == null){
                 reqRes.setEmail(username);
-                reqRes.setCartOrder(new HashMap<String,Integer>());
+                reqRes.setCartOrder(new LinkedHashMap<String,Integer>());
                 cart = addCart(reqRes).getCart();
             }
 
             if (cart.getCartOrder().containsKey(cartOrder.getProductId())){
+                if (cartOrder.getQuantity() + cart.getCartOrder().get(cartOrder.getProductId()) <= 0){
+                    cart.getCartOrder().remove(cartOrder.getProductId());
+                } else {
                 cart.getCartOrder().put(cartOrder.getProductId(), (cartOrder.getQuantity() + cart.getCartOrder().get(cartOrder.getProductId())));
+                }
             } else {
                 cart.getCartOrder().put(cartOrder.getProductId(), cartOrder.getQuantity());
             }
@@ -99,7 +104,7 @@ public class CartServiceImpl implements CartService{
         try {
             // Fetch the cart
             Cart cart = getCartByEmail(username).getCart();
-            if (cartOrder.getQuantity() == 0){
+            if (cartOrder.getQuantity() <= 0){
                 cart.getCartOrder().remove(cartOrder.getProductId());
             } else {
                 cart.getCartOrder().put(cartOrder.getProductId(), (cartOrder.getQuantity()));
@@ -121,7 +126,7 @@ public class CartServiceImpl implements CartService{
         try {
             // Fetch the cart
             Cart cart = getCartByEmail(username).getCart();
-            cart.setCartOrder(new HashMap<String,Integer>());
+            cart.setCartOrder(new LinkedHashMap<String,Integer>());
             updateCart(cart);
             reqRes.setCart(cart);
             reqRes.setStatusCode(200);

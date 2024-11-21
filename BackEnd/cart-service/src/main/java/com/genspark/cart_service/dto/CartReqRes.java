@@ -7,6 +7,7 @@ import com.genspark.cart_service.model.CartOrder;
 import lombok.Data;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Data
@@ -16,6 +17,6 @@ public class CartReqRes {
     private int statusCode;
     private String message;
     private String email;
-    private HashMap<String,Integer> cartOrder;
+    private LinkedHashMap<String,Integer> cartOrder;
     private Cart cart;
 }

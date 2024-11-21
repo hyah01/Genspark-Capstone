@@ -102,6 +102,7 @@ export class AuthService {
     }
   }
 
+
   async getAllUsers(token:string): Promise<any>{
     const url = `${this.BASE_URL}/admin/get-all-users`;
     const headers = new HttpHeaders({

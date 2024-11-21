@@ -4,7 +4,7 @@
       Shopping Cart
     </p>
     <div class="w-64">
-      <p class="font-inter font-light relative translate-x-2 md:translate-y-5">{{rawProduct.length}} items</p>
+      <p class="font-inter font-light relative translate-x-2 md:translate-y-5">{{length}} items</p>
     </div>
   </div>
   <hr class="shopping-cart-separator"> <!-- Added separator line -->
@@ -12,11 +12,29 @@
     <div class="cart-item">
       <div class="item border" *ngFor="let product of productsList">
         <img src="{{product.image[0]}}" alt="{{product.productName}}" (click)="selectItem(product.id)">
-        <div class="details">
-          <p class="cursor-pointer font-normal text-[23px]" (click)="selectItem(product.id)" >{{product.productName}}</p>
+        <div class="details flex flex-col">
+          <div class="description">
+            <p class="cursor-pointer font-normal text-[23px]" (click)="selectItem(product.id)" >{{product.productName}}</p>
+          </div>
+          <div class="function flex gap-5 pb-4">
+              <div class="update-cart flex flex-row">
+                <button (click)="updateCart(product.id, -1)">-</button>
+                <p>{{productMap[product.id]}}</p>
+                <button (click)="updateCart(product.id, 1)">+</button>
+              </div>
+              <div class="save-for-later">
+                <p>asd</p>
+              </div>
+          </div>
         </div>
         <div class="price">
-          <P>{{product.price.amount}}</P>
+          <div class="price-sale flex text-right">
+            <span class="text-[25px]">$<span class="text-[25px] font-bold">{{ formatPrice(product.price.amount) }}</span></span>
+          </div>
+          <div class="price-pre-sale flex gap-3 text-right">
+            <span class="text-red-500" *ngIf="product.price.saving.amount != 0">-{{product.price.saving.percentage}}%</span>
+            <span class="line-through text-gray-500" *ngIf="product.price.saving.amount != 0"> ${{ formatPrice(product.price.amount + product.price.saving.amount) }}</span>
+          </div>
         </div>
       </div>
     </div>

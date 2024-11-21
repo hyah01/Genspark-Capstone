@@ -32,46 +32,23 @@
 }
 
 
-
-.details {
-    max-width: 60%;
-    min-height: 60%;
-    
-} 
-
-.price {
-    max-width: 22%;
-    min-width: 22%;
-    text-align: right;
-    padding-right: 20px;
-}
-
 .item {
     display: flex;
     gap: 15px;
     border-radius: 15px;
     width: 100%;  /* Ensure the item takes the full available width */
+    background-color:aliceblue;
 }
 
 .cart-item img {
-    min-width: 250px; 
-    height: 250px; 
-    object-fit: contain; 
-    background-color: white; 
-    margin-bottom: 10px;
-    margin-top: 10px;
-    cursor: pointer;
-    border: 2px solid transparent;
-}
-.cart-item img {
-    width: 250px;  /* Fix the image width to 250px */
-    height: 250px;  /* Ensure the image height is always 250px */
+    width: 200px;  /* Fix the image width to 250px */
+    height: 200px;  /* Ensure the image height is always 250px */
+    min-width: 200px; 
     object-fit: contain; /* Ensures the image fits within its container without distorting */
     background-color: white; 
-    margin-bottom: 10px;
-    margin-top: 10px;
     cursor: pointer;
-    border: 2px solid transparent;
+    border: 15px solid transparent;
+    border-radius: 15px 0 0 15px;
 }
 
 .details {
@@ -82,10 +59,14 @@
     justify-content: space-between; /* Ensures content within details is spaced appropriately */
 }
 
-.price {
-    width: 200px;  /* Set the price width to 200px */
-    text-align: right;
-    padding-right: 20px;
-}
 
+.price {
+    width: 200px;  
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; 
+    padding-right: 20px;
+    padding-top: 30px;
+  }
+  
 
