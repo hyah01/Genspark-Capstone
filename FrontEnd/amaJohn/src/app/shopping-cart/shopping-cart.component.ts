@@ -16,6 +16,10 @@ export class ShoppingCartComponent {
   length: any;
   productsList: Product[] = [];
   productMap: any;
+  subtotal: number = 0;
+  tax: number = 0;
+  shipping: number = 10;
+  total:number = 0;
 
   constructor(private readonly auth: AuthService, private proService: ProductServiceService, private router: Router){}
 
@@ -37,13 +41,17 @@ export class ShoppingCartComponent {
     this.userCart = cart;
     this.productMap = cart.cartOrder;
     this.length = Object.keys(this.productMap).length;
+    this.subtotal = 0;
     Object.entries(this.productMap).forEach(([productId, quantity]) => {
       this.proService.getProductById(productId).subscribe(data => {
         // Push the actual product data into productsList
         this.productsList.push(data);
+        this.calSubTotal(data.price.amount, Number(quantity));
+        this.calTax(this.subtotal, 7.25);
+        this.calTotal();
       });
+      
     });
-
   }
 
   selectItem(productId: string){
@@ -69,5 +77,21 @@ export class ShoppingCartComponent {
       throw new Error(error)
     }
   }
+
+  calSubTotal(price: number, quantity: number) {
+    const productTotal = price * quantity;
+    this.subtotal = (Math.round((this.subtotal + productTotal) * 100) / 100);
+
+  }
+  
+  calTax(subtotal: number, taxRate: number) {
+    this.tax = (Math.round(subtotal * taxRate) / 100);
+  }
+  
+  calTotal() {
+    this.total = (Math.round((this.tax + this.subtotal + this.shipping) * 100) / 100);
+  }
+
+
 
 }

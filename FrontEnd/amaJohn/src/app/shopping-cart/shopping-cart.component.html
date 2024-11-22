@@ -7,7 +7,7 @@
       <p class="font-inter font-light relative translate-x-2 md:translate-y-5">{{length}} items</p>
     </div>
   </div>
-  <hr class="shopping-cart-separator"> <!-- Added separator line -->
+  <hr class="shopping-cart-separator"> 
   <div class="cart grid row pb-[50px]">
     <div class="cart-item">
       <div class="item border" *ngFor="let product of productsList">
@@ -45,7 +45,35 @@
       </div>
     </div>
     <div class="cart-checkout col">
-      Checkout button goes here
+      <div class="checkout-title">
+        <h3>Order Summary</h3>
+      </div>
+      <div class="sub-total">
+        <span>Subtotal</span>
+        <span>{{ subtotal | currency:'USD':'symbol':'1.2-2' }}</span>
+      </div>
+      <div class="shipping">
+        <span>Shipping</span>
+        <span>$<span>{{shipping}}</span></span>
+      </div>
+      <div class="tax">
+        <span>Tax</span>
+        <span>{{ tax | currency:'USD':'symbol':'1.2-2' }}</span>
+      </div>
+      <div class="total">
+        <span>Total</span>
+        <span>{{ total | currency:'USD':'symbol':'1.2-2' }}</span>
+      </div>
+      <div class="checkout">
+        <button class="checkout-bt">
+          <Span>
+            Continue to payment
+          </Span>
+          <span>
+            <i class="fa fa-arrow-right"></i>
+          </span>
+        </button>
+      </div>
     </div>
   </div>
 </div>

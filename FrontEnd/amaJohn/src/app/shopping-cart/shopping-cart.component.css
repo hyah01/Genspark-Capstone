@@ -1,6 +1,6 @@
 .cart {
     display: grid;
-    grid-template-columns: .5fr 5fr 2fr .5fr;  /* Adjust column proportions */
+    grid-template-columns: .5fr 6fr 1.5fr .5fr;  /* Adjust column proportions */
     gap: 10px;
 }
 
@@ -19,7 +19,7 @@
 
 .shopping-cart-separator {
     width: 90%;
-    margin-left: 80px;
+    margin: 0 auto;
     border: 0;
     border-bottom: 2px solid black;
     margin-bottom: 20px;
@@ -36,12 +36,13 @@
     display: flex;
     gap: 15px;
     border-radius: 15px;
-    width: 100%;  /* Ensure the item takes the full available width */
+    width: 100%;  
     background-color:aliceblue;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .cart-item img {
-    width: 200px;  /* Fix the image width to 250px */
+    width: 200px;  
     height: 200px;  /* Ensure the image height is always 250px */
     min-width: 200px; 
     object-fit: contain; /* Ensures the image fits within its container without distorting */
@@ -147,3 +148,47 @@
     color: skyblue;
 }
 
+.cart-checkout {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    justify-content: flex-start;
+    background-color: aliceblue;
+    gap: 15px;
+    height: 300px;
+    overflow: auto;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: max-content;
+}
+
+.checkout-title {
+    padding-bottom: 10px;
+}
+
+.sub-total, .total, .tax, .shipping, .checkout, .checkout-bt{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.total {
+    font-weight: bold;
+}
+
+.checkout-bt {
+    background-color: skyblue;
+    border-radius: 10px;
+    padding: 8px 10px 8px 10px;
+    font-weight: bold;
+    color: rgb(240, 238, 238);
+    border: 2px solid skyblue;
+}
+
+.checkout-bt:hover {
+    background-color: rgb(240, 238, 238);
+    color: skyblue;
+    border: 2px solid skyblue;
+}
