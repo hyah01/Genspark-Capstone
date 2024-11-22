@@ -80,8 +80,6 @@ public class UserServiceImp implements UserService{
         return new UserInfoDetails(user);
     }
 
-    public String convertToken(String token){
-        return "stuf";
-    }
+
 }
 

@@ -21,8 +21,9 @@ export class ProfileComponent {
           throw new Error('No Token Found')
         }
   
-        this.getUser(token);
+        
         this.token = token
+        this.getUser(this.token);
       } catch (error: any) {
         throw new Error(error)
       }
@@ -30,6 +31,7 @@ export class ProfileComponent {
     async getUser(token:string){
       this.user = (await this.auth.getUser(token))
       this.imageName = this.user.user.image
+      console.log(this.imageName)
       
     }
 
@@ -50,12 +52,12 @@ export class ProfileComponent {
       formData.append('image',this.image,this.image.name)
       console.log(formData.get("image"))
       try{
-        await this.auth.uploadProfileImage(formData,this.token)
+        await this.auth.uploadProfileImage(this.token,formData)
         console.log('File uploaded successfully');
       }catch(error){
         console.error('File upload failed', error);
       }
-      
+      location.reload();
 
     }
 

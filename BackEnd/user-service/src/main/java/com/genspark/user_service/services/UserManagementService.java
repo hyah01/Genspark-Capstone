@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -226,12 +227,42 @@ public class UserManagementService {
         jwtUtil.tokenValidate(token);
     }
     public void uploadProfileImage(MultipartFile image) throws IOException {
-        // Create a file path
+        // Validate the file name
         String fileName = image.getOriginalFilename();
-        Path path = Paths.get("../public/" + fileName);
+        System.out.println(fileName);
+        if (fileName == null || fileName.isBlank()) {
+            throw new IOException("Invalid file name");
+        }
 
-        // Save the file to the upload directory
-        Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        // finds makes the relative path into the absolute path
+        Path uploadDir = Paths.get("FrontEnd/amaJohn/public").toAbsolutePath();
+        System.out.println(uploadDir);
+        if (!Files.exists(uploadDir)) {
+            System.out.println("Directory does not exist. Creating: " + uploadDir);
+            Files.createDirectories(uploadDir); // Ensure the directory exists
+        }
+
+        // adds the image into the end of the path
+        Path filePath = uploadDir.resolve(fileName);
+        System.out.println(filePath);
+        System.out.println("Saving file to: " + filePath);
+
+        try {
+            // Copy the file to the target location, replacing it if it already exists
+            Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("File uploaded successfully: " + filePath);
+
+        } catch (IOException e) {
+            System.err.println("Error saving file: " + e.getMessage());
+            throw new IOException("Failed to upload file to: " + filePath, e);
+        }
     }
 
+    public User updateUser(User user){
+        return this.userRepository.save(user);
+    }
+
+    public User getUser(String email){
+        return userRepository.findUserByEmail(email);
+    }
 }

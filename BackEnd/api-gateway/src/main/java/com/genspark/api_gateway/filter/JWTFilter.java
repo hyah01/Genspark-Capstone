@@ -36,7 +36,10 @@ public class JWTFilter extends AbstractGatewayFilterFactory<JWTFilter.Config> {
             }
             if (validator.isSecured.test(exchange.getRequest())) {
                 // Header contains token or not
+                System.out.println(exchange.getRequest().getHeaders());
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
+
+                    System.out.println("Token not found");
                     exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                     return exchange.getResponse().setComplete();
                 }

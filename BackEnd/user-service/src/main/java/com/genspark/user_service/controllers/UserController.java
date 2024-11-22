@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -84,7 +85,8 @@ public class UserController {
         }
     }
     @PutMapping("/adminuser/uploadProfileImage")
-    public ResponseEntity<String> uploadProfileImage(@RequestParam("image")MultipartFile image, @RequestHeader(HttpHeaders.AUTHORIZATION)String token){
+    public ResponseEntity<String> uploadProfileImage(@RequestHeader(HttpHeaders.AUTHORIZATION)String token, @RequestParam()MultipartFile image){
+        System.out.println("true");
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
             jwtUtil.tokenValidate(token);
@@ -97,9 +99,22 @@ public class UserController {
             if (image.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No file uploaded");
             }
-
+            System.out.println("Before uploading");
             userManagementService.uploadProfileImage(image);
+            System.out.println("after uploading");
+            try {
+                String email = jwtUtil.extractUsername(token);
+                User user = userManagementService.getUser(email);
+                System.out.println(user);
 
+                if (user != null) {
+                    user.setImage(image.getOriginalFilename());
+                    userManagementService.updateUser(user);
+                    System.out.println(user.getImage());
+                }
+            }catch(Exception e){
+                System.out.println(e);
+            }
             return ResponseEntity.status(HttpStatus.OK).body("File uploaded successfully: " + image.getOriginalFilename());
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");

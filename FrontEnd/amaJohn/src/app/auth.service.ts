@@ -113,16 +113,18 @@ export class AuthService {
     }
   }
 
-  async uploadProfileImage(formData: FormData,token:string) {
+  async uploadProfileImage(token:string,formData: FormData) {
     const url = `${this.BASE_URL}/users/adminuser/uploadProfileImage`;
     console.log(formData)
-    const headers = new HttpHeaders({
-      'Authorization':`Bearer ${token}`
-    })
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    
     try {
-      const response = this.http.post<any>(url, {headers} ).toPromise()
+      console.log(headers.get('Authorization'))
+      const response = await this.http.put<any>(url, formData, { headers }).toPromise();
+      console.log("failed")
       return response;
     } catch (error) {
+      
       throw error;
     }
   }
