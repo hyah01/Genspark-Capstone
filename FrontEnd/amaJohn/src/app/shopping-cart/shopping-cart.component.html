@@ -1,5 +1,13 @@
 <div class="cart-page">
-  <div class="flex flex-col pb-1 md:flex-row pl-[80px] pt-[50px]">
+  <!-- Add Go Back Button -->
+  <div class="go-back-container flex items-center pt-[20px] pl-[80px]">
+    <button class="go-back-btn flex items-center text-blue-500 font-medium hover:text-blue-700" (click)="goBack()">
+      <i class="fa fa-arrow-left"></i> Go Back
+    </button>
+  </div>
+
+  <!-- Shopping Cart Title and Details Section -->
+  <div class="flex flex-col pb-1 md:flex-row pl-[80px] pt-[20px]">
     <p class="w-6/8 relative ml-1 text-nowrap pr-4 font-['Newsreader'] text-5xl shopping-cart-title">
       Shopping Cart
     </p>
@@ -7,30 +15,39 @@
       <p class="font-inter font-light relative translate-x-2 md:translate-y-5">{{length}} items</p>
     </div>
   </div>
+  
   <hr class="shopping-cart-separator"> 
+
+  <!-- Cart Items Section -->
   <div class="cart grid row pb-[50px]">
     <div class="cart-item">
       <div class="item border" *ngFor="let product of productsList">
         <img src="{{product.image[0]}}" alt="{{product.productName}}" (click)="selectItem(product.id)">
         <div class="details flex flex-col">
           <div class="description">
-            <p class="cursor-pointer font-normal text-[23px]" (click)="selectItem(product.id)" >{{product.productName}}</p>
+            <p class="cursor-pointer font-normal text-[23px]" (click)="selectItem(product.id)">{{product.productName}}</p>
           </div>
           <div class="function flex gap-5 pb-4">
-              <div class="update-cart flex flex-row">
-                <button class="bt-left" (click)="updateCart(product.id, -1)">
-                  <span class="iconLeft">-</span>
-                </button>
-                <p>{{productMap[product.id]}}</p>
-                <button class="bt-right" (click)="updateCart(product.id, 1)">
-                  <span class="iconRight">+</span>
-                </button>
-              </div>
-              <div class="save-for-later flex flex-row">
-                <button class="sfl-bt">
-                  <span class="sfl-tx">Save For Later</span>
-                </button>
-              </div>
+            <!-- Cart Actions: Update, Save, Delete -->
+            <div class="update-cart flex flex-row">
+              <button class="bt-left" (click)="updateCart(product.id, -1)">
+                <span class="iconLeft">-</span>
+              </button>
+              <p>{{productMap[product.id]}}</p>
+              <button class="bt-right" (click)="updateCart(product.id, 1)">
+                <span class="iconRight">+</span>
+              </button>
+            </div>
+            <div class="save-for-later flex flex-row">
+              <button class="sfl-bt">
+                <span class="sfl-tx">Save For Later</span>
+              </button>
+            </div>
+            <div class="delete flex flex-row">
+              <button class="sfl-bt" (click)="deleteItem(product.id)">
+                <span class="sfl-tx">Delete</span>
+              </button>
+            </div>
           </div>
         </div>
         <div class="price">
@@ -44,6 +61,8 @@
         </div>
       </div>
     </div>
+
+    <!-- Checkout Section -->
     <div class="cart-checkout col">
       <div class="checkout-title">
         <h3>Order Summary</h3>
@@ -60,20 +79,3 @@
         <span>Tax</span>
         <span>{{ tax | currency:'USD':'symbol':'1.2-2' }}</span>
       </div>
-      <div class="total">
-        <span>Total</span>
-        <span>{{ total | currency:'USD':'symbol':'1.2-2' }}</span>
-      </div>
-      <div class="checkout">
-        <button class="checkout-bt">
-          <Span>
-            Continue to payment
-          </Span>
-          <span>
-            <i class="fa fa-arrow-right"></i>
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>

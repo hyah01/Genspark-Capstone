@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Product } from '../models/product.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductServiceService } from '../services/product-service.service';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../auth.service';
@@ -20,7 +20,7 @@ export class ProductDetailComponent {
   selectedQuantity: number = 1; // Default selected quantity
   quantities: number[] = Array.from({ length: 15 }, (_, i) => i + 1); // Array of quantities [1, 2, ..., 15]
 
-  constructor(private route: ActivatedRoute, private service: ProductServiceService, private auth: AuthService ){}
+  constructor(private route: ActivatedRoute, private service: ProductServiceService, private auth: AuthService, private router: Router){}
   
 
   ngOnInit(): void {
@@ -42,6 +42,7 @@ export class ProductDetailComponent {
         throw new Error('No Token Found')
       }
       this.auth.addToUserCart(token,this.product.id, quanity);
+      this.router.navigate(["/cart"])
     } 
     catch (error: any) {
       throw new Error(error)

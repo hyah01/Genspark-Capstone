@@ -102,6 +102,25 @@ export class AuthService {
     }
   }
 
+  async updateUserCart(token: string, id: string):Promise<any>{
+    const url = `${this.BASE_URL}/cart/update-item`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    })
+    const body = {
+      productId: id,
+      quantity: 0,
+    }
+    try {
+      console.log("test");
+      const response = await lastValueFrom(this.http.put<any>(url,body, {headers} ));
+      return response;
+    }catch (error) {
+      throw error;
+    }
+  }
+
 
   async getAllUsers(token:string): Promise<any>{
     const url = `${this.BASE_URL}/admin/get-all-users`;

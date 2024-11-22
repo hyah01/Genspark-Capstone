@@ -78,6 +78,23 @@ export class ShoppingCartComponent {
     }
   }
 
+  deleteItem(productId: string){
+    try{
+      const token = localStorage.getItem('token');
+      if (!token){
+        throw new Error('No Token Found')
+      }
+      console.log("test1")
+      this.auth.updateUserCart(token, productId).then(() => {
+        window.location.reload();
+      })
+      
+    } 
+    catch (error: any) {
+      throw new Error(error)
+    }
+  }
+
   calSubTotal(price: number, quantity: number) {
     const productTotal = price * quantity;
     this.subtotal = (Math.round((this.subtotal + productTotal) * 100) / 100);
@@ -90,6 +107,10 @@ export class ShoppingCartComponent {
   
   calTotal() {
     this.total = (Math.round((this.tax + this.subtotal + this.shipping) * 100) / 100);
+  }
+
+  goBack() {
+    window.history.back();
   }
 
 

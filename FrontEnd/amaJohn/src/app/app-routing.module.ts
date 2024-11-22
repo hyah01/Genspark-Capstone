@@ -10,8 +10,8 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { userGuard } from './auth.guard';
 
 const routes: Routes = [
-  {path:"login", component: LoginComponent},
-  {path:"register", component: SignupComponent},
+  {path: "login", component: LoginComponent},
+  {path: "register", component: SignupComponent},
   {path: "products", component: ProductsComponent},
   {path: 'cart', component: ShoppingCartComponent, canActivate: [userGuard]},
   {path: 'products/:id', component: ProductDetailComponent},

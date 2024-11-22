@@ -1,6 +1,10 @@
 <div class="detail-page">
     <div *ngIf="product" class="container">
-        <button class="goback" (click)="goBack()">Return</button>
+        <div class="go-back-container flex items-center pt-[20px] pb-[10px]">
+            <button class="go-back-btn flex items-center text-blue-500 font-medium hover:text-blue-700" (click)="goBack()">
+              <i class="fa fa-arrow-left"></i> Go Back
+            </button>
+          </div>
         <div class="row">
             <div class="col-5">
                 <div class="gallery-container">
@@ -36,15 +40,17 @@
                 </div>
                 <div class="buy border-b-2">
                     <!-- TO DO  -->
-                     <div>
-                        <button class="add-bt" (click)="addToCart(selectedQuantity)">Add To Cart</button>
-                     </div>
-                     <div>
-                        <label for="quanity">Quanity:</label>
-                        <select name="quanity" id="quanity" [(ngModel)]="selectedQuantity">
-                            <option *ngFor="let qty of quantities" [value]="qty">{{qty}}</option>
+                    <div class="delete flex flex-row pt-[10px] pb-[10px]">
+                        <button class="sfl-bt" (click)="addToCart(selectedQuantity)">
+                          <span class="sfl-tx">Add To Cart</span>
+                        </button>
+                    </div>
+                    <div class="quantity-selector mt-[10px] pb-[15px]">
+                        <label for="quantity" class="quantity-label">Quantity:</label>
+                        <select name="quantity" id="quantity" [(ngModel)]="selectedQuantity" class="quantity-dropdown">
+                          <option *ngFor="let qty of quantities" [value]="qty">{{qty}}</option>
                         </select>
-                     </div>
+                    </div>
                      
                 </div>
                 <div class="description">
