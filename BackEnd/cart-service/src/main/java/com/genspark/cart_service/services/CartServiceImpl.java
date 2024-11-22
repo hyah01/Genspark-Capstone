@@ -31,15 +31,19 @@ public class CartServiceImpl implements CartService{
     public CartReqRes addCart(CartReqRes reg) {
         CartReqRes reqRes = new CartReqRes();
         try {
+            // Create new Cart
             Cart cart = new Cart();
             cart.setEmail(reg.getEmail());
             cart.setCartOrder(reg.getCartOrder());
+            // Save the cart
             Cart result = repository.save(cart);
+            // If cart was created successfully
             if (result.getId() != null && !result.getId().isEmpty()){
                 reqRes.setCart(cart);
                 reqRes.setMessage("Successfully Created Cart");
                 reqRes.setStatusCode(200);
             } else {
+                // If cart didn't create successfully
                 reqRes.setStatusCode(500);
                 reqRes.setMessage("Unsuccessfully Created Cart");
             }
@@ -50,10 +54,11 @@ public class CartServiceImpl implements CartService{
         return reqRes;
     }
 
-    @Override // Return Null if item of id cannot be found
+    @Override
     public CartReqRes getCartByCartId(String cartId) {
         CartReqRes reqRes = new CartReqRes();
         try {
+            // fetch cart
             Cart cart = repository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart Not Found"));
             reqRes.setCart(cart);
             reqRes.setStatusCode(200);
@@ -71,20 +76,22 @@ public class CartServiceImpl implements CartService{
         try {
             // Fetch the cart
             Cart cart = getCartByEmail(username).getCart();
-            // If cart not
+            // If cart not there then just create one
             if (cart == null){
                 reqRes.setEmail(username);
                 reqRes.setCartOrder(new LinkedHashMap<String,Integer>());
                 cart = addCart(reqRes).getCart();
             }
-
+            // if the product is in cart
             if (cart.getCartOrder().containsKey(cartOrder.getProductId())){
                 if (cartOrder.getQuantity() + cart.getCartOrder().get(cartOrder.getProductId()) <= 0){
+                    // if quantity is negative and the whole thing become 0 or less delete it from
                     cart.getCartOrder().remove(cartOrder.getProductId());
                 } else {
                 cart.getCartOrder().put(cartOrder.getProductId(), (cartOrder.getQuantity() + cart.getCartOrder().get(cartOrder.getProductId())));
                 }
             } else {
+                // create the item in cart if it's not there
                 cart.getCartOrder().put(cartOrder.getProductId(), cartOrder.getQuantity());
             }
 
@@ -127,6 +134,7 @@ public class CartServiceImpl implements CartService{
             // Fetch the cart
             Cart cart = getCartByEmail(username).getCart();
             cart.setCartOrder(new LinkedHashMap<String,Integer>());
+            // set cartOrder to be empty and let garbage collector do the rest
             updateCart(cart);
             reqRes.setCart(cart);
             reqRes.setStatusCode(200);
