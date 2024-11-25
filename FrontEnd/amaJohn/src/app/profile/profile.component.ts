@@ -30,8 +30,9 @@ export class ProfileComponent {
     }
     async getUser(token:string){
       this.user = (await this.auth.getUser(token))
-      this.imageName = this.user.user.image
+      this.imageName = 'download.png'
       console.log(this.imageName)
+      console.log(this.user)
       
     }
 
