@@ -2,26 +2,17 @@ package com.genspark.cart_service.controller;
 
 
 import com.genspark.cart_service.dto.CartReqRes;
-import com.genspark.cart_service.model.Cart;
-import com.genspark.cart_service.model.CartOrder;
+import com.genspark.cart_service.model.CartItem;
 import com.genspark.cart_service.services.CartService;
 import com.genspark.cart_service.services.CartUserInfoService;
 import com.genspark.cart_service.util.CartJwtUtil;
-import com.genspark.user_service.util.JwtUtil;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/cart")
@@ -62,7 +53,6 @@ public class CartController {
         try {
             // Validate the token and extract the username
             String username = service.validateAndExtractUsername(token);
-
             // Fetch the cart using the username
             CartReqRes reqRes = service.getCartByEmail(username);
             return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
@@ -83,58 +73,6 @@ public class CartController {
         return ResponseEntity.status(ReqRes.getStatusCode()).body(ReqRes);
     }
 
-    @PutMapping("/add-item") // Add a single order to the databased
-    public ResponseEntity<CartReqRes> addItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartOrder cartOrder){
-        try {
-            // Validate the token and extract the username
-            String username = service.validateAndExtractUsername(token);
-            // Fetch the cart using the username
-            CartReqRes reqRes = service.addItem(username, cartOrder);
-            return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        } catch (SecurityException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
-    @PutMapping("/update-item") // Add a single order to the databased
-    public ResponseEntity<CartReqRes> updateItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartOrder cartOrder){
-        try {
-            // Validate the token and extract the username
-            String username = service.validateAndExtractUsername(token);
-            // Fetch the cart using the username
-            CartReqRes reqRes = service.updateItem(username, cartOrder);
-            return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        } catch (SecurityException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-    @PutMapping("/delete-all-items") // Add a single order to the databased
-    public ResponseEntity<CartReqRes> deleteAllItems(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartOrder cartOrder){
-        try {
-            // Validate the token and extract the username
-            String username = service.validateAndExtractUsername(token);
-            // Fetch the cart using the username
-            CartReqRes reqRes = service.deleteAllItem(username, cartOrder);
-            return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        } catch (SecurityException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
 
 
     // Exception handling for this controller

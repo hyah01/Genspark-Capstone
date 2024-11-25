@@ -20,5 +20,8 @@ public class Cart {
     @Id
     private String id;
     private String email; // To know which user the cart belong to
-    private LinkedHashMap<String,Integer> cartOrder; // Contain all items user added to their cart
+    private String cartItemsId;
+    private String saveForLaterId;
+    private String WishListId;
+    //private LinkedHashMap<String,Integer> cartOrder; // Contain all items user added to their cart
 }

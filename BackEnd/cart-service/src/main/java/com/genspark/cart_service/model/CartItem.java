@@ -6,17 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Setter
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
-@Document(collection = "saveForLater")
-public class SaveForLater {
-    @Id
-    private String id;
+@AllArgsConstructor
+public class CartItem {
     private String productId;
-
-
+    private Integer quantity;
 }

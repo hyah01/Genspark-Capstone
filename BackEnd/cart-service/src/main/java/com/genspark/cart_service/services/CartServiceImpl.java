@@ -2,20 +2,10 @@ package com.genspark.cart_service.services;
 
 import com.genspark.cart_service.dto.CartReqRes;
 import com.genspark.cart_service.model.Cart;
-import com.genspark.cart_service.model.CartOrder;
 import com.genspark.cart_service.repository.CartRepository;
 import com.genspark.cart_service.util.CartJwtUtil;
-import com.genspark.user_service.dto.ReqRes;
-import com.genspark.user_service.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService{
@@ -26,6 +16,9 @@ public class CartServiceImpl implements CartService{
     @Autowired
     private CartJwtUtil jwtUtil;
 
+    @Autowired
+    private CartItemImpl cartItems;
+
 
     @Override
     public CartReqRes addCart(CartReqRes reg) {
@@ -34,7 +27,7 @@ public class CartServiceImpl implements CartService{
             // Create new Cart
             Cart cart = new Cart();
             cart.setEmail(reg.getEmail());
-            cart.setCartOrder(reg.getCartOrder());
+            cart.setCartItemsId(cartItems.addCartItem().getCartItems().getId());
             // Save the cart
             Cart result = repository.save(cart);
             // If cart was created successfully
@@ -70,81 +63,6 @@ public class CartServiceImpl implements CartService{
         return  reqRes;
     }
 
-    @Override
-    public CartReqRes addItem(String username, CartOrder cartOrder){
-        CartReqRes reqRes = new CartReqRes();
-        try {
-            // Fetch the cart
-            Cart cart = getCartByEmail(username).getCart();
-            // If cart not there then just create one
-            if (cart == null){
-                reqRes.setEmail(username);
-                reqRes.setCartOrder(new LinkedHashMap<String,Integer>());
-                cart = addCart(reqRes).getCart();
-            }
-            // if the product is in cart
-            if (cart.getCartOrder().containsKey(cartOrder.getProductId())){
-                if (cartOrder.getQuantity() + cart.getCartOrder().get(cartOrder.getProductId()) <= 0){
-                    // if quantity is negative and the whole thing become 0 or less delete it from
-                    cart.getCartOrder().remove(cartOrder.getProductId());
-                } else {
-                cart.getCartOrder().put(cartOrder.getProductId(), (cartOrder.getQuantity() + cart.getCartOrder().get(cartOrder.getProductId())));
-                }
-            } else {
-                // create the item in cart if it's not there
-                cart.getCartOrder().put(cartOrder.getProductId(), cartOrder.getQuantity());
-            }
-
-            updateCart(cart);
-            reqRes.setCart(cart);
-            reqRes.setStatusCode(200);
-            return reqRes;
-        } catch (Exception e) {
-            reqRes.setStatusCode(500);
-            reqRes.setMessage("Error Occurred: " + e.getMessage());
-            return reqRes;
-        }
-    }
-    @Override
-    public CartReqRes updateItem(String username, CartOrder cartOrder){
-        CartReqRes reqRes = new CartReqRes();
-        try {
-            // Fetch the cart
-            Cart cart = getCartByEmail(username).getCart();
-            if (cartOrder.getQuantity() <= 0){
-                cart.getCartOrder().remove(cartOrder.getProductId());
-            } else {
-                cart.getCartOrder().put(cartOrder.getProductId(), (cartOrder.getQuantity()));
-            }
-            updateCart(cart);
-            reqRes.setCart(cart);
-            reqRes.setStatusCode(200);
-            return reqRes;
-        } catch (Exception e) {
-            reqRes.setStatusCode(500);
-            reqRes.setMessage("Error Occurred: " + e.getMessage());
-            return reqRes;
-        }
-    }
-
-    @Override
-    public CartReqRes deleteAllItem(String username, CartOrder cartOrder){
-        CartReqRes reqRes = new CartReqRes();
-        try {
-            // Fetch the cart
-            Cart cart = getCartByEmail(username).getCart();
-            cart.setCartOrder(new LinkedHashMap<String,Integer>());
-            // set cartOrder to be empty and let garbage collector do the rest
-            updateCart(cart);
-            reqRes.setCart(cart);
-            reqRes.setStatusCode(200);
-            return reqRes;
-        } catch (Exception e) {
-            reqRes.setStatusCode(500);
-            reqRes.setMessage("Error Occurred: " + e.getMessage());
-            return reqRes;
-        }
-    }
 
 
     @Override
@@ -180,6 +98,10 @@ public class CartServiceImpl implements CartService{
         CartReqRes reqRes = new CartReqRes();
         try {
             Cart cart = repository.findByEmail(email).orElseThrow(() -> new RuntimeException("Cart Not Found"));
+            reqRes.setEmail(email);
+            reqRes.setCartItemsId(cart.getCartItemsId());
+            reqRes.setSaveForLaterId(cart.getSaveForLaterId());
+            reqRes.setWishListId(cart.getWishListId());
             reqRes.setCart(cart);
             reqRes.setStatusCode(200);
             reqRes.setMessage("Cart with email '" + email + "' found successfully");

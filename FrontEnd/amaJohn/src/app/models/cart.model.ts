@@ -1,5 +1,7 @@
 export interface Cart {
     id: string;
     email: string;
-    cartOrder: Map<string, number>;
+    cartItemsId: string;
+    saveForLaterId: string;
+    wishListId: string;
   }
