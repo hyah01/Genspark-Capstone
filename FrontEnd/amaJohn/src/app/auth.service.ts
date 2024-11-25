@@ -112,6 +112,19 @@ export class AuthService {
       throw error;
     }
   }
+  async getphoto(filename: string): Promise<Blob>{
+    const url = `${this.BASE_URL}/photo/${filename}`;
+    const headers = new HttpHeaders({
+    })
+    try {
+      // Ensure responseType is explicitly set to 'blob'
+      const response = await this.http.get(url, { headers, responseType: 'blob' as 'json' }).toPromise();
+      return response as Blob;
+    } catch (error) {
+      console.error('Error fetching photo:', error);
+      throw error;
+    }
+  }
 
   async uploadProfileImage(token:string,formData: FormData) {
     const url = `${this.BASE_URL}/users/adminuser/uploadProfileImage`;

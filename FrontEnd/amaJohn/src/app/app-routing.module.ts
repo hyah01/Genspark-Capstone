@@ -18,7 +18,8 @@ const routes: Routes = [
   {path: 'products/:id', component: ProductDetailComponent},
   {path:"", component: HomepageComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},
-  {path:'profile',component:ProfileComponent, canActivate: [userGuard]}
+  {path:'profile',component:ProfileComponent, canActivate: [userGuard]},
+  
 ];
 
 

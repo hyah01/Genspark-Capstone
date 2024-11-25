@@ -6,7 +6,7 @@
             <p>Reward Points: {{ user.user.reward_points }}</p>
             
             <!-- Corrected image path -->
-            <img src="{{imageName}}" alt="Couldnt load photo" style="max-width: 100%; height: auto; justify-content: center;">
+            <img [src]="image" alt="Couldnt load photo" style="max-width: 100%; height: auto; justify-content: center;">
 
             <!-- Form for file upload (not functional without backend) -->
             <form (ngSubmit)="onUpload()" enctype="multipart/form-data">

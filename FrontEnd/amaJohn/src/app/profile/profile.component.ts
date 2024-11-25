@@ -12,7 +12,7 @@ export class ProfileComponent {
     constructor(private readonly auth: AuthService, private route: ActivatedRoute, private service: ProductServiceService ){}
     user: any;
     image:any;
-    imageName:any;
+    
     token: string = "";
     ngOnInit(): void {
       try {
@@ -30,8 +30,11 @@ export class ProfileComponent {
     }
     async getUser(token:string){
       this.user = (await this.auth.getUser(token))
-      this.imageName = 'download.png'
-      console.log(this.imageName)
+      console.log(this.user.user.photo)
+      const blob = (await this.auth.getphoto(this.user.user.image))
+      this.image = URL.createObjectURL(blob)
+      console.log("done")
+      console.log(this.image)
       console.log(this.user)
       
     }
@@ -61,5 +64,6 @@ export class ProfileComponent {
       location.reload();
 
     }
+
 
 }
