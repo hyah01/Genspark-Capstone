@@ -19,6 +19,9 @@ public class CartServiceImpl implements CartService{
     @Autowired
     private CartItemImpl cartItems;
 
+    @Autowired
+    private SaveForLaterService sflItems;
+
 
     @Override
     public CartReqRes addCart(CartReqRes reg) {
@@ -28,6 +31,7 @@ public class CartServiceImpl implements CartService{
             Cart cart = new Cart();
             cart.setEmail(reg.getEmail());
             cart.setCartItemsId(cartItems.addCartItem().getCartItems().getId());
+            cart.setSaveForLaterId(sflItems.addSFLItem().getSflItems().getId());
             // Save the cart
             Cart result = repository.save(cart);
             // If cart was created successfully

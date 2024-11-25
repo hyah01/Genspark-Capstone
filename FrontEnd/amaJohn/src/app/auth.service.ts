@@ -97,7 +97,20 @@ export class AuthService {
     }
   }
 
-  async addToUserCart(token: string, id: string, quanitty: number):Promise<any>{
+  async getUserSFLItems(token: string):Promise<any>{
+    const url = `${this.BASE_URL}/saveforlater/get-item`;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    try {
+      const response = await lastValueFrom(this.http.get<any>(url, {headers} ));
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async addToUserCart(token: string, id: string, quantity: number):Promise<any>{
     const url = `${this.BASE_URL}/cart-item/add-item`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -105,7 +118,25 @@ export class AuthService {
     })
     const body = {
       productId: id,
-      quantity: quanitty,
+      quantity: quantity,
+    }
+    try {
+      const response = await lastValueFrom(this.http.put<any>(url,body, {headers} ));
+      return response;
+    }catch (error) {
+      throw error;
+    }
+  }
+
+  async addToUserSFL(token: string, id: string, quantity: number):Promise<any>{
+    const url = `${this.BASE_URL}/saveforlater/add-item`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    })
+    const body = {
+      productId: id,
+      quantity: quantity,
     }
     try {
       const response = await lastValueFrom(this.http.put<any>(url,body, {headers} ));
@@ -126,7 +157,24 @@ export class AuthService {
       quantity: 0,
     }
     try {
-      console.log("test");
+      const response = await lastValueFrom(this.http.put<any>(url,body, {headers} ));
+      return response;
+    }catch (error) {
+      throw error;
+    }
+  }
+
+  async updateUserSFL(token: string, id: string):Promise<any>{
+    const url = `${this.BASE_URL}/saveforlater/update-item`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    })
+    const body = {
+      productId: id,
+      quantity: 0,
+    }
+    try {
       const response = await lastValueFrom(this.http.put<any>(url,body, {headers} ));
       return response;
     }catch (error) {

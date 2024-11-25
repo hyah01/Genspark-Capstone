@@ -1,22 +1,22 @@
 package com.genspark.cart_service.services;
 
-import com.genspark.cart_service.model.SaveForLater;
+import com.genspark.cart_service.dto.CartItemReqRes;
+import com.genspark.cart_service.dto.SFLReqRes;
+import com.genspark.cart_service.model.CartItem;
+import com.genspark.cart_service.model.SaveForLaterItem;
+import com.genspark.cart_service.model.SaveForLaterItems;
 
 import java.util.List;
 
 
 public interface SaveForLaterService {
-    List<SaveForLater> getSaveForLaterItems();
+    SFLReqRes addSFLItem();
 
-    List<SaveForLater> getSFLByCartId(String cartId);
+    SFLReqRes getSFLItemById(String id);
 
-    SaveForLater getById(String id);
+    SFLReqRes addItem(String id, SaveForLaterItem cart);
 
-    SaveForLater addSFLList(SaveForLater sfl);
+    SFLReqRes updateItem(String id, SaveForLaterItem cart);
 
-    String deleteFromSFLList(String id);
-
-    SaveForLater updateSFLList(SaveForLater sfl);
-
-    String deleteAllByCartId(String cartId);
+    SFLReqRes deleteAllItem(String id, SaveForLaterItem cart);
 }

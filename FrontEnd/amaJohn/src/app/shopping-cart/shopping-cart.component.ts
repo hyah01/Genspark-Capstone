@@ -6,6 +6,7 @@ import { Product } from '../models/product.model';
 import { Cart } from '../models/cart.model';
 import { CartItems } from '../models/cartItems.model';
 import { CartItem } from '../models/cartitem.model';
+import { SFLitems } from '../models/sfls.model';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -15,9 +16,12 @@ import { CartItem } from '../models/cartitem.model';
 export class ShoppingCartComponent {
   userCart: any;
   cart: any;
-  length: any;
-  productsList: Product[] = [];
+  cartlength: any;
+  sfllength: any;
+  productsListCart: Product[] = [];
+  productsListSFL: Product[] = [];
   productMap: any;
+  sflMap: any;
   subtotal: number = 0;
   tax: number = 0;
   shipping: number = 10;
@@ -47,9 +51,13 @@ export class ShoppingCartComponent {
   
       const cartItemResponse: CartItems = (await this.auth.getUserCartItems(token)).cartItems;
       this.productMap = cartItemResponse.items; // This is a map of productId -> CartItem
+
+      const sflItemResponse: SFLitems = (await this.auth.getUserSFLItems(token)).sflItems;
+      this.sflMap = sflItemResponse.items; // This is a map of productId -> CartItem
   
       // Calculate length and initialize subtotal
-      this.length = Object.keys(this.productMap).length;
+      this.cartlength = Object.keys(this.productMap).length;
+      this.sfllength = Object.keys(this.sflMap).length;
       this.subtotal = 0;
   
       // Iterate through each product in the productMap using for...in loop
@@ -59,11 +67,23 @@ export class ShoppingCartComponent {
   
           // Fetch product details
           this.proService.getProductById(productId).subscribe(data => {
-            this.productsList.push(data);
+            this.productsListCart.push(data);
             // Using the quantity from cartItem and the product data to calculate subtotal
             this.calSubTotal(data.price.amount, cartItem.quantity);
             this.calTax(this.subtotal, 7.25);
             this.calTotal();
+          });
+        }
+      }
+
+      // Iterate through each product in the productMap using for...in loop
+      for (const productId in this.sflMap) {
+        if (this.sflMap.hasOwnProperty(productId)) {
+          const cartItem = this.sflMap[productId]; // This will be a Save For Later Cart
+  
+          // Fetch product details
+          this.proService.getProductById(productId).subscribe(data => {
+            this.productsListSFL.push(data);
           });
         }
       }
@@ -96,14 +116,61 @@ export class ShoppingCartComponent {
     }
   }
 
+  saveForLater(productId: string, quantity: number){
+    try{
+      const token = localStorage.getItem('token');
+      if (!token){
+        throw new Error('No Token Found')
+      }
+      this.auth.addToUserSFL(token, productId, quantity).then(() => {
+        this.deleteItem(productId);
+      })
+      
+    } 
+    catch (error: any) {
+      throw new Error(error)
+    }
+  }
+
+  moveToCart(productId: string, quantity: number){
+    try{
+      const token = localStorage.getItem('token');
+      if (!token){
+        throw new Error('No Token Found')
+      }
+      this.auth.addToUserCart(token, productId, quantity).then(() => {
+        this.deleteFromSaveForLater(productId);
+      })
+      
+    } 
+    catch (error: any) {
+      throw new Error(error)
+    }
+  }
+
   deleteItem(productId: string){
     try{
       const token = localStorage.getItem('token');
       if (!token){
         throw new Error('No Token Found')
       }
-      console.log("test1")
       this.auth.updateUserCart(token, productId).then(() => {
+        window.location.reload();
+      })
+      
+    } 
+    catch (error: any) {
+      throw new Error(error)
+    }
+  }
+
+  deleteFromSaveForLater(productId: string){
+    try{
+      const token = localStorage.getItem('token');
+      if (!token){
+        throw new Error('No Token Found')
+      }
+      this.auth.updateUserSFL(token, productId).then(() => {
         window.location.reload();
       })
       

@@ -45,6 +45,7 @@
     width: 200px;  
     height: 200px;  /* Ensure the image height is always 250px */
     min-width: 200px; 
+    min-width: 200px; 
     object-fit: contain; /* Ensures the image fits within its container without distorting */
     background-color: white; 
     cursor: pointer;
@@ -192,3 +193,73 @@
     color: skyblue;
     border: 2px solid skyblue;
 }
+
+
+.truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .save-for-later {
+    display: grid;
+    gap: 1rem; 
+  }
+  
+  .sfl-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #e5e7eb; 
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .sfl-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .sfl-item img {
+    width: 200px;  
+    height: 200px;  /* Ensure the image height is always 250px */
+    min-width: 200px; 
+    min-height: 200px; 
+    object-fit: contain; /* Ensures the image fits within its container without distorting */
+    background-color: white; 
+    cursor: pointer;
+    border: 15px solid transparent;
+  }
+  
+  .sfl-item .details2 {
+    margin-top: 0.5rem;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .sfl-item .details2 p {
+    font-size: 1rem;
+    color: #333;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  .move-to-cart-btn {
+    margin-top: 1rem;
+    background-color: skyblue; 
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .move-to-cart-btn:hover {
+    background-color: #0284c7; /* Slightly darker blue */
+  }
