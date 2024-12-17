@@ -191,6 +191,26 @@ export class ShoppingCartComponent {
     }
   }
 
+  checkout() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.alert('No token found. Please log in again.');
+      return;
+    }
+  
+    this.cartService
+      .checkout(token, this.productsListCart)
+      .then(() => {
+        window.location.reload(); // Successful checkout
+      })
+      .catch((error: any) => {
+        // Handle the "out of stock" error
+        window.alert(`Checkout failed: ${error.message}`);
+        window.location.reload();
+        
+      });
+  }
+
   calSubTotal(price: number, quantity: number) {
     const productTotal = price * quantity;
     this.subtotal = (Math.round((this.subtotal + productTotal) * 100) / 100);

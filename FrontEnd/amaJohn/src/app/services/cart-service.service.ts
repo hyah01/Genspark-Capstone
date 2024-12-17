@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, lastValueFrom, map } from 'rxjs';
+import { Product } from '../models/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -142,8 +143,44 @@ export class CartServiceService {
     }
   }
 
-  async checkout(token: string):Promise<any>{
-    
+  async checkout(token: string, products: Product[]):Promise<any>{
+    const url = `${this.BASE_URL}/cart-item/checkout`;
+    const productValidationUrl = `${this.BASE_URL}/product/check-stock`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    try {
+      // Check all product quantities
+      for (const product of products) {
+        try {
+          const checkResponse = await lastValueFrom(
+            this.http.post<any>(productValidationUrl, {
+              productId: product.id,
+              quantity: product.quantity
+            })
+          );
+          if (!checkResponse.success) {
+            throw new Error(`Product ${product.id} is out of stock`);
+          }
+        }
+        catch (validationError: any) {
+          // Catch backend BAD_REQUEST responses here
+          const errorMessage =
+            validationError.error?.message ||
+            `Product '${product.id}' is out of stock`;
+          throw new Error(errorMessage);
+        }
+      }
+  
+      // TODO : If all pass, finalize checkout logic
+      // Reserve stock or confirm order logic here
+  
+      return { success: true, message: 'Checkout successful' };
+    } catch (error: any) {
+      // Propagate the error to the component
+      throw new Error(error.message || 'Checkout failed');
+    }
   }
 
 

@@ -82,8 +82,28 @@ public class CartItemsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    @PutMapping("/delete-all-items") // Add a single order to the databased
+    @PutMapping("/delete-all-items")
     public ResponseEntity<CartItemReqRes> deleteAllItems(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartItem cartOrder){
+        try {
+            // Validate the token and extract the username
+            String username = cartService.validateAndExtractUsername(token);
+            // Get Cart Items ID
+            String cartItemId = cartService.getCartByEmail(username).getCartItemsId();
+            // Fetch the cart using the username
+            CartItemReqRes reqRes = service.deleteAllItem(username, cartOrder);
+            return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PutMapping("/checkout")
+    public ResponseEntity<CartItemReqRes> checkout(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartItem cartOrder){
         try {
             // Validate the token and extract the username
             String username = cartService.validateAndExtractUsername(token);
