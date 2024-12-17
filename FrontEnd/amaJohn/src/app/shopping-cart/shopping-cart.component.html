@@ -49,6 +49,36 @@
                 </div>
               </div>
             </div>
+            <!-- Product that are in cart but not available will be here -->
+            <div class="u-item border" *ngFor="let product of productNotAvailableCart">
+              <img class="unavailable" src="{{product.image[0]}}" alt="{{product.productName}}" (click)="selectItem(product.id)">
+              <div class="details flex flex-col">
+                <div class="description unavailable">
+                  <p class="cursor-pointer font-normal text-[23px]" (click)="selectItem(product.id)" >{{product.productName}}</p>
+                </div>
+                <div class="function flex gap-5 pb-4">
+                  <div class="flex flex-row">
+                    <button class="unavailable-bt" >
+                      <span class="text-white font-bold">Unavailable</span>
+                    </button>
+                  </div>
+                  <div class="save-for-later flex flex-row">
+                    <button class="sfl-bt" (click)="saveForLater(product.id, productMap[product.id].quantity)">
+                      <span class="sfl-tx">Save For Later</span>
+                    </button>
+                  </div>
+              </div>
+              </div>
+              <div class="price unavailable">
+                <div class="price-sale flex text-right">
+                  <span class="text-[25px]">$<span class="text-[25px] font-bold">{{ formatPrice(product.price.amount) }}</span></span>
+                </div>
+                <div class="price-pre-sale flex gap-3 text-right">
+                  <span class="text-red-500" *ngIf="product.price.saving.amount != 0">-{{product.price.saving.percentage}}%</span>
+                  <span class="line-through text-gray-500" *ngIf="product.price.saving.amount != 0"> ${{ formatPrice(product.price.amount + product.price.saving.amount) }}</span>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="cart-checkout col">
             <div class="checkout-title">

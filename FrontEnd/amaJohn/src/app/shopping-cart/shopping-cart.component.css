@@ -41,6 +41,7 @@
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+
 .cart-item img {
     width: 200px;  
     height: 200px;  /* Ensure the image height is always 250px */
@@ -140,6 +141,15 @@
     border-radius: 100px;
     padding: 0 10px 0 10px;
 }
+
+.unavailable-bt {
+  background-color:skyblue;
+  box-sizing: border-box;
+  border: 3px solid skyblue;
+  border-radius: 100px;
+  padding: 0 10px 0 10px;
+}
+
 
 .sfl-bt:hover {
     background-color:white;
@@ -262,4 +272,18 @@
   
   .move-to-cart-btn:hover {
     background-color: #0284c7; /* Slightly darker blue */
+  }
+
+  .unavailable {
+    opacity: 0.3; 
+    filter: grayscale(100%);
+  }
+
+  .u-item {
+    display: flex;
+    gap: 15px;
+    border-radius: 15px;
+    width: 100%;  
+    background-color:rgba(240, 248, 255, 0.3);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   }

@@ -7,6 +7,7 @@ import { Cart } from '../models/cart.model';
 import { CartItems } from '../models/cartItems.model';
 import { CartItem } from '../models/cartitem.model';
 import { SFLitems } from '../models/sfls.model';
+import { CartServiceService } from '../services/cart-service.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -19,6 +20,7 @@ export class ShoppingCartComponent {
   cartlength: any;
   sfllength: any;
   productsListCart: Product[] = [];
+  productNotAvailableCart: Product[] = [];
   productsListSFL: Product[] = [];
   productMap: any;
   sflMap: any;
@@ -28,7 +30,7 @@ export class ShoppingCartComponent {
   total:number = 0;
   
 
-  constructor(private readonly auth: AuthService, private proService: ProductServiceService, private router: Router){}
+  constructor(private readonly auth: AuthService, private proService: ProductServiceService, private router: Router, private cartService: CartServiceService){}
 
   ngOnInit(): void {
     try {
@@ -46,14 +48,14 @@ export class ShoppingCartComponent {
   async getCart(token: string) {
     try {
       // Fetch cart and cart items
-      const cart: Cart = (await this.auth.getUserCart(token)).cart;
+      const cart: Cart = (await this.cartService.getUserCart(token)).cart;
       this.userCart = cart;
   
-      const cartItemResponse: CartItems = (await this.auth.getUserCartItems(token)).cartItems;
-      this.productMap = cartItemResponse.items; // This is a map of productId -> CartItem
+      const cartItemResponse: CartItems = (await this.cartService.getUserCartItems(token)).cartItems;
+      this.productMap = cartItemResponse.items; // This get all user's productId in cart
 
-      const sflItemResponse: SFLitems = (await this.auth.getUserSFLItems(token)).sflItems;
-      this.sflMap = sflItemResponse.items; // This is a map of productId -> CartItem
+      const sflItemResponse: SFLitems = (await this.cartService.getUserSFLItems(token)).sflItems;
+      this.sflMap = sflItemResponse.items; // This get all user's productId in save for later cart
   
       // Calculate length and initialize subtotal
       this.cartlength = Object.keys(this.productMap).length;
@@ -63,15 +65,21 @@ export class ShoppingCartComponent {
       // Iterate through each product in the productMap using for...in loop
       for (const productId in this.productMap) {
         if (this.productMap.hasOwnProperty(productId)) {
-          const cartItem = this.productMap[productId]; // This will be a CartItem
+          const cartItem = this.productMap[productId]; // This will be a item in the cart
   
           // Fetch product details
           this.proService.getProductById(productId).subscribe(data => {
-            this.productsListCart.push(data);
-            // Using the quantity from cartItem and the product data to calculate subtotal
-            this.calSubTotal(data.price.amount, cartItem.quantity);
-            this.calTax(this.subtotal, 7.25);
-            this.calTotal();
+            // Add item that are available
+            if (data.quantity > 0){
+              this.productsListCart.push(data);
+              // Using the quantity from cartItem and the product data to calculate subtotal
+              this.calSubTotal(data.price.amount, cartItem.quantity);
+              this.calTax(this.subtotal, 7.25);
+              this.calTotal();
+            } else {
+              // Add items that are not available in here
+              this.productNotAvailableCart.push(data);
+            }
           });
         }
       }
@@ -100,13 +108,14 @@ export class ShoppingCartComponent {
     return price.toFixed(2);
   }
 
+  // Use to add or subtract item from cart
   updateCart(productId: string, quanity: number){
     try{
       const token = localStorage.getItem('token');
       if (!token){
         throw new Error('No Token Found')
       }
-      this.auth.addToUserCart(token, productId, quanity).then(() => {
+      this.cartService.addToUserCart(token, productId, quanity).then(() => {
         window.location.reload();
       })
       
@@ -116,13 +125,14 @@ export class ShoppingCartComponent {
     }
   }
 
+  // Move item from cart to sfl cart
   saveForLater(productId: string, quantity: number){
     try{
       const token = localStorage.getItem('token');
       if (!token){
         throw new Error('No Token Found')
       }
-      this.auth.addToUserSFL(token, productId, quantity).then(() => {
+      this.cartService.addToUserSFL(token, productId, quantity).then(() => {
         this.deleteItem(productId);
       })
       
@@ -132,13 +142,14 @@ export class ShoppingCartComponent {
     }
   }
 
+  // Move item from sfl cart to cart
   moveToCart(productId: string, quantity: number){
     try{
       const token = localStorage.getItem('token');
       if (!token){
         throw new Error('No Token Found')
       }
-      this.auth.addToUserCart(token, productId, quantity).then(() => {
+      this.cartService.addToUserCart(token, productId, quantity).then(() => {
         this.deleteFromSaveForLater(productId);
       })
       
@@ -154,7 +165,7 @@ export class ShoppingCartComponent {
       if (!token){
         throw new Error('No Token Found')
       }
-      this.auth.updateUserCart(token, productId).then(() => {
+      this.cartService.updateUserCart(token, productId).then(() => {
         window.location.reload();
       })
       
@@ -170,7 +181,7 @@ export class ShoppingCartComponent {
       if (!token){
         throw new Error('No Token Found')
       }
-      this.auth.updateUserSFL(token, productId).then(() => {
+      this.cartService.updateUserSFL(token, productId).then(() => {
         window.location.reload();
       })
       

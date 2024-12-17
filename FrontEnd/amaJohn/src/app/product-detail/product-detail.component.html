@@ -39,17 +39,30 @@
                     <span class="line-through text-gray-500" *ngIf="product.price.saving.amount != 0"> ${{ formatPrice(product.price.amount + product.price.saving.amount) }}</span>
                 </div>
                 <div class="buy border-b-2">
-                    <!-- TO DO  -->
-                    <div class="delete flex flex-row pt-[10px] pb-[10px]">
+                  <!-- Show everything normally if product's quantity is not 0 -->
+                    <div *ngIf="product.quantity != 0">
+                      <div *ngIf="product.quantity <= 15">
+                        <h3 class="mb-0 text-red-500">Only {{product.quantity}} left!</h3>
+                      </div>
+                      <div class="delete flex flex-row pt-[10px] pb-[10px]">
                         <button class="sfl-bt" (click)="addToCart(selectedQuantity)">
                           <span class="sfl-tx">Add To Cart</span>
                         </button>
+                      </div>
+                      <div class="quantity-selector mt-[10px] pb-[15px]">
+                          <label for="quantity" class="quantity-label">Quantity:</label>
+                          <select name="quantity" id="quantity" [(ngModel)]="selectedQuantity" class="quantity-dropdown">
+                            <option *ngFor="let qty of quantities" [value]="qty">{{qty}}</option>
+                          </select>
+                      </div>
                     </div>
-                    <div class="quantity-selector mt-[10px] pb-[15px]">
-                        <label for="quantity" class="quantity-label">Quantity:</label>
-                        <select name="quantity" id="quantity" [(ngModel)]="selectedQuantity" class="quantity-dropdown">
-                          <option *ngFor="let qty of quantities" [value]="qty">{{qty}}</option>
-                        </select>
+                    <!-- Disable adding to cart option if theres no available product -->
+                    <div *ngIf="product.quantity == 0">
+                      <div class="delete flex flex-row pt-[10px] pb-[10px] disabled">
+                        <button class="sfl-bt">
+                          <span class="sfl-tx">Unavailable</span>
+                        </button>
+                      </div>
                     </div>
                      
                 </div>
