@@ -86,4 +86,7 @@ public class JwtUtil {
     public void tokenValidate(final String token){
         Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
     }
+    public Boolean token(final String token){
+        return isTokenExpired(token);
+    }
 }
