@@ -143,7 +143,7 @@ export class CartServiceService {
     }
   }
 
-  async checkout(token: string, products: Product[]):Promise<any>{
+  async checkout(token: string, products: Product[], productMap: any):Promise<any>{
     const url = `${this.BASE_URL}/cart-item/checkout`;
     const productValidationUrl = `${this.BASE_URL}/product/check-stock`;
     const headers = new HttpHeaders({
@@ -157,18 +157,18 @@ export class CartServiceService {
           const checkResponse = await lastValueFrom(
             this.http.post<any>(productValidationUrl, {
               productId: product.id,
-              quantity: product.quantity
+              quantity: productMap[product.id]
             })
           );
           if (!checkResponse.success) {
-            throw new Error(`Product ${product.id} is out of stock`);
+            throw new Error(`Product ${product.productName}: Does not have enough stock available`);
           }
         }
         catch (validationError: any) {
           // Catch backend BAD_REQUEST responses here
           const errorMessage =
             validationError.error?.message ||
-            `Product '${product.id}' is out of stock`;
+            `Product ${product.productName}: Does not have enough stock available`;
           throw new Error(errorMessage);
         }
       }
