@@ -9,18 +9,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@Document(collection = "order_history")
+@Document(collection = "orderHistory")
 public class OrderHistory {
     @Id
     private String id;
-
     private String userId;
-    private List<String> transactionIds;
-    private List<String> refundIds;
+    private Map<String, Integer> products;
     private Date orderDate;
     private Date estimatedDate;
 

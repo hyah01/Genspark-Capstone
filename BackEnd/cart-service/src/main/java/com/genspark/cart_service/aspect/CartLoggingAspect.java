@@ -29,8 +29,8 @@ public class CartLoggingAspect {
         logMethodExecution(joinPoint);
     }
 
-    // Log CartOrderService methods
-    @Before("execution(* com.genspark.cart_service.services.CartOrderService.*(..))")
+    // Log CartItemService methods
+    @Before("execution(* com.genspark.cart_service.services.CartItemService.*(..))")
     public void logBeforeCartOrderService(JoinPoint joinPoint) {
         logMethodExecution(joinPoint);
     }

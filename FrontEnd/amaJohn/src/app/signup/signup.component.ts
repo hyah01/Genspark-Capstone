@@ -18,6 +18,16 @@ export class SignupComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
+  passwordStrength: String = '';
+  passwordVisible: boolean = false;
+
+  passwordCriteria = [
+    { regex: /.{8,}/, description: 'At least 8 characters', met: false },
+    { regex: /[A-Z]/, description: 'At least one uppercase letter', met: false },
+    { regex: /[a-z]/, description: 'At least one lowercase letter', met: false },
+    { regex: /\d/, description: 'At least one number', met: false },
+    { regex: /[!@#$%^&*(),.?":{}|<>]/, description: 'At least one special character', met: false },
+  ];
 
   constructor(private authService: AuthService, private router: Router, private http: HttpClient) {}
 
@@ -38,28 +48,27 @@ export class SignupComponent {
         if (!emailExists) {
           try {
             const response = await this.authService.signup(user);
-            if (response.statusCode === 200){
+            if (response.statusCode === 200) {
               return response.then(this.router.navigate(["/login"]));
             } else {
-              this.showError(response.message);
+              this.showError(response.error);
+              return;
             }
-
           } catch (error: any) {
             if (error.error instanceof ErrorEvent) {
-                this.showError(error.error.message);
+              this.showError(error.error.message);
             } else {
-                // Handle non-JSON response 
-                try {
-                    const errorText = await error.text();
-                    this.showError(errorText);
-                } catch (e) {
-                    this.showError('Unknown error occurred');
-                }
+              try {
+                const errorText = await error.text();
+                this.showError(errorText);
+              } catch (e) {
+                this.showError('Unknown error occurred');
+              }
             }
-        }
+          }
         } else {
           this.showError('Email already exists');
-          return
+          return;
         }
       });
     } else {
@@ -68,9 +77,18 @@ export class SignupComponent {
       } else {
         this.showError('Please fill in all fields');
       }
-      
-      return
+      return;
     }
+  }
+
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
+  checkPasswordStrength() {
+    this.passwordCriteria.forEach((criteria) => {
+      criteria.met = criteria.regex.test(this.password);
+    });
   }
 
   showError(message: string) {
@@ -79,4 +97,6 @@ export class SignupComponent {
       this.errorMessage = ''
     }, 3000)
   }
+
+  
 }

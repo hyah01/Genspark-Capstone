@@ -30,14 +30,14 @@ export class LoginComponent {
         localStorage.setItem('token', response.token)
         localStorage.setItem('role', response.role)
         const cartResponse = await this.authService.hasCart(this.email, response.token);
-        console.log(cartResponse)
+        console.log(cartResponse);
           if (cartResponse.message == 'false'){
             try{
             const cartResponse = await this.authService.addCart(this.email, response.token);
             if (cartResponse.statusCode === 200){
-              // this.router.navigateByUrl("/").then(() => 
-              //   window.location.reload()
-              // )
+              this.router.navigateByUrl("/").then(() => 
+                window.location.reload()
+              )
             }
           } catch (error: any){
             this.showError("Problem Creating User Cart: " + error.message)

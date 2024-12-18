@@ -12,8 +12,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { SellItemComponent } from './sell-item/sell-item.component';
 
 const routes: Routes = [
-  {path:"login", component: LoginComponent},
-  {path:"register", component: SignupComponent},
+  {path: "login", component: LoginComponent},
+  {path: "register", component: SignupComponent},
   {path: "products", component: ProductsComponent},
   {path: 'cart', component: ShoppingCartComponent, canActivate: [userGuard]},
   {path: 'products/:id', component: ProductDetailComponent},

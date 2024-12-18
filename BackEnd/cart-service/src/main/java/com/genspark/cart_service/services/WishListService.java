@@ -1,6 +1,5 @@
 package com.genspark.cart_service.services;
 
-import com.genspark.cart_service.model.CartOrder;
 import com.genspark.cart_service.model.WishList;
 
 import java.util.List;

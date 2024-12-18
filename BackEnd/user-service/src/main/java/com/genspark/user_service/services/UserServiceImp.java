@@ -11,56 +11,29 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.regex.Pattern;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImp implements UserService{
-
+    private static final String LENGTH_REGEX = ".{8,}";
+    private static final String UPPERCASE_REGEX = ".*[A-Z].*";
+    private static final String LOWERCASE_REGEX = ".*[a-z].*";
+    private static final String DIGIT_REGEX = ".*\\d.*";
+    private static final String SPECIAL_CHAR_REGEX = ".*[!@#$%^&*(),.?\":{}|<>].*";
     @Autowired
     private UserRepository userRepository;
-
-    private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserServiceImp(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    public User saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
-    }
-
-    public User getUserById(String id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    public User updateUser(String id, User user) {
-        if (userRepository.existsById(id)) {
-            user.setId(id);
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            return userRepository.save(user);
-        }
-        return null;
-    }
-
-    public boolean getUserEmail(String email){
-        Optional<User> userDetail = userRepository.findByEmail(email);
-        return userDetail.isPresent();
-    }
 
     public boolean emailExists(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
 
-    public User getUserByEmail(String email){
-        return userRepository.findByEmail(email).orElse(null);
+    public boolean isValid(String password){
+        return Pattern.matches(LENGTH_REGEX, password)
+                && Pattern.matches(UPPERCASE_REGEX, password)
+                && Pattern.matches(LOWERCASE_REGEX, password)
+                && Pattern.matches(DIGIT_REGEX, password)
+                && Pattern.matches(SPECIAL_CHAR_REGEX, password);
     }
 
     public boolean deleteUser(String id) {

@@ -5,6 +5,7 @@ import com.genspark.user_service.entities.User;
 import com.genspark.user_service.repositories.UserRepository;
 import com.genspark.user_service.util.JwtUtil;
 import com.netflix.discovery.converters.Auto;
+import org.bouncycastle.crypto.OutputLengthException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 
 @Service
@@ -40,6 +42,9 @@ public class UserManagementService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserService userService;
+
     private static final Logger logger = LoggerFactory.getLogger(UserManagementService.class);
 
     public ReqRes register(ReqRes registrationRequest){
@@ -47,9 +52,12 @@ public class UserManagementService {
         try {
             User user = new User();
             user.setEmail(registrationRequest.getEmail());
-            user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+            if (!(userService.isValid(registrationRequest.getPassword()))){
+                throw new IllegalAccessException("Password is invalid");
+            }
             user.setFirst_name(registrationRequest.getFirst_name());
             user.setLast_name(registrationRequest.getLast_name());
+            user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
             user.setRole(registrationRequest.getRole());
             user.setReward_points(registrationRequest.getReward_points());
             user.setOrderHistory_ids(registrationRequest.getOrderHistory_ids());
@@ -62,6 +70,9 @@ public class UserManagementService {
 
             }
 
+        } catch (IllegalArgumentException e) {
+            resp.setStatusCode(400); // Bad Request
+            resp.setError(e.getMessage());
         } catch (Exception e){
             resp.setStatusCode(500);
             resp.setError(e.getMessage());
