@@ -8,11 +8,6 @@ spring:
       host: localhost
       port: 27017
       database: userDB
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 10MB
-      max-request-size: 10MB
 
 logging:
   level:
@@ -22,4 +17,3 @@ logging:
     name: app.log
   pattern:
     console: '%d{yyyy-MM-dd HH:mm:ss} - %msg%n'
-
