@@ -26,7 +26,7 @@ public class User implements UserDetails {
     private String role;
     private Integer reward_points;
     private List<String> orderHistory_ids;
-
+    private String image;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role));

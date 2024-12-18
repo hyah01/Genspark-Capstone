@@ -1,6 +1,7 @@
+.gitignore
 .idea/
 /target
-.gitignore
+
 node_modules
 *.log
 *.gz

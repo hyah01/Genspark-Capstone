@@ -40,7 +40,8 @@ export class SignupComponent {
         password: this.password,
         role: 'USER',
         reward_points: 0,
-        orderHistory_ids: []
+        orderHistory_ids: [],
+        image:'download.png'
       };
 
       this.authService.checkEmail(this.email).subscribe(async emailExists => {

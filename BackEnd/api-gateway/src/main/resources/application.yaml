@@ -19,6 +19,11 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: photo-service
+          uri: lb://photo-service
+          predicates:
+            - Path=/photo/**
+
         - id: user-service-user
           uri: lb://user-service
           predicates:
@@ -71,3 +76,4 @@ spring:
           uri: lb://review-service
           predicates:
             - Path=/reviews/**
+
