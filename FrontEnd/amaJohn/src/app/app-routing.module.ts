@@ -9,6 +9,7 @@ import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { userGuard } from './auth.guard';
 import { ProfileComponent } from './profile/profile.component';
+import { SellItemComponent } from './sell-item/sell-item.component';
 
 const routes: Routes = [
   {path:"login", component: LoginComponent},
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path:"", component: HomepageComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path:'profile',component:ProfileComponent, canActivate: [userGuard]},
+  {path:'profile/sellItem',component:SellItemComponent, canActivate: [userGuard]},
   
 ];
 

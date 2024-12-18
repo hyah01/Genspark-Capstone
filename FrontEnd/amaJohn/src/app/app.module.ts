@@ -17,6 +17,7 @@ import { FooterComponent } from './footer/footer.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ProfileComponent } from './profile/profile.component';
+import { SellItemComponent } from './sell-item/sell-item.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ProfileComponent } from './profile/profile.component';
     SignupComponent,
     FooterComponent,
     ProductDetailComponent,
-    ProfileComponent
+    ProfileComponent,
+    SellItemComponent
   ],
   imports: [
     BrowserModule,

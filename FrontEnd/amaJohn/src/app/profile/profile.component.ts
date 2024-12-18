@@ -34,7 +34,7 @@ export class ProfileComponent {
       const blob = (await this.auth.getphoto(this.user.user.image))
       this.image = URL.createObjectURL(blob)
       console.log("done")
-      console.log(this.image)
+
       console.log(this.user)
       
     }
