@@ -36,22 +36,7 @@ public class UserServiceImp implements UserService{
                 && Pattern.matches(SPECIAL_CHAR_REGEX, password);
     }
 
-    public boolean deleteUser(String id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-            return true;
-        } else {
-            return false;
-        }
-    }
 
-    @Override
-    public UserInfoDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
-
-        return new UserInfoDetails(user);
-    }
 
 
 }
