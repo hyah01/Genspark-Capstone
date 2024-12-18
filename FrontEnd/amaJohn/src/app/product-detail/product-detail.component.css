@@ -42,4 +42,61 @@
     font: 50px;
 }
 
+.sfl-tx {
+    margin: 0;
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
+}
+
+.sfl-bt {
+    background-color:skyblue;
+    box-sizing: border-box;
+    border: 3px solid skyblue;
+    border-radius: 100px;
+    padding: 0 10px 0 10px;
+}
+
+.sfl-bt:hover {
+    background-color:white;
+}
+
+.sfl-tx:hover {
+    color: skyblue;
+}
+
+.quantity-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 10px;
+    width: 8%;
+    min-width: 50px;
+}
+
+.quantity-label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+}
+
+.quantity-dropdown {
+    font-size: 16px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quantity-dropdown:focus {
+    border-color: skyblue;
+    box-shadow: 0 0 8px rgba(0, 162, 255, 0.3);
+}
+
+.quantity-dropdown option {
+    padding: 10px;
+}
 

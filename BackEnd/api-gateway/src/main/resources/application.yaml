@@ -39,10 +39,10 @@ spring:
             - Path=/cart/**
           filters:
             - JWTFilter
-        - id: cart-service-cartorder
+        - id: cart-service-cart-items
           uri: lb://cart-service
           predicates:
-            - Path=/cartorder/**
+            - Path=/cart-item/**
         - id: cart-service-saveforlater
           uri: lb://cart-service
           predicates:

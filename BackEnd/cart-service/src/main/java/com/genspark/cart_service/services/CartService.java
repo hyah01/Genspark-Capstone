@@ -1,22 +1,23 @@
 package com.genspark.cart_service.services;
 
+import com.genspark.cart_service.dto.CartReqRes;
 import com.genspark.cart_service.model.Cart;
-import org.springframework.stereotype.Service;
+import com.genspark.cart_service.model.CartItem;
 
 public interface CartService {
 
-    Cart getCartByCartId(String cartId);
+    CartReqRes getCartByCartId(String cartId);
 
-    Cart addCart(Cart cart);
+    CartReqRes addCart(CartReqRes cart);
 
-    Cart getCartByEmail(String email);
+    Cart updateCart(Cart cart);
 
-    Boolean hasCart(String email);
+    CartReqRes getCartByEmail(String email);
 
-    String deleteCart(String cartId);
+    CartReqRes hasCart(String email);
 
+    CartReqRes deleteCart(String cartId);
 
-
-
+    String validateAndExtractUsername(String token) throws Exception;
 
 }

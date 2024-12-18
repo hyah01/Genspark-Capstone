@@ -2,24 +2,17 @@ package com.genspark.cart_service.controller;
 
 
 import com.genspark.cart_service.dto.CartReqRes;
-import com.genspark.cart_service.model.Cart;
+import com.genspark.cart_service.model.CartItem;
 import com.genspark.cart_service.services.CartService;
 import com.genspark.cart_service.services.CartUserInfoService;
 import com.genspark.cart_service.util.CartJwtUtil;
-import com.genspark.user_service.util.JwtUtil;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/cart")
@@ -40,81 +33,47 @@ public class CartController {
 
     @PostMapping // add to the database when account created
     public ResponseEntity<CartReqRes> add(@RequestBody CartReqRes reg){
-        CartReqRes reqRes = new CartReqRes();
-        try {
-            Cart cart = new Cart();
-            cart.setEmail(reg.getEmail());
-            cart.setCartOrder(reg.getCartOrder());
-            Cart result = service.addCart(cart);
-            if (result.getId() != null && !result.getId().isEmpty()){
-                reqRes.setCart(cart);
-                reqRes.setMessage("Successfully Created Cart");
-                reqRes.setStatusCode(200);
-            } else {
-                reqRes.setStatusCode(500);
-                reqRes.setMessage("Unsuccessfully Created Cart");
-            }
-        } catch (Exception e) {
-            reqRes.setStatusCode(500);
-            reqRes.setMessage("Error: " + e);
-        }
+        CartReqRes reqRes = service.addCart(reg);
         return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cart> getCartByID(@PathVariable String id) {
-        Cart cart = service.getCartByCartId(id);
-        if (cart == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(cart);
-        }
+    public ResponseEntity<CartReqRes> getCartByID(@PathVariable String id) {
+        return ResponseEntity.ok(service.getCartByCartId(id));
     }
 
     @GetMapping("has-cart/{email}")
     public ResponseEntity<CartReqRes> hasCart(@PathVariable String email){
-        CartReqRes reqRes = new CartReqRes();
-        reqRes.setMessage(service.hasCart(email).toString());
-        reqRes.setStatusCode(200);
-
+        CartReqRes reqRes = service.hasCart(email);
         return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
     }
 
     @GetMapping("/get-my-cart")
-    public ResponseEntity<Cart> getMyCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
+    public ResponseEntity<CartReqRes> getMyCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         try {
-            // Validate the token
-            String username = jwtUtil.extractUsername(token);
-            System.out.println(username);
-            if (username == null || jwtUtil.tokenValidate(token)) {
-                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
-            }
-
-            // Fetch the cart
-            Cart cart = service.getCartByEmail(username); // Ensure this method is correctly implemented
-            return ResponseEntity.ok(cart);
-        } catch (Exception e) {
-            e.printStackTrace(); // Print stack trace for debugging
+            // Validate the token and extract the username
+            String username = service.validateAndExtractUsername(token);
+            // Fetch the cart using the username
+            CartReqRes reqRes = service.getCartByEmail(username);
+            return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
 
     @DeleteMapping("/{id}") // delete cart when account deleted
-    public ResponseEntity<String> deleteById(@PathVariable String id){
-        String string = service.deleteCart(id);
-        if (string == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(string);
-        }
+    public ResponseEntity<CartReqRes> deleteById(@PathVariable String id){
+        CartReqRes ReqRes = service.deleteCart(id);
+        return ResponseEntity.status(ReqRes.getStatusCode()).body(ReqRes);
     }
+
+
 
     // Exception handling for this controller
     @ExceptionHandler(Exception.class)

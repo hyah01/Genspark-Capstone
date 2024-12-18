@@ -2,7 +2,7 @@ package com.genspark.cart_service.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.genspark.cart_service.controller.SaveForLaterController;
-import com.genspark.cart_service.model.SaveForLater;
+import com.genspark.cart_service.model.SaveForLaterItems;
 import com.genspark.cart_service.services.SaveForLaterService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-public class SaveForLaterControllerTest {
+public class SaveForLaterItemsControllerTest {
 
     @Mock
     private SaveForLaterService service;
@@ -40,11 +40,11 @@ public class SaveForLaterControllerTest {
 
     @Test
     void testAddSaveForLater() throws Exception {
-        SaveForLater saveForLater = new SaveForLater("1", "1", "1", "1");
+        SaveForLaterItems saveForLaterItems = new SaveForLaterItems("1", "1", "1", "1");
         ObjectMapper mapper = new ObjectMapper();
-        String saveForLaterJson = mapper.writeValueAsString(saveForLater);
+        String saveForLaterJson = mapper.writeValueAsString(saveForLaterItems);
 
-        Mockito.when(service.addSFLList(Mockito.any(SaveForLater.class))).thenReturn(saveForLater);
+        Mockito.when(service.addSFLList(Mockito.any(SaveForLaterItems.class))).thenReturn(saveForLaterItems);
 
         mockMvc.perform(post("/saveforlater")
                         .contentType("application/json")
@@ -55,18 +55,18 @@ public class SaveForLaterControllerTest {
                 .andExpect(jsonPath("$.userId").value("1"))
                 .andExpect(jsonPath("$.productId").value("1"));
 
-        verify(service, times(1)).addSFLList(Mockito.any(SaveForLater.class));
+        verify(service, times(1)).addSFLList(Mockito.any(SaveForLaterItems.class));
     }
 
     @Test
     void testUpdateSaveForLater() throws Exception {
-        SaveForLater saveForLater = new SaveForLater("1", "1", "1", "1");
-        SaveForLater updatedSaveForLater = new SaveForLater("1", "1", "1", "2");
+        SaveForLaterItems saveForLaterItems = new SaveForLaterItems("1", "1", "1", "1");
+        SaveForLaterItems updatedSaveForLaterItems = new SaveForLaterItems("1", "1", "1", "2");
         ObjectMapper mapper = new ObjectMapper();
-        String saveForLaterJson = mapper.writeValueAsString(updatedSaveForLater);
+        String saveForLaterJson = mapper.writeValueAsString(updatedSaveForLaterItems);
 
-        Mockito.when(service.getById("1")).thenReturn(saveForLater);
-        Mockito.when(service.updateSFLList(Mockito.any(SaveForLater.class))).thenReturn(updatedSaveForLater);
+        Mockito.when(service.getById("1")).thenReturn(saveForLaterItems);
+        Mockito.when(service.updateSFLList(Mockito.any(SaveForLaterItems.class))).thenReturn(updatedSaveForLaterItems);
 
         mockMvc.perform(put("/saveforlater")
                         .contentType("application/json")
@@ -76,16 +76,16 @@ public class SaveForLaterControllerTest {
                 .andExpect(jsonPath("$.productId").value("2"));
 
         verify(service, times(1)).getById("1");
-        verify(service, times(1)).updateSFLList(Mockito.any(SaveForLater.class));
+        verify(service, times(1)).updateSFLList(Mockito.any(SaveForLaterItems.class));
     }
 
     @Test
     void testDeleteSaveForLater() throws Exception {
-        Mockito.when(service.deleteFromSFLList("1")).thenReturn("Deleted SaveForLater");
+        Mockito.when(service.deleteFromSFLList("1")).thenReturn("Deleted SaveForLaterItems");
 
         mockMvc.perform(delete("/saveforlater/byId/1"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Deleted SaveForLater"));
+                .andExpect(content().string("Deleted SaveForLaterItems"));
 
         verify(service, times(1)).deleteFromSFLList("1");
     }
@@ -102,8 +102,8 @@ public class SaveForLaterControllerTest {
 
     @Test
     void testFindAllSaveForLaterItems() throws Exception {
-        List<SaveForLater> saveForLaterItems = List.of(new SaveForLater("1", "1", "1", "Item 1"),
-                new SaveForLater("2", "1", "2", "Item 2"));
+        List<SaveForLaterItems> saveForLaterItems = List.of(new SaveForLaterItems("1", "1", "1", "Item 1"),
+                new SaveForLaterItems("2", "1", "2", "Item 2"));
         Mockito.when(service.getSaveForLaterItems()).thenReturn(saveForLaterItems);
 
         mockMvc.perform(get("/saveforlater"))
@@ -116,8 +116,8 @@ public class SaveForLaterControllerTest {
 
     @Test
     void testGetSaveForLaterById() throws Exception {
-        SaveForLater saveForLater = new SaveForLater("1", "1", "1", "1");
-        Mockito.when(service.getById("1")).thenReturn(saveForLater);
+        SaveForLaterItems saveForLaterItems = new SaveForLaterItems("1", "1", "1", "1");
+        Mockito.when(service.getById("1")).thenReturn(saveForLaterItems);
 
         mockMvc.perform(get("/saveforlater/byId/1"))
                 .andExpect(status().isOk())

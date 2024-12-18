@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -29,8 +30,14 @@ public class ProductServiceImp implements ProductService{
     }
 
     @Override
-    public Optional<Product> getProductByID(String id) {
-        return this.productRepo.findById(id);
+    public Product getProductByID(String id) {
+        try {
+            return this.productRepo.findById(id).orElseThrow(NoSuchElementException::new);
+        }
+        catch (Exception e){
+            return null;
+        }
+
     }
 
     @Override

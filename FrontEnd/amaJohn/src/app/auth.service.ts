@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, lastValueFrom, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class AuthService {
   async login(email: string, password:string): Promise<any>{
     const url = `${this.BASE_URL}/auth/login`
     try {
-      const response = this.http.post<any>(url, {email, password} ).toPromise()
+      const response = await lastValueFrom(this.http.post<any>(url, {email, password} ));
       return response;
     } catch (error) {
       throw error;
@@ -31,7 +31,7 @@ export class AuthService {
           'Content-Type': 'application/json',
         });
     try {
-      const response = this.http.post<any>(url, userData, {headers} ).toPromise()  
+      const response = await lastValueFrom(this.http.post<any>(url, userData, {headers} ));
       return response;
     } catch (error) {
       throw error;
@@ -46,10 +46,10 @@ export class AuthService {
     });
     const body = {
       email: email,
-      cartOrder: []
+      cartOrder: {}
     }
     try {
-      const response = this.http.post<any>(url, body, {headers} ).toPromise();
+      const response = await lastValueFrom(this.http.post<any>(url, body, {headers} ));
       return  response;
     }catch (error) {
       throw error;
@@ -64,25 +64,15 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     })
     try {
-      const response = this.http.get<any>(url, {headers} ).toPromise()
+      const response = await lastValueFrom(this.http.get<any>(url, {headers} ));
       return response;
     } catch (error) {
       throw error;
     }
   }
 
-  async getUserCart(token: string):Promise<any>{
-    const url = `${this.BASE_URL}/cart/get-my-cart`;
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    })
-    try {
-      const response = this.http.get<any>(url, {headers} ).toPromise()
-      return response;
-    } catch (error) {
-      throw error;
-    }
-  }
+
+
 
   async getAllUsers(token:string): Promise<any>{
     const url = `${this.BASE_URL}/admin/get-all-users`;
@@ -90,7 +80,7 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     })
     try {
-      const response = this.http.get<any>(url, {headers} ).toPromise()
+      const response = await lastValueFrom(this.http.get<any>(url, {headers} ));
       return response;
     } catch (error) {
       throw error;
@@ -103,7 +93,7 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     })
     try {
-      const response = this.http.get<any>(url, {headers} ).toPromise()
+      const response = await lastValueFrom(this.http.get<any>(url, {headers} ));
       return response;
     } catch (error) {
       throw error;
@@ -116,7 +106,7 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     })
     try {
-      const response = this.http.get<any>(url, {headers} ).toPromise()
+      const response = await lastValueFrom(this.http.get<any>(url, {headers} ));
       return response;
     } catch (error) {
       throw error;
@@ -129,7 +119,7 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     })
     try {
-      const response = this.http.delete<any>(url, {headers} ).toPromise()
+      const response = await lastValueFrom(this.http.delete<any>(url, {headers} ));
       return response;
     } catch (error) {
       throw error;
@@ -142,7 +132,7 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     })
     try {
-      const response = this.http.put<any>(url, userData, {headers} ).toPromise()
+      const response = await lastValueFrom(this.http.put<any>(url, userData, {headers} ));
       return response;
     } catch (error) {
       throw error;
@@ -186,83 +176,5 @@ export class AuthService {
       });
     }
 
-  // signup(user: any) {
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //   });
-
-  //   return this.http.post(`${this.BASE_URL}/auth/signup`, user, {
-  //     headers: headers,
-  //     withCredentials: true,
-  //     observe: 'response', // Observe response to get more detailed info
-  //   });
-  // }
-
-  // login(user: any) {
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //   });
-
-  //   return this.http.post(`${this.BASE_URL}/auth/login`, user, {
-  //     headers: headers,
-  //     withCredentials: true,
-  //     observe: 'response', // Observe response to get more detailed info
-  //   });
-  // }
-
-  // logout(): Observable<any> {
-  //   return this.http.post(`${this.BASE_URL}/auth/logout`, {}, {
-  //     withCredentials: true,
-  //     observe: 'response',
-  //   }).pipe(
-  //     map(() => {
-  //       this.loggedIn.next(false);
-  //       this.userDetails.next(null);
-  //     })
-  //   );
-  // }
-
-  // checkEmail(email: string) {
-  //   return this.http.get(`${this.BASE_URL}/users/email`, {
-  //     params: { email: email}
-  //   });
-  // }
-
-  // jwtHeader(): HttpHeaders {
-  //   let jwt = localStorage.getItem('jwt');
-  //   let headers = new HttpHeaders();
-  //   return headers.set('Authorization', 'Bearer' + jwt)
-  // }
-
-  // verifyToken(): Observable<any> {
-  //   return this.http.get(`${this.BASE_URL}/auth/verify-token`, {
-  //     withCredentials: true, // ensure cookies are sent with request
-  //     observe: 'response'
-  //   }).pipe(
-  //     map((response: any) => {
-  //       if (response.status === 200) {
-  //         this.loggedIn.next(true);
-  //         this.userDetails.next(response.body);
-  //         return response.body;
-  //       } else {
-  //         this.loggedIn.next(false);
-  //         this.userDetails.next(null);
-  //         return null
-  //       }
-  //     })
-  //   )
-  // }
-
-  // isLoggedIn(): Observable<boolean> {
-  //   return this.loggedIn.asObservable();
-  // }
-
-  // getUserDetails(): Observable<any> {
-  //   return this.userDetails.asObservable();
-  // }
-
-  // verifyUser(): Observable<any> {
-  //   return this.http.get(`${this.BASE_URL}/auth/verify`, {withCredentials: true});
-  // }
 
 }
