@@ -14,14 +14,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/cart-item")
 public class CartItemsController {
-    @Autowired
-    private CartItemService service;
+    private final CartItemService service;
+    private final CartService cartService;
 
-    @Autowired
-    private CartJwtUtil jwtUtil;
-
-    @Autowired
-    private CartService cartService;
+    public CartItemsController(CartItemService service, CartJwtUtil jwtUtil, CartService cartService) {
+        this.service = service;
+        this.cartService = cartService;
+    }
 
     @PutMapping("/add-item") // Add a single order to the databased
     public ResponseEntity<CartItemReqRes> addItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartItem cartOrder){

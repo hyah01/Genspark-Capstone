@@ -280,10 +280,21 @@
   }
 
   .u-item {
+    position: relative; 
     display: flex;
-    gap: 15px;
     border-radius: 15px;
     width: 100%;  
-    background-color:rgba(240, 248, 255, 0.3);
+    background-color: rgba(240, 248, 255, 0.3);
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   }
+
+  .unavailable-text {
+    position: absolute; 
+    top: 50%;       
+    left: 50%;      
+    transform: translate(-50%, -50%); 
+    font-size: 1.5rem;  
+    font-weight: bold;  
+    color: rgb(255, 91, 118); 
+    z-index: 10;
+}

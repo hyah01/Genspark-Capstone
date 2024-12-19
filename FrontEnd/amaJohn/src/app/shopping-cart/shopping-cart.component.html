@@ -51,6 +51,7 @@
             </div>
             <!-- Product that are in cart but not available will be here -->
             <div class="u-item border" *ngFor="let product of productNotAvailableCart">
+              <p class="unavailable-text">Unavailable</p>
               <img class="unavailable" src="{{product.image[0]}}" alt="{{product.productName}}" (click)="selectItem(product.id)">
               <div class="details flex flex-col">
                 <div class="description unavailable">
@@ -71,9 +72,9 @@
                       <span class="sfl-tx">Save For Later</span>
                     </button>
                   </div>
-                  <div class="flex flex-row">
-                    <button class="unavailable-bt" >
-                      <span class="text-white font-bold">Unavailable</span>
+                  <div class="delete flex flex-row">
+                    <button class="sfl-bt" (click)="deleteItem(product.id)">
+                      <span class="sfl-tx">Delete</span>
                     </button>
                   </div>
               </div>
