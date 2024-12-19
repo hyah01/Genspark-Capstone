@@ -8,3 +8,8 @@ spring:
       host: localhost
       port: 27017
       database: orderDB
+
+
+app:
+  jwt:
+    secret-key: ${APP_JWT_SECRET_KEY}

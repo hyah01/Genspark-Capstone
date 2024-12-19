@@ -146,10 +146,14 @@ export class CartServiceService {
   async checkout(token: string, products: Product[], productMap: any):Promise<any>{
     const url = `${this.BASE_URL}/cart-item/checkout`;
     const productValidationUrl = `${this.BASE_URL}/product/check-stock`;
+    const getProductUrl = `${this.BASE_URL}/product/one/`;
+    const updateProductUrl = `${this.BASE_URL}/product/update`;
+    const orderUrl = `${this.BASE_URL}/orderHistory`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
+    const orderHistory = new Map<string, number>();
     try {
       // Check all product quantities
       for (const product of products) {
@@ -157,7 +161,7 @@ export class CartServiceService {
           const checkResponse = await lastValueFrom(
             this.http.post<any>(productValidationUrl, {
               productId: product.id,
-              quantity: productMap[product.id]
+              quantity: productMap[product.id].quantity
             })
           );
           if (!checkResponse.success) {
@@ -173,8 +177,18 @@ export class CartServiceService {
         }
       }
   
-      // TODO : If all pass, finalize checkout logic
-      // Reserve stock or confirm order logic here
+      for (const product of products) {
+        try {
+          const response = await lastValueFrom(this.http.get<any>(`${getProductUrl}${product.id}`, {headers} ));
+          response.quantity = response.quantity - productMap[product.id].quantity;
+          const response2 = await lastValueFrom(this.http.put<any>(updateProductUrl, response))
+          orderHistory.set(product.id, productMap[product.id].quantity);
+          // TO DO ORDER HISTORY LOGIC
+        }
+        catch (error: any) {
+          throw error;
+        }
+      }
   
       return { success: true, message: 'Checkout successful' };
     } catch (error: any) {

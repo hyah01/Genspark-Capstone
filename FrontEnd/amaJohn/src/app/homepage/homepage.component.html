@@ -5,7 +5,7 @@
     <div class="products flex gap-[1rem] flex-wrap content-between">
         <div class="item-container content-end hover:cursor-pointer" *ngFor="let item of items"(click)="selectItem(item.id)">
             <div class="product-img">
-                <img src="{{item.image[0]}}" alt="" (click)="selectItem(item.id)">
+                <img src="{{item.image}}" alt="" (click)="selectItem(item.id)">
             </div>
             <div class="product-text">
                 <span>{{item.productName}}</span>

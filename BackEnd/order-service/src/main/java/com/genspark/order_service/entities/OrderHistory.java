@@ -20,7 +20,7 @@ public class OrderHistory {
     private String id;
     private String userId;
     private Map<String, Integer> products;
-    private Date orderDate;
+    private Date orderDate = new Date();
     private Date estimatedDate;
 
 
