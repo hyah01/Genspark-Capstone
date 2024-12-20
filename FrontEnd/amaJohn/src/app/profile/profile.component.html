@@ -1,9 +1,10 @@
 <div style="padding-top: 50px;"></div>
-<div class="order-history" style="display: grid; grid-template-columns: 5% 20% 35% 35% 5%; gap: 10px;">
+<div class="order-history" style="display: grid; grid-template-columns: 5% 20% 35% 5%; gap: 10px;">
     <div style="grid-column: 2/3;background-color: #f8f8f8; ">
         <div style="display: grid ; place-items: center; align-items: center; justify-content: center; ">
-            <h1>{{ user.user.first_name }} {{ user.user.last_name }}</h1>
-            <p>Reward Points: {{ user.user.reward_points }}</p>
+            
+            <h1>{{ user?.user.first_name }} {{ user?.user.last_name }}</h1>
+            <p>Reward Points: {{ user?.user.reward_points }}</p>
             
             <!-- Corrected image path -->
             <img [src]="image" alt="Couldnt load photo" style="max-width: 100%; height: auto; justify-content: center;">
@@ -24,20 +25,11 @@
             </div>
         </div>
     </div>
-    <div style="grid-column: 3/3; background-color: #f8f8f8; min-height: 500px;">
-        <p>Order History</p>
-        
-        <!-- Loop through orderHistory_ids and display each order -->
-        <div *ngFor="let order of user.user.orderHistory_ids">
-            <p>{{ order }}</p>
-        </div>
-    </div>
-    <div style="grid-column: 4/4; background-color: #f8f8f8; min-height: 500px;">
+    
+    <div style="grid-column: 3/4; background-color: #f8f8f8; min-height: 500px;">
         <p>Items youre selling</p>
         
-        <!-- Loop through orderHistory_ids and display each order -->
-        <div *ngFor="let order of user.user.orderHistory_ids">
-            <p>{{ order }}</p>
-        </div>
+        
     </div>
+
 </div>

@@ -3,9 +3,11 @@ package com.genspark.product_service.controllers;
 import com.genspark.product_service.entities.Product;
 import com.genspark.product_service.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -60,6 +62,10 @@ public class ProductController {
                     Map.of("success", false, "message", "No such product of that ID")
             );
         }
+    }
+    @PutMapping("/userAdd")
+    public ResponseEntity<?> userAddProduct(@RequestHeader(HttpHeaders.AUTHORIZATION)String token, @RequestParam() Object formData) {
+        return ResponseEntity.ok(Map.of("success",true));
     }
 
 }

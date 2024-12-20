@@ -50,7 +50,7 @@ public class CartController {
 
     @GetMapping("/get-my-cart")
     public ResponseEntity<CartReqRes> getMyCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        try {
+        try {   
             // Validate the token and extract the username
             String username = service.validateAndExtractUsername(token);
             // Fetch the cart using the username

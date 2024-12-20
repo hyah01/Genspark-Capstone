@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, lastValueFrom, map } from 'rxjs';
+import { Product } from './models/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,23 @@ export class AuthService {
       throw error;
     }
     
+  }
+
+  async addProduct(token:string,formData: any){
+    const url = `${this.BASE_URL}/product/userAdd`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    const body = {
+      formData:formData
+    }
+    try {
+      const response = await lastValueFrom(this.http.post<any>(url, body, {headers} ));
+      return  response;
+    }catch (error) {
+      throw error;
+    }
   }
 
 

@@ -1,1 +1,108 @@
-<p>sell-item works!</p>
+<div class="formbold-main-wrapper">
+    <!-- Author: FormBold Team -->
+    <!-- Learn More: https://formbold.com -->
+    <div class="formbold-form-wrapper">
+        <form (onSubmit) = "onSubmit(form)" #form="ngForm">
+            <div class="formbold-input-flex">
+                <div>
+                    <label for="productName" class="formbold-form-label"> Product name </label>
+                    <input
+                    type="text"
+                    name="productName"
+                    id="productName"
+                    placeholder="Computer"
+                    class="formbold-form-input"
+                    [(ngModel)]="formData.productName"
+                    required
+                    />
+                </div>
+                <div>
+                    <label for="price" class="formbold-form-label" > Price </label>
+                    <input style="width: 65%;"
+                    type="number"
+                    name="price"
+                    id="price"
+                    placeholder="0"
+                    min="0"
+                    class="formbold-form-input"
+                    [(ngModel)]="formData.price"
+                    required
+                    />
+                    <select style="width: 30%;"name="currency"id="currency"class="formbold-form-input"[(ngModel)]="formData.currency" required>
+                        <option>USD</option>
+                        <option>EUR</option>
+                        <option>JPY</option>
+                        <option>CAD</option>
+                    </select>
+                </div>
+            </div>
+  
+            <div class="formbold-input-flex">
+                <div>
+                    <label for="email" class="formbold-form-label"> Quantity </label>
+                    <input
+                    type="number"
+                    name="Quantity"
+                    id="Quantity"
+                    placeholder="0"
+                    min="0"
+                    class="formbold-form-input"
+                    required
+                    [(ngModel)]="formData.Quantity"
+                    />
+                </div>
+                <div>
+                    <label for="phone" class="formbold-form-label"> Discount %</label>
+                    <input
+                    type="number"
+                    name="Discount" 
+                    id="Discount"
+                    placeholder=""
+                    min="0"
+                    class="formbold-form-input"
+                    [(ngModel)]="formData.Discount"
+                    required
+                    />
+                </div>
+            </div>
+            <label for="imageUpload">Upload an image:</label>
+            <input
+                type="file"
+                id="imageUpload"
+                accept="image/*"
+                multiple
+                
+            />
+        
+
+            <label class="formbold-form-label">Categories:</label>
+            <div class="formbold-form-input" >
+                <input type="checkbox" id="Home & Kitchen" value="interest_development" name="user_interest" [(ngModel)]="formData.categories"><label class="light" style="padding-right: 10px; padding-left: 1px;" for="Home & Kitchen"> Home & Kitchen</label>
+                <input type="checkbox" id="Home Décor" value="Home Décor" name="user_interest" [(ngModel)]="formData.categories"><label class="light" style="padding-right: 10px; padding-left: 1px;" for="Home Décor"> Home Décor</label>
+                <input type="checkbox" id="Electronics" value="Electronics" name="user_interest" [(ngModel)]="formData.categories"><label class="light" style="padding-right: 10px; padding-left: 1px;" for="Electronics"> Electronics</label><br>
+                <input type="checkbox" id="Electronics" value="Electronics" name="user_interest"[(ngModel)]="formData.categories"><label class="light" style="padding-right: 10px; padding-left: 1px;" for="business"> Electronics</label>
+                <input type="checkbox" id="Electronics" value="Electronics" name="user_interest"[(ngModel)]="formData.categories"><label class="light" style="padding-right: 10px; padding-left: 1px;" for="business"> Electronics</label>
+                <input type="checkbox" id="Electronics" value="Electronics" name="user_interest"[(ngModel)]="formData.categories"><label class="light" style="padding-right: 10px; padding-left: 1px;" for="business"> Electronics</label>
+                
+            </div>
+            
+  
+            <div>
+                <label for="productDesc" class="formbold-form-label"> Product Description </label>
+                <textarea
+                    rows="6"
+                    name="productDesc"
+                    id="productDesc"
+                    placeholder="Type the description"
+                    class="formbold-form-input"
+                    [(ngModel)]="formData.productDesc"
+                ></textarea>
+            </div>
+    
+            <button type="submit" class="formbold-btn" [disabled]="form.invalid">
+                Add Product
+            </button>
+        </form>
+        </div>
+    </div>
+    
