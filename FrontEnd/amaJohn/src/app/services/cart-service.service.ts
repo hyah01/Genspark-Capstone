@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, lastValueFrom, map } from 'rxjs';
 import { Product } from '../models/product.model';
+import { orderHistoryProducts } from '../models/orderHistoryProducts.model';
 
 @Injectable({
   providedIn: 'root'
@@ -153,7 +154,7 @@ export class CartServiceService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    const orderHistory = new Map<string, number>();
+    const orderHistory: orderHistoryProducts = {};
     try {
       // Check all product quantities
       for (const product of products) {
@@ -182,13 +183,17 @@ export class CartServiceService {
           const response = await lastValueFrom(this.http.get<any>(`${getProductUrl}${product.id}`, {headers} ));
           response.quantity = response.quantity - productMap[product.id].quantity;
           const response2 = await lastValueFrom(this.http.put<any>(updateProductUrl, response))
-          orderHistory.set(product.id, productMap[product.id].quantity);
-          // TO DO ORDER HISTORY LOGIC
+          orderHistory[product.id] = productMap[product.id].quantity;
         }
         catch (error: any) {
           throw error;
         }
       }
+      const body = {
+        products: orderHistory
+      }
+      const response3 = await lastValueFrom(this.http.post<any>(`${orderUrl}`, body, {headers}))
+      const response4 =  await lastValueFrom(this.http.put<any>(`${url}`, {}, {headers}));
   
       return { success: true, message: 'Checkout successful' };
     } catch (error: any) {

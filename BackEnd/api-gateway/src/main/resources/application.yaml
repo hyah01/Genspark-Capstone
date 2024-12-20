@@ -60,7 +60,7 @@ spring:
         - id: order-service
           uri: lb://order-service
           predicates:
-            - Path=/orders/**
+            - Path=/orderHistory/**
 
 #        API gateway for product microservice
         - id: product-service-product

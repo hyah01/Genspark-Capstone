@@ -201,7 +201,7 @@ export class ShoppingCartComponent {
     this.cartService
       .checkout(token, this.productsListCart, this.productMap)
       .then(() => {
-        //window.location.reload(); // Successful checkout
+        window.location.reload(); // Successful checkout
       })
       .catch((error: any) => {
         // Handle the "out of stock" error

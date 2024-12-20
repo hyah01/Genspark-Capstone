@@ -14,5 +14,5 @@ public interface CartItemService {
 
     CartItemReqRes updateItem(String id, CartItem cart);
 
-    CartItemReqRes deleteAllItem(String id, CartItem cart);
+    CartItemReqRes deleteAllItem(String id);
 }

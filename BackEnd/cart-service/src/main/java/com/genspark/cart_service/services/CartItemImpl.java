@@ -134,13 +134,13 @@ public class CartItemImpl implements CartItemService {
     }
 
     @Override
-    public CartItemReqRes deleteAllItem(String id, CartItem cartOrder){
+    public CartItemReqRes deleteAllItem(String id){
         CartItemReqRes reqRes = new CartItemReqRes();
         try {
             // Fetch the Item Cart
             CartItems cartItems = getCartItemById(id).getCartItems();
 
-            // Ensure the map is initialized
+            // Clear out items in the cart
             Map<String, CartItem> items = cartItems.getItems();
             if (items != null) {
                 items.clear();
