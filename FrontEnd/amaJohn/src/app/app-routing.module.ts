@@ -10,6 +10,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { userGuard } from './auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { SellItemComponent } from './sell-item/sell-item.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path:'profile',component:ProfileComponent, canActivate: [userGuard]},
   {path:'profile/sellItem',component:SellItemComponent, canActivate: [userGuard]},
+  {path:'orderHistory', component:OrderHistoryComponent, canActivate: [userGuard]}
   
 ];
 

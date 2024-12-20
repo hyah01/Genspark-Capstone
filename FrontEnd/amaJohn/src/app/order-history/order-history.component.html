@@ -1,0 +1,46 @@
+<div class="order-page">
+    <div class="flex flex-col pb-1 md:flex-row pl-[80px] pt-[50px]">
+      <p class="w-6/8 relative ml-1 text-nowrap pr-4 font-['Newsreader'] text-5xl shopping-cart-title">
+        Order History
+      </p>
+    </div>
+    <hr class="separator"> 
+    <div class="order grid row pb-[50px]">
+        <div class="order-item">
+            <div class="item border" *ngFor="let order of orderHistory">
+                <div class="order-detail">
+                    <div class="order-info">
+                        <span>ORDER PLACED</span>
+                        <span>{{ order.orderDate | date: 'MMMM d, yyyy' }}</span>
+                    </div>
+                    <div class="order-info">
+                        <span>TOTAL</span>
+                        <span>{{ order.amount | currency:'USD':'symbol':'1.2-2' }}</span>
+                    </div>
+                    <div class="order-info">
+                        <span>ORDER NUMBER</span>
+                        <span>{{order.id}}</span>
+                    </div>
+                </div>
+                <div class="order-container">
+                    <div class="order-products" *ngFor="let product of orders.get(order.id)">
+                        <div class="flex gap-[1rem]">
+                            <img src="{{product.image[0]}}" alt="{{product.productName}}" (click)="selectItem(product.id)">
+                            <div class="product-title">
+                                <span (click)="selectItem(product.id)">
+                                    {{product.productName}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="quantity">
+                            <span>Qty: </span>
+                            <span class="text-right">{{order.products[product.id]}}</span></div>
+                        </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>

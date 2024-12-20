@@ -30,7 +30,7 @@ export class ShoppingCartComponent {
   total:number = 0;
   
 
-  constructor(private readonly auth: AuthService, private proService: ProductServiceService, private router: Router, private cartService: CartServiceService){}
+  constructor( private proService: ProductServiceService, private router: Router, private cartService: CartServiceService){}
 
   ngOnInit(): void {
     try {
@@ -199,7 +199,7 @@ export class ShoppingCartComponent {
     }
   
     this.cartService
-      .checkout(token, this.productsListCart, this.productMap)
+      .checkout(token, this.productsListCart, this.productMap, this.total)
       .then(() => {
         window.location.reload(); // Successful checkout
       })

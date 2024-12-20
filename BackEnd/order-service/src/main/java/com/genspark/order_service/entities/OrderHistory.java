@@ -22,6 +22,7 @@ public class OrderHistory {
     private Map<String, Integer> products;
     private Date orderDate = new Date();
     private Date estimatedDate;
+    private Double amount;
 
 
 }

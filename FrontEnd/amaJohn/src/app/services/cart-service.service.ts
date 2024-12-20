@@ -144,7 +144,7 @@ export class CartServiceService {
     }
   }
 
-  async checkout(token: string, products: Product[], productMap: any):Promise<any>{
+  async checkout(token: string, products: Product[], productMap: any, amount: number):Promise<any>{
     const url = `${this.BASE_URL}/cart-item/checkout`;
     const productValidationUrl = `${this.BASE_URL}/product/check-stock`;
     const getProductUrl = `${this.BASE_URL}/product/one/`;
@@ -190,7 +190,8 @@ export class CartServiceService {
         }
       }
       const body = {
-        products: orderHistory
+        products: orderHistory,
+        amount: amount,
       }
       const response3 = await lastValueFrom(this.http.post<any>(`${orderUrl}`, body, {headers}))
       const response4 =  await lastValueFrom(this.http.put<any>(`${url}`, {}, {headers}));
@@ -200,6 +201,21 @@ export class CartServiceService {
       // Propagate the error to the component
       throw new Error(error.message || 'Checkout failed');
     }
+  }
+
+  async  getOrderHistory(token: string):Promise<any>{
+    const url = `${this.BASE_URL}/orderHistory`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    })
+    try {
+      const response = await lastValueFrom(this.http.get<any>(url, {headers}));
+      return response;
+    }
+     catch (error){
+      throw error;
+     }
   }
 
 
