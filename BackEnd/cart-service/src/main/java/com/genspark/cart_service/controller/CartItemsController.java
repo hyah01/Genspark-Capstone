@@ -17,16 +17,19 @@ public class CartItemsController {
     private final CartItemService service;
     private final CartService cartService;
 
-    public CartItemsController(CartItemService service, CartJwtUtil jwtUtil, CartService cartService) {
+    public CartItemsController(CartItemService service, CartService cartService) {
         this.service = service;
         this.cartService = cartService;
     }
 
     @PutMapping("/add-item") // Add a single order to the databased
-    public ResponseEntity<CartItemReqRes> addItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartItem cartOrder){
+    public ResponseEntity<CartItemReqRes> addItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String token , @RequestBody CartItem cartOrder){
         try {
             // Validate the token and extract the username
             String username = cartService.validateAndExtractUsername(token);
+            if (username == null){
+                throw new IllegalArgumentException();
+            }
             // Get Cart Items ID
             String cartItemId = cartService.getCartByEmail(username).getCartItemsId();
             // Fetch the cart using the username

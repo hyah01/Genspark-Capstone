@@ -18,17 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/cart")
 public class CartController {
 
-    private static final Logger logger = LoggerFactory.getLogger(CartController.class);
-
-
     @Autowired
     private CartService service;
-
-    @Autowired
-    private CartJwtUtil jwtUtil;
-
-    @Autowired
-    private CartUserInfoService cartUserInfoService;
 
 
     @PostMapping // add to the database when account created
@@ -39,7 +30,8 @@ public class CartController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CartReqRes> getCartByID(@PathVariable String id) {
-        return ResponseEntity.ok(service.getCartByCartId(id));
+        CartReqRes reqRes = service.getCartByCartId(id);
+        return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
     }
 
     @GetMapping("has-cart/{email}")

@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// This class store data of each product to be put in a bigger container
 public class SaveForLaterItem {
-    private String productId;
+    private String productId; // ID of product
     private Integer quantity;
 }

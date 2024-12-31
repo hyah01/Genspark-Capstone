@@ -5,6 +5,7 @@ import com.genspark.cart_service.dto.SFLReqRes;
 import com.genspark.cart_service.model.CartItem;
 import com.genspark.cart_service.model.SaveForLaterItem;
 import com.genspark.cart_service.model.SaveForLaterItems;
+import com.genspark.cart_service.services.CartItemService;
 import com.genspark.cart_service.services.CartService;
 import com.genspark.cart_service.services.SaveForLaterService;
 import com.genspark.cart_service.util.CartJwtUtil;
@@ -19,14 +20,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/saveforlater")
 public class SaveForLaterController {
-    @Autowired
-    private SaveForLaterService service;
+    private final SaveForLaterService service;
+    private final CartService cartService;
 
-    @Autowired
-    private CartJwtUtil jwtUtil;
-
-    @Autowired
-    private CartService cartService;
+    public SaveForLaterController(SaveForLaterService service, CartService cartService) {
+        this.service = service;
+        this.cartService = cartService;
+    }
 
     @PutMapping("/add-item") // Add a single order to the databased
     public ResponseEntity<SFLReqRes> addItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody SaveForLaterItem cartOrder){
