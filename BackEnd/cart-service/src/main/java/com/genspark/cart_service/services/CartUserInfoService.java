@@ -20,6 +20,7 @@ public class CartUserInfoService implements UserDetailsService {
     @Autowired
     private PasswordEncoder encoder;
 
+    // Methods to simply load user's data
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 

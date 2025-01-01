@@ -9,3 +9,4 @@ node_modules
 .class
 .gz
 .log
+.codiumai

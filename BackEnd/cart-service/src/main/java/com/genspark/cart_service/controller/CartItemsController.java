@@ -14,20 +14,22 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/cart-item")
 public class CartItemsController {
-    @Autowired
-    private CartItemService service;
+    private final CartItemService service;
+    private final CartService cartService;
 
-    @Autowired
-    private CartJwtUtil jwtUtil;
-
-    @Autowired
-    private CartService cartService;
+    public CartItemsController(CartItemService service, CartService cartService) {
+        this.service = service;
+        this.cartService = cartService;
+    }
 
     @PutMapping("/add-item") // Add a single order to the databased
-    public ResponseEntity<CartItemReqRes> addItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartItem cartOrder){
+    public ResponseEntity<CartItemReqRes> addItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String token , @RequestBody CartItem cartOrder){
         try {
             // Validate the token and extract the username
             String username = cartService.validateAndExtractUsername(token);
+            if (username == null){
+                throw new IllegalArgumentException();
+            }
             // Get Cart Items ID
             String cartItemId = cartService.getCartByEmail(username).getCartItemsId();
             // Fetch the cart using the username
@@ -83,14 +85,12 @@ public class CartItemsController {
         }
     }
     @PutMapping("/delete-all-items")
-    public ResponseEntity<CartItemReqRes> deleteAllItems(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartItem cartOrder){
+    public ResponseEntity<CartItemReqRes> deleteAllItems(@RequestHeader(HttpHeaders.AUTHORIZATION) String token){
         try {
             // Validate the token and extract the username
             String username = cartService.validateAndExtractUsername(token);
-            // Get Cart Items ID
-            String cartItemId = cartService.getCartByEmail(username).getCartItemsId();
             // Fetch the cart using the username
-            CartItemReqRes reqRes = service.deleteAllItem(username, cartOrder);
+            CartItemReqRes reqRes = service.deleteAllItem(username);
             return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -103,14 +103,14 @@ public class CartItemsController {
     }
 
     @PutMapping("/checkout")
-    public ResponseEntity<CartItemReqRes> checkout(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody CartItem cartOrder){
+    public ResponseEntity<CartItemReqRes> checkout(@RequestHeader(HttpHeaders.AUTHORIZATION) String token){
         try {
             // Validate the token and extract the username
             String username = cartService.validateAndExtractUsername(token);
             // Get Cart Items ID
             String cartItemId = cartService.getCartByEmail(username).getCartItemsId();
             // Fetch the cart using the username
-            CartItemReqRes reqRes = service.deleteAllItem(username, cartOrder);
+            CartItemReqRes reqRes = service.deleteAllItem(cartItemId);
             return ResponseEntity.status(reqRes.getStatusCode()).body(reqRes);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

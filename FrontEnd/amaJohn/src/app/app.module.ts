@@ -18,6 +18,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ProfileComponent } from './profile/profile.component';
 import { SellItemComponent } from './sell-item/sell-item.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { SellItemComponent } from './sell-item/sell-item.component';
     FooterComponent,
     ProductDetailComponent,
     ProfileComponent,
-    SellItemComponent
+    SellItemComponent,
+    OrderHistoryComponent
   ],
   imports: [
     BrowserModule,

@@ -20,5 +20,5 @@ import java.util.Map;
 public class CartItems {
     @Id
     private String id; // Unique ID for the cart items
-    private Map<String, CartItem> items = new HashMap<>(); // List of cart items
+    private Map<String, CartItem> items = new HashMap<>(); // List of products
 }

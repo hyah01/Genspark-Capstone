@@ -11,7 +11,8 @@ import org.springframework.data.annotation.Id;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// This class store data of each product to be put in a bigger container
 public class CartItem {
-    private String productId;
-    private Integer quantity;
+    private String productId; // ID of product
+    private Integer quantity; // Quantity
 }

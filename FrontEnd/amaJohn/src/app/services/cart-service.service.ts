@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, lastValueFrom, map } from 'rxjs';
 import { Product } from '../models/product.model';
+import { orderHistoryProducts } from '../models/orderHistoryProducts.model';
 
 @Injectable({
   providedIn: 'root'
@@ -143,13 +144,17 @@ export class CartServiceService {
     }
   }
 
-  async checkout(token: string, products: Product[]):Promise<any>{
+  async checkout(token: string, products: Product[], productMap: any, amount: number):Promise<any>{
     const url = `${this.BASE_URL}/cart-item/checkout`;
     const productValidationUrl = `${this.BASE_URL}/product/check-stock`;
+    const getProductUrl = `${this.BASE_URL}/product/one/`;
+    const updateProductUrl = `${this.BASE_URL}/product/update`;
+    const orderUrl = `${this.BASE_URL}/orderHistory`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
+    const orderHistory: orderHistoryProducts = {};
     try {
       // Check all product quantities
       for (const product of products) {
@@ -157,30 +162,60 @@ export class CartServiceService {
           const checkResponse = await lastValueFrom(
             this.http.post<any>(productValidationUrl, {
               productId: product.id,
-              quantity: product.quantity
+              quantity: productMap[product.id].quantity
             })
           );
           if (!checkResponse.success) {
-            throw new Error(`Product ${product.id} is out of stock`);
+            throw new Error(`Product ${product.productName}: Does not have enough stock available`);
           }
         }
         catch (validationError: any) {
           // Catch backend BAD_REQUEST responses here
           const errorMessage =
             validationError.error?.message ||
-            `Product '${product.id}' is out of stock`;
+            `Product ${product.productName}: Does not have enough stock available`;
           throw new Error(errorMessage);
         }
       }
   
-      // TODO : If all pass, finalize checkout logic
-      // Reserve stock or confirm order logic here
+      for (const product of products) {
+        try {
+          const response = await lastValueFrom(this.http.get<any>(`${getProductUrl}${product.id}`, {headers} ));
+          response.quantity = response.quantity - productMap[product.id].quantity;
+          const response2 = await lastValueFrom(this.http.put<any>(updateProductUrl, response))
+          orderHistory[product.id] = productMap[product.id].quantity;
+        }
+        catch (error: any) {
+          throw error;
+        }
+      }
+      const body = {
+        products: orderHistory,
+        amount: amount,
+      }
+      const response3 = await lastValueFrom(this.http.post<any>(`${orderUrl}`, body, {headers}))
+      const response4 =  await lastValueFrom(this.http.put<any>(`${url}`, {}, {headers}));
   
       return { success: true, message: 'Checkout successful' };
     } catch (error: any) {
       // Propagate the error to the component
       throw new Error(error.message || 'Checkout failed');
     }
+  }
+
+  async  getOrderHistory(token: string):Promise<any>{
+    const url = `${this.BASE_URL}/orderHistory`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    })
+    try {
+      const response = await lastValueFrom(this.http.get<any>(url, {headers}));
+      return response;
+    }
+     catch (error){
+      throw error;
+     }
   }
 
 

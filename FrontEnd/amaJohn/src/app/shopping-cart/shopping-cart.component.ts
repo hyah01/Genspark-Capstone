@@ -30,7 +30,7 @@ export class ShoppingCartComponent {
   total:number = 0;
   
 
-  constructor(private readonly auth: AuthService, private proService: ProductServiceService, private router: Router, private cartService: CartServiceService){}
+  constructor( private proService: ProductServiceService, private router: Router, private cartService: CartServiceService){}
 
   ngOnInit(): void {
     try {
@@ -70,7 +70,7 @@ export class ShoppingCartComponent {
           // Fetch product details
           this.proService.getProductById(productId).subscribe(data => {
             // Add item that are available
-            if (data.quantity > 0){
+            if (data.quantity > 0 && data.quantity >= cartItem.quantity) {
               this.productsListCart.push(data);
               // Using the quantity from cartItem and the product data to calculate subtotal
               this.calSubTotal(data.price.amount, cartItem.quantity);
@@ -199,7 +199,7 @@ export class ShoppingCartComponent {
     }
   
     this.cartService
-      .checkout(token, this.productsListCart)
+      .checkout(token, this.productsListCart, this.productMap, this.total)
       .then(() => {
         window.location.reload(); // Successful checkout
       })

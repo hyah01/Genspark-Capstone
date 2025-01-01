@@ -47,6 +47,7 @@ public class CartItemImpl implements CartItemService {
     public CartItemReqRes getCartItemById(String id) {
         CartItemReqRes reqRes = new CartItemReqRes();
         try {
+            // try to find the cart
             CartItems cartItems = repository.findById(id).orElseThrow(() -> new RuntimeException("Cart Not Found"));
             reqRes.setCartItems(cartItems);
             reqRes.setStatusCode(200);
@@ -107,7 +108,12 @@ public class CartItemImpl implements CartItemService {
         try {
             // Fetch the cart
             // Fetch the Item Cart
-            CartItems cartItems = getCartItemById(id).getCartItems();
+            CartItems cartItems = null;
+            if (getCartItemById(id).getStatusCode() == 500){
+                throw new RuntimeException(getCartItemById(id).getMessage());
+            } else {
+                cartItems = getCartItemById(id).getCartItems();
+            }
 
             // Ensure the map is initialized
             Map<String, CartItem> items = cartItems.getItems();
@@ -115,10 +121,11 @@ public class CartItemImpl implements CartItemService {
                 items = new HashMap<>();
                 cartItems.setItems(items);
             }
-
+            // Remove item if quantity is less than 0
             if (cartOrder.getQuantity() <= 0){
                 items.remove(cartOrder.getProductId());
             } else {
+                // Set quantity to the input quantity
                 items.get(cartOrder.getProductId()).setQuantity(cartOrder.getQuantity());
             }
             // Save the updated cart
@@ -128,28 +135,31 @@ public class CartItemImpl implements CartItemService {
             return reqRes;
         } catch (Exception e) {
             reqRes.setStatusCode(500);
-            reqRes.setMessage("Error Occurred: " + e.getMessage());
+            reqRes.setMessage(e.getMessage());
             return reqRes;
         }
     }
 
     @Override
-    public CartItemReqRes deleteAllItem(String id, CartItem cartOrder){
+    public CartItemReqRes deleteAllItem(String id){
         CartItemReqRes reqRes = new CartItemReqRes();
         try {
             // Fetch the Item Cart
             CartItems cartItems = getCartItemById(id).getCartItems();
 
-            // Ensure the map is initialized
+            // Clear out items in the cart
             Map<String, CartItem> items = cartItems.getItems();
             if (items != null) {
                 items.clear();
+            } else {
+                cartItems.setItems(new HashMap<String, CartItem>());
             }
 
             // Save the updated cart
             repository.save(cartItems);
             reqRes.setCartItems(cartItems);
             reqRes.setStatusCode(200);
+            reqRes.setMessage("Successfully cleared cart");
             return reqRes;
         } catch (Exception e) {
             reqRes.setStatusCode(500);

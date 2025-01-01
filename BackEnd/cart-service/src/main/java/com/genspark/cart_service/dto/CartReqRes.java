@@ -12,7 +12,6 @@ public class CartReqRes {
     private int statusCode;
     private String message;
     private String email;
-    // private LinkedHashMap<String,Integer> cartOrder;
     private Cart cart;
     private String cartItemsId;
     private String saveForLaterId;
